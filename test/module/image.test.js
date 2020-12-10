@@ -17,7 +17,7 @@ describe('image function unit test', () => {
   test('can get all item from rent list', async (done) => {
     await getAllRent().then((res) => {
       expect(res.error).toBeFalsy()
-      expect(res.data.length).toBeGreaterThan(0)
+      expect(res.data.length).toBe(1)
     })
     done()
   })
@@ -25,7 +25,7 @@ describe('image function unit test', () => {
   test('can get all item from sell list', async (done) => {
     await getAllSell().then((res) => {
       expect(res.error).toBeFalsy()
-      expect(res.data.length).toBeGreaterThan(0)
+      expect(res.data.length).toBe(1)
     })
     done()
   })
@@ -33,7 +33,7 @@ describe('image function unit test', () => {
   test('can get user item from rent list', async (done) => {
     await getUserRent(testEmail).then((res) => {
       expect(res.error).toBeFalsy()
-      expect(res.data.length).toBeGreaterThan(0)
+      expect(res.data.length).toBe(1)
     })
     done()
   })
@@ -41,7 +41,7 @@ describe('image function unit test', () => {
   test('can get user item from sell list', async (done) => {
     await getUserSell(testEmail).then((res) => {
       expect(res.error).toBeFalsy()
-      expect(res.data.length).toBeGreaterThan(0)
+      expect(res.data.length).toBe(1)
     })
     done()
   })

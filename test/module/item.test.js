@@ -39,11 +39,10 @@ describe('list function unit test', () => {
       price: 0,
       amount: 0,
       email: testEmail,
-      long: 0,
       main_category: randomStr(),
       second_category: randomStr(),
     }
-    await rentList(files, JSON.stringify(sell)).then((res) => {
+    await sellList(files, JSON.stringify(sell)).then((res) => {
       expect(res.error).toBeFalsy()
       expect(res.data.status).toBeTruthy()
     })
