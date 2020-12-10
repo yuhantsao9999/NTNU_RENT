@@ -1,0 +1,46 @@
+stages:
+  - build
+  - test
+
+image: node:latest
+
+cache:
+  paths:
+    - .npm
+    - cache/Cypress
+    - node_modules/
+
+# TODO: set up the database on stage: build and connect to the database on stage: test
+dev-build:
+  stage: build
+  tags:
+    - Lab3
+  image: cypress/base:10
+  variables:
+    npm_config_cache: ".npm"
+    CYPRESS_CACHE_FOLDER: "cache/Cypress"
+  script:
+    - npm ci
+
+dev-test:
+  stage: test
+  tags:
+    - Lab3
+  services:
+    - name: mysql:8.0
+      command: ["--default-authentication-plugin=mysql_native_password"]
+  variables:
+    MYSQL_HOST: $DB_HOST
+    MYSQL_USER: $DB_USER
+    MYSQL_PASSWORD: $DB_PASSWORD
+    MYSQL_DATABASE: $DB_DATABASE
+    MYSQL_ROOT_PASSWORD: $DB_PASSWORD
+  before_script:
+    - apt-get update
+    - apt-get install -y mysql-server mysql-client default-libmysqlclient-dev
+    - apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+    - service mysql restart
+  script:
+    - mysql -u $DB_USER -p"$DB_PASSWORD" -h $DB_HOST "$MYSQL_DATABASE" < ./sql_dumps/Dump20201208.sql
+    - npm run unit-test
+    - npm run endToEnd-test
