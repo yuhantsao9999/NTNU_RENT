@@ -1,4 +1,4 @@
-const mysql = require('../db/db')
+const mysql = require('../model/db')
 
 const getUserRent = async (email) => {
   const sql = 'SELECT * FROM rentlist WHERE email = ?'

@@ -1,4 +1,4 @@
-const mysql = require('../db/db')
+const mysql = require('../model/db')
 const { findPath } = require('../utils/image')
 
 const rentList = async (files, data) => {
