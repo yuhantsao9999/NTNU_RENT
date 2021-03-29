@@ -1,0 +1,35 @@
+{
+  "name": "nctu_cloud_services",
+  "version": "1.0.0",
+  "description": "[Web Demo](https://42bchen.com/)",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "cy:run": "npx cypress run",
+    "unit-test": "jest test/module/*.js --forceExit",
+    "endToEnd-test": "start-server-and-test start http://localhost:3000 cy:run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/boyuchen/NCTU_Cloud_Service_Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/boyuchen/NCTU_Cloud_Service_Project/issues"
+  },
+  "homepage": "https://gitlab.com/boyuchen/NCTU_Cloud_Service_Project#readme",
+  "dependencies": {
+    "aws-sdk": "^2.806.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jest": "^26.6.3",
+    "multer": "^1.4.2",
+    "multer-s3": "^2.9.0",
+    "mysql2": "^2.2.5",
+    "start-server-and-test": "^1.11.6"
+  }
+}

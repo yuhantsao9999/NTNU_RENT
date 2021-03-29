@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Basic -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Metas -->
+    <title>租借平台</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <!-- Start Main Top -->
+    <header class="main-header">
+        <!-- Start Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
+            <div class="container">
+                <!-- Start Header Navigation -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html"><img src="images/logo.png" class="logo" alt=""></a>
+                </div>
+                <!-- End Header Navigation -->
+
+                <!-- Start Atribute Navigation -->
+
+                <div class="attr-nav">
+                    <ul>
+                        <input class="search_input" placeholder="Search">
+                    </ul>
+                </div>
+                <!-- End Atribute Navigation -->
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                        <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="dropdown">
+                            <a href="" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="shop.html">師大市集</a></li>
+                                <li><a href="rent.html">師大租借</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+                        <li class="nav-item"><a id="signed" class="nav-link" href="login.html">Sign In</a></li>
+                        <div id='hello' style="display: none;">
+                            <p id="last_name"></p>
+                            <p id="first_name"></p>
+                        </div>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+        </nav>
+        <!-- End Navigation -->
+    </header>
+    <!-- End Main Top -->
+
+    <!-- Start Cart  -->
+    <div class="cart-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-lg-6 mb-3">
+                    <div class="checkout-address">
+                        <div class="title-left">
+                            <h3>出租商品</h3>
+                        </div>
+                        <div class="mb-3">
+                            <label for="username">商品名稱 *</label>
+                            <div class="input-group">
+                                <input id="name" type="text" class="form-control" id="username" placeholder="" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="price">最多出租天數 *</label>
+                            <input type="number" id="long" name="long">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="price">數量 *</label>
+                            <input type="number" id="amount" name="amount">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="price">價格 *</label>
+                            <input type="number" id="price" name="price">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="main_category">主分類 *</label>
+                            <select class="wide w-100" id="main_category">
+                                <option value="Choose..." data-display="Select">選擇...</option>
+                                <option value="3C產品">3C產品</option>
+                                <option value="交通">交通</option>
+                                <option value="交通">課程相關</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="second_category">次分類 *</label>
+                            <select class=" wide w-100" id="second_category">
+                                <option value="Choose..." data-display="Select">選擇...</option>
+                                <option value="電腦周邊">電腦周邊</option>
+                                <option value="手機周邊">手機周邊</option>
+                                <option value="線材類">線材類</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr class="mb-1">
+                </div>
+                <div class="col-sm-6 col-lg-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="shipping-method-box">
+                                <div class="title-left">
+                                    <h3>圖片上傳</h3>
+                                </div>
+                                <div class="mb-4">
+                                    <div class="price-box-bar">
+                                        <label for="img">選擇照片 :</label>
+                                        <input id="image" style="width: 50%; margin-left: 10px;" type="file"
+                                            name="image" accept="image/*" multiple>
+                                        <button onclick="rentUpload()" class="btn btn-info"
+                                            data-fancybox-close="">上傳</button>
+                                    </div>
+                                </div>
+                                <h4 id="error" style="color: red;"></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Cart -->
+
+    <!-- Start Footer  -->
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="footer-widget">
+                                <h4>關於師大市集平台</h4>
+                                <p>新創雲服務的作業</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="footer-widget">
+                                <h4>團隊成員</h4>
+                                <p>第二組</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="footer-link-contact">
+                                <h4>Contact Us</h4>
+                                <ul>
+                                    <li>
+                                        <p><i class="fas fa-envelope"></i>Email: <a
+                                                href="mailto:contactinfo@gmail.com">boyuchen0224@gmail.com</a></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </footer>
+    <!-- End Footer  -->
+
+    <!-- Start copyright  -->
+    <div class="footer-copyright">
+        <p class="footer-company">All Rights Reserved. &copy; Copyright 2020 by <a href="#">BChen</a></p>
+    </div>
+    <!-- End copyright  -->
+
+    <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
+
+    <!-- ALL JS FILES -->
+    <script src="js/tamplate/jquery-3.2.1.min.js"></script>
+    <script src="js/tamplate/popper.min.js"></script>
+    <script src="js/tamplate/bootstrap.min.js"></script>
+    <!-- ALL PLUGINS -->
+    <script src="js/tamplate/jquery.superslides.min.js"></script>
+    <script src="js/tamplate/bootstrap-select.js"></script>
+    <script src="js/tamplate/inewsticker.js"></script>
+    <script src="js/tamplate/bootsnav.js"></script>
+    <script src="js/tamplate/images-loded.min.js"></script>
+    <script src="js/tamplate/isotope.min.js"></script>
+    <script src="js/tamplate/owl.carousel.min.js"></script>
+    <script src="js/tamplate/baguetteBox.min.js"></script>
+    <script src="js/tamplate/jquery-ui.js"></script>
+    <script src="js/tamplate/jquery.nicescroll.min.js"></script>
+    <script src="js/tamplate/form-validator.min.js"></script>
+    <script src="js/tamplate/contact-form-script.js"></script>
+    <script src="js/tamplate/custom.js"></script>
+    <script type="text/javascript" src="js/checkLocalStorage.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
+    <script type="text/javascript" src="js/upload.js"></script>
+</body>
+
+</html>
