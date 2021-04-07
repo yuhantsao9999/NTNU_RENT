@@ -1,3 +1,3 @@
-# NCTU_Cloud_Service_Project
+# NTNU_Cloud_Service_Project
 
 [Web Demo]()
