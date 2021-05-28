@@ -3,6 +3,7 @@ const router = express.Router()
 const { signIn, signUp } = require('../controller/account')
 
 router.post('/signIn', async (req, res) => {
+  const data = req.body
   const result = await signIn(data)
   if (result.error) {
     res.status(404).send('Error email or password.')
