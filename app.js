@@ -12,8 +12,8 @@ app.use(express.static(__dirname, { dotfiles: 'allow' }));
 // const image = require('./routes/image');
 // app.use('/', image);
 
-// const account = require('./routes/account');
-// app.use('/', account);
+const account = require('./routes/account');
+app.use('/', account);
 
 // const upload = require('./routes/upload');
 // app.use('/', upload);

@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const { multerS3 } = require('../utils/multerS3')
-const { rentList } = require('../module/rentList')
-const { sellList } = require('../module/sellList')
+const { rentList } = require('../controller/rentList')
+const { sellList } = require('../controller/sellList')
 const imageCheck = require('../middlewares/imageCheck')
 const rentCheck = require('../middlewares/rentCheck')
 
