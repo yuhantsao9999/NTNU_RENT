@@ -13,7 +13,6 @@ router.post('/signIn', async (req, res) => {
 router.post('/signUp', async (req, res) => {
   const data = req.body
   const result = await signUp(data)
-  console.log(result)
   if (result.error) {
     res.status(404).send('Email has been registered, please use another email.')
   }
