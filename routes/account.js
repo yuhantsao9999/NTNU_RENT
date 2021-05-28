@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { signIn, signUp } = require('../module/account')
+const { signIn, signUp } = require('../controller/account')
 
 router.post('/signIn', async (req, res) => {
   const data = req.body

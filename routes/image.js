@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getUserRent, getUserSell, getAllSell, getAllRent } = require('../module/image')
+const { getUserRent, getUserSell, getAllSell, getAllRent } = require('../controller/image')
 
 router.get('/rent_image_all', async (req, res) => {
   const result = await getAllRent()

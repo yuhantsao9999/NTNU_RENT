@@ -24,11 +24,15 @@ const query = (sql, params) => {
         });
     });
 };
+
 pool.getConnection((error, connection) => {
-    console.log('MySQL connected');
     if (error) {
+        console.log(error);
         if (connection) connection.release();
-        return;
+    }
+    else {
+        console.log('MySQL connected');
+        connection.release();
     }
 });
 
