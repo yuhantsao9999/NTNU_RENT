@@ -1,0 +1,73 @@
+/* layout */
+body, html {
+    height: 100vh;
+}
+
+.admin-main {
+    display: flex;
+    height: 100vh;
+}
+
+/* nav */
+.admin-nav {
+    width: 15em;
+    background:rgba(107, 103, 91, 0.26);
+    display: flex;
+    flex-direction: column;
+}
+.admin-nav a {
+    height: 4em;
+    font-weight: 700;
+    font-size: 1.5em;
+    text-align: center;
+    display: block;
+    padding:1em 0em 1em 0em;
+    color: rgb(24, 18, 10);
+}
+.admin-nav a:hover{
+    background-color:rgb(250, 193, 88);
+}
+.admin-body {
+    flex-grow: 1;
+    background: white;
+    overflow-y: scroll;
+}
+
+/* filter */
+input {
+    background:rgb(220, 132, 228);
+}
+
+
+.admin-table {
+    width: 100%;
+}
+
+.admin-table tbody tr:nth-child(1):hover {
+    background-color:#e9e2e2;
+}
+
+.admin-table th, .admin-table td{
+    padding: 1rem 0rem 1rem 0rem;
+    text-align: center;
+}
+
+.admin-table th {
+    background-color: #2893c7;
+    color: antiquewhite;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border: 2px solid antiquewhite;
+}
+
+.admin-table td {
+    font-size: 1.1rem;
+}
+
+.contract-details td{
+    text-align: left;
+}
+#contract, #account{
+    overflow-x:auto;
+    margin: 0 2rem 0 2rem;
+}
