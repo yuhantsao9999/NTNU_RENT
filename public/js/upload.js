@@ -23,6 +23,7 @@ const rentUpload = () => {
   }).then(async (response) => {
     if (!response.ok) {
       const error = await response.text()
+      console.log('err', error)
       document.getElementById('error').innerHTML = 'Error : ' + error
     }
     return response.json()

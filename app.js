@@ -6,7 +6,7 @@ const app = express();
 app.use(bodyParser.json({ limit: '50000mb' }));
 app.use(bodyParser.urlencoded({ limit: '50000mb', extended: true }));
 
-app.use(express.static(path.join(__dirname, '/public'), { index: 'index.html' }));
+app.use(express.static(path.join(__dirname, '/public'), { index: 'rent_upload.html' }));
 app.use(express.static(__dirname, { dotfiles: 'allow' }));
 
 const image = require('./routes/image');
