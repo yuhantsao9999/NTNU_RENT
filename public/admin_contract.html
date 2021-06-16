@@ -21,6 +21,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <!-- Site CSS -->
     <link rel="stylesheet" href="./css/style.css">
     <!-- Responsive CSS -->
@@ -78,43 +79,66 @@
     </header>
     <!-- End Main Top -->
 
-    <div class="admin-main">
-        <nav class="admin-nav">
-            <a href="admin_contract.html">契約管理</a>
-            <a href="admin_account.html">帳號管理</a>
-        </nav>
-        <div class="admin-body">
-            <div id="contract">
-                <input type="text" placeholder="契約編號"></input>
-                <input type="text" placeholder="出租方"></input>
-                <input type="text" placeholder="承租方"></input>
-                <input type="text" placeholder="契約狀態"></input>
+    <div>
+        <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-menu" aria-controls="offcanvas-menu">Menu</button>
+    </div>
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvas-menu" aria-labelledby="offcanvas-menu-Label">
+        <div class="offcanvas-header ">
+            <h1 class="offcanvas-title text-center display-4" id="offcanvas-menu-Label">Menu</h1>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <nav class="container-fluid admin-nav">
+                <a href="admin_contract.html">Contract Management</a>
+                <a href="admin_account.html">Account Management</a>
+            </nav>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div id="contract">
+            <div class="row justify-content-center filter">
+                <div class="col-auto text-center pt-1" v-for="thField in thFields" v-bind:key="thField.name">
+                    <input type="text" v-bind:placeholder="thField.text">
+                </div>
+                <div class="col-auto text-center">
+                    <button type="button" class="btn btn-primary">Refresh</button>
+                </div>
+            </div>
+            <div class="table-responsive">
                 <table class="admin-table">
                     <thead class="contract-head">
                         <tr>
-                            <th>契約編號</th>
-                            <th>出租方</th>
-                            <th>承租方</th>
-                            <th colspan="2">契約狀態</th>
+                            <th v-for="thField in thFields" v-on:click="SortTable($event, thField.name)" v-bind:key="thField.name">{{thField.text}}</th>
+                            <th></th>
                         </tr>
                     </thead>
-                    <!-- <tbody class="contract-unit">
-                        <tr class="contract-outline">
-                            <td>312213131134</td>
-                            <td>allen</td>
-                            <td>John</td>
-                            <td>renting</td>
-                            <td><button class="delete-btn">X</button></td>
+                    <tbody class="contract-unit" v-for="(row, idx) in rows" v-bind:key="row.contract_id">
+                        <tr class="contract-outline" v-on:click="Details($event, row)">
+                            <td>{{row.contract_id}}</td>
+                            <td>{{row.publish_id}}</td>
+                            <td>{{row.rent_id}}</td>
+                            <td>{{row.c_status}}</td>
+                            <td v-if="row.c_status === 'continue'">
+                                <button class="btn btn-danger delete-btn" v-on:click.stop="MarkContract($event, idx)">X</button>
+                            </td>
+                            <td v-else></td>
                         </tr>
-                        <tr class="contract-details">
-                            <td colspan="4">契約細節 : <br>開始日期</td>
+                        <tr class="contract-details" v-bind:class="{displaydetails : row.delDisplay}">
+                            <td colspan="4"><div>租借日期 : {{row.start_date}} ~ {{row.end_date}}</div></td>
                         </tr>
-                    </tbody> -->
+                    </tbody>
                 </table>
+            </div>
+            <div class="container-fluid popup-window" v-show="toDelete.targetidx !== null">
+                <h1 class="text-center mt-3">確定終止契約?</h1>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-danger flex-fill" v-on:click="toDelete.action=true">Yes</button>
+                    <button type="button" class="btn btn-primary flex-fill" v-on:click="toDelete.action=false">No</button>
+                </div>
             </div>
         </div>
     </div>
-
+    
     <!-- Start Footer  -->
     <footer>
         <div class="footer-main">
@@ -177,6 +201,9 @@
     <script src="js/tamplate/contact-form-script.js"></script>
     <script src="js/tamplate/custom.js"></script>
     <script type="text/javascript" src="js/checkLocalStorage.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    
     <script src="js/admin_contract.js"></script>
 </body>
 
