@@ -1,9 +1,9 @@
 const findPath = (files) => {
-  const paths = []
-  for (let file of files) {
-    paths.push(file.key)
-  }
-  return paths
-}
+    const paths = [];
+    for (let file of files) {
+        paths.push(file.key);
+    }
+    return paths;
+};
 
-module.exports = { findPath }
+module.exports = { findPath };

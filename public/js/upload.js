@@ -1,75 +1,77 @@
 const rentUpload = () => {
-  const data = {
-    name: document.getElementById('name').value,
-    long: document.getElementById('long').value,
-    price: document.getElementById('price').value,
-    amount: document.getElementById('amount').value,
-    main_category: document.getElementById('main_category').value,
-    second_category: document.getElementById('second_category').value,
-    email: localStorage.getItem('email'),
-  }
-  const input = document.querySelector('input[type="file"]')
-  const formData = new FormData()
+    const data = {
+        name: document.getElementById('name').value,
+        long: document.getElementById('long').value,
+        price: document.getElementById('price').value,
+        amount: document.getElementById('amount').value,
+        main_category: document.getElementById('main_category').value,
+        second_category: document.getElementById('second_category').value,
+        email: localStorage.getItem('email'),
+    };
+    const input = document.querySelector('input[type="file"]');
+    console.log('input', input);
+    const formData = new FormData();
 
-  for (const file of input.files) {
-    formData.append('image', file, file.name)
-  }
-
-  formData.append('data', JSON.stringify(data))
-
-  fetch('/rent_upload', {
-    method: 'post',
-    body: formData,
-  }).then(async (response) => {
-    if (!response.ok) {
-      const error = await response.text()
-      console.log('err', error)
-      document.getElementById('error').innerHTML = 'Error : ' + error
+    for (const file of input.files) {
+        formData.append('image', file, file.name);
     }
-    return response.json()
-  })
-    .then((data) => {
-      window.alert('Upload successfully.')
-      window.location = 'profile.html'
+
+    formData.append('data', JSON.stringify(data));
+
+    fetch('/rent_upload', {
+        method: 'post',
+        body: formData,
     })
-    .catch((err) => {
-      console.log('err', err)
-    })
-}
+        .then(async (response) => {
+            if (!response.ok) {
+                const error = await response.text();
+                document.getElementById('error').innerHTML = 'Error : ' + error;
+            }
+            return response.json();
+        })
+        .then((data) => {
+            window.alert('Upload successfully.');
+            window.location = 'profile.html';
+        })
+        .catch((err) => {
+            console.log('err', err);
+        });
+};
 
 const sellUpload = () => {
-  const data = {
-    name: document.getElementById('name').value,
-    price: document.getElementById('price').value,
-    amount: document.getElementById('amount').value,
-    main_category: document.getElementById('main_category').value,
-    second_category: document.getElementById('second_category').value,
-    email: localStorage.getItem('email'),
-  }
-  const input = document.querySelector('input[type="file"]')
-  const formData = new FormData()
+    const data = {
+        name: document.getElementById('name').value,
+        price: document.getElementById('price').value,
+        amount: document.getElementById('amount').value,
+        main_category: document.getElementById('main_category').value,
+        second_category: document.getElementById('second_category').value,
+        email: localStorage.getItem('email'),
+    };
+    const input = document.querySelector('input[type="file"]');
+    const formData = new FormData();
 
-  for (const file of input.files) {
-    formData.append('image', file, file.name)
-  }
-
-  formData.append('data', JSON.stringify(data))
-
-  fetch('/sell_upload', {
-    method: 'post',
-    body: formData,
-  }).then(async (response) => {
-    if (!response.ok) {
-      const error = await response.text()
-      document.getElementById('error').innerHTML = 'Error : ' + error
+    for (const file of input.files) {
+        formData.append('image', file, file.name);
     }
-    return response.json()
-  })
-    .then((data) => {
-      window.alert('Upload successfully.')
-      window.location = 'profile.html'
+
+    formData.append('data', JSON.stringify(data));
+
+    fetch('/sell_upload', {
+        method: 'post',
+        body: formData,
     })
-    .catch((err) => {
-      console.log('err', err)
-    })
-}
+        .then(async (response) => {
+            if (!response.ok) {
+                const error = await response.text();
+                document.getElementById('error').innerHTML = 'Error : ' + error;
+            }
+            return response.json();
+        })
+        .then((data) => {
+            window.alert('Upload successfully.');
+            window.location = 'profile.html';
+        })
+        .catch((err) => {
+            console.log('err', err);
+        });
+};
