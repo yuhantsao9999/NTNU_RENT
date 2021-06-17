@@ -79,67 +79,83 @@
     </header>
     <!-- End Main Top -->
 
-    <div>
-        <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-menu" aria-controls="offcanvas-menu">Menu</button>
-    </div>
-    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvas-menu" aria-labelledby="offcanvas-menu-Label">
-        <div class="offcanvas-header ">
-            <h1 class="offcanvas-title text-center display-4" id="offcanvas-menu-Label">Menu</h1>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <nav class="container-fluid admin-nav">
-                <a href="admin_contract.html">Contract Management</a>
-                <a href="admin_account.html">Account Management</a>
-            </nav>
-        </div>
-    </div>
     <div class="container-fluid">
+        <div>
+            <button class="btn btn-outline-dark btn-sm mb-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-menu" aria-controls="offcanvas-menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                </svg>
+            </button>
+        </div>
+        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvas-menu" aria-labelledby="offcanvas-menu-Label">
+            <div class="offcanvas-header ">
+                <h1 class="offcanvas-title text-center display-4" id="offcanvas-menu-Label">Menu</h1>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <nav class="container-fluid admin-nav">
+                    <a href="admin_contract.html">Contract Management</a>
+                    <a href="admin_account.html">Account Management</a>
+                </nav>
+            </div>
+        </div>
         <div id="contract">
-            <div class="row justify-content-center filter">
-                <div class="col-auto text-center pt-1" v-for="thField in thFields" v-bind:key="thField['name']">
-                    <input type="text" v-bind:placeholder="thField['text']">
-                </div>
-                <div class="col-auto text-center">
-                    <button type="button" class="btn btn-primary">Refresh</button>
+            <div class="input-group mb-3">
+                <input type="number" class="form-control" placeholder="契約編號" v-model="Filter['contract_id']">
+                <input type="number" class="form-control" placeholder="出租方" v-model="Filter['publish_id']">
+                <input type="number" class="form-control" placeholder="承租方" v-model="Filter['rent_id']">
+                <select class="custom-select" v-model="Filter['c_status']">
+                    <option value="none" >------</option>
+                    <option value="continue">continue</option>
+                    <option value="finish">finish</option>
+                    <option value="termination">termination</option>
+                </select>
+                <div class="input-group-append" v-on:click="RefreshFilter($event)">
+                    <button class="btn btn-outline-info" type="button">Refresh</button>
                 </div>
             </div>
             <div class="table-responsive">
-                <table class="admin-table">
+                <table class="table admin-table">
                     <thead class="contract-head">
                         <tr>
                             <th v-for="thField in thFields" v-on:click="SortTable($event, thField['name'])" v-bind:key="thField['name']">{{thField['text']}}</th>
-                            <th></th>
+                            <th>終止契約</th>
                         </tr>
                     </thead>
-                    <tbody class="contract-unit" v-for="(row, idx) in rows" v-bind:key="row['outline']['contract_id']">
+                    <tbody class="contract-unit" v-for="(row, idx) in rows" v-bind:key="row['outline']['contract_id']" v-show="row['display']['unit']">
                         <tr class="contract-outline" v-on:click="Details($event, row)">
                             <td>{{row['outline']['contract_id']}}</td>
                             <td>{{row['outline']['publish_id']}}</td>
                             <td>{{row['outline']['rent_id']}}</td>
                             <td>{{row['outline']['c_status']}}</td>
                             <td v-if="row['outline']['c_status'] === 'continue'">
-                                <button class="btn btn-danger delete-btn" v-on:click.stop="MarkContract($event, idx)">X</button>
+                                <button type="button" class="btn btn-warning delete-btn" v-on:click.stop="MarkTermiContract($event, idx)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tools" viewBox="0 0 16 16">
+                                        <path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.356 3.356a1 1 0 0 0 1.414 0l1.586-1.586a1 1 0 0 0 0-1.414l-3.356-3.356a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0zm9.646 10.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708zM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11z"/>
+                                    </svg>
+                                    Terminate
+                                </button>
                             </td>
-                            <td v-else></td>
+                            <td v-else><div></div></td>
                         </tr>
-                        <tr class="contract-details" v-if="row['details']['start_data'] !== null" v-bind:class="{displaydetails : row.delDisplay}">
-                            <td colspan="4">
+                        <tr class="contract-details" v-bind:class="{displaydetails : row['display']['details']}">
+                            <td v-bind:colspan="NumOfField + 1">
                                 <div>
                                     <p>租借日期 : {{row['details']['start_date']}} ~ {{row['details']['end_date']}}</p>
                                     <p>出租方評價 : {{row['details']['publish_eval']}}</p>
                                     <p>承租方評價 : {{row['details']['rent_eval']}}</p>
                                 </div>
                             </td>
-                        </tr>
+                        </tr>           
                     </tbody>
                 </table>
             </div>
-            <div class="container-fluid popup-window" v-show="toDelete.targetidx !== null">
+            <div class="container-fluid popup-window" v-show="toTerminate['targetidx'] !== null">
                 <h1 class="text-center mt-3">確定終止契約?</h1>
+                <h2 class="text-center">契約編號 : {{toTerminate['targetcontract_id']}}</h2>
                 <div class="d-flex">
-                    <button type="button" class="btn btn-danger flex-fill" v-on:click="toDelete.action=true">Yes</button>
-                    <button type="button" class="btn btn-primary flex-fill" v-on:click="toDelete.action=false">No</button>
+                    <button type="button" class="btn btn-danger flex-fill" v-on:click="toTerminate['action']=true">Yes</button>
+                    <button type="button" class="btn btn-success flex-fill" v-on:click="toTerminate['action']=false">No</button>
                 </div>
             </div>
         </div>

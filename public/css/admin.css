@@ -54,13 +54,13 @@ body, html {
 .admin-table th {
     background-color: #2893c7;
     color: antiquewhite;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: bold;
     border: 2px solid antiquewhite;
 }
 
 .admin-table td {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
 }
 
 .contract-details td{
@@ -81,14 +81,14 @@ body, html {
 
 .popup-window {
     position: fixed;
-    top:300px;
+    top:200px;
     left: 420px;
     width: 400px;
-    /* margin: 100px auto; */
     background:#e9e2e2;
     border:1px solid black;
     border-radius: 10px;
     padding: 0;
+    z-index: 1;
 }
 .popup-window .btnrow {
     background:whitesmoke;
