@@ -83,9 +83,9 @@ body, html {
     position: fixed;
     top:200px;
     left: 420px;
-    width: 400px;
+    width: 350px;
     background:#e9e2e2;
-    border:1px solid black;
+    border:3px solid black;
     border-radius: 10px;
     padding: 0;
     z-index: 1;
@@ -94,8 +94,18 @@ body, html {
     background:whitesmoke;
     border-radius: 10px;
 }
-.popup-window button {
-
+.termiclass {
+    background-color: rgb(250, 247, 102);
+}
+tr[class$=termiclass]:hover td{
+    background-color: rgb(240, 180, 29) !important;
+    z-index:1;
+}
+.delclass {
+    background-color: rgb(243, 143, 143);
+}
+tr[class$=delclass]:hover td{
+    background-color: rgb(243, 80, 80) !important;
 }
 #contract, #account{
 

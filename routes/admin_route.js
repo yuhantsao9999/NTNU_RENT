@@ -26,6 +26,30 @@ router.post('/contract/details', async (req, res) => {
         return res.json({status:'error', data:null});
     }
 });
+router.post('/contract/terminate', async (req, res) => {
+    const contract_id = req.body.contract_id;
+    try {
+        const qryStr = 'UPDATE Contract SET c_status=\'termination\' WHERE contract_id=?';
+        await mysql.query(qryStr, [contract_id.toString()]);
+        return res.json({status:'ok'});
+    }
+    catch (err) {
+        console.log(err);
+        return res.json({status:'error'});
+    }
+});
+router.post('/contract/delete', async (req, res) => {
+    const contract_id = req.body.contract_id;
+    try {
+        const qryStr = 'DELETE FROM Contract WHERE contract_id=?';
+        await mysql.query(qryStr, [contract_id.toString()]);
+        return res.json({status:'ok'});
+    }
+    catch (err) {
+        console.log(err);
+        return res.json({status:'error'});
+    }
+});
 router.get('/account', (req, res) => {
     res.json({status:'contract'});
 });
