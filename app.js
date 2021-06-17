@@ -9,17 +9,19 @@ app.use(bodyParser.urlencoded({ limit: '50000mb', extended: true }));
 app.use(express.static(path.join(__dirname, '/public'), { index: 'index.html' }));
 app.use(express.static(__dirname, { dotfiles: 'allow' }));
 
-const image = require('./routes/image');
-app.use('/', image);
+//const image = require('./routes/image');
+//app.use('/', image);
 
 const account = require('./routes/account');
+const admin = require('./routes/admin_route');
 app.use('/', account);
-
-const upload = require('./routes/upload');
-app.use('/', upload);
+app.use('/admin', admin);
+//const upload = require('./routes/upload');
+//app.use('/', upload);
 
 app.get('/', (req, res) => {
     res.send('Very ok');
 });
+
 
 app.listen(3000, () => console.log('伺服器已經啟動在http://localhost:3000/'));
