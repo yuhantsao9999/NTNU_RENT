@@ -69,9 +69,6 @@ let account = new Vue({
             }
             for (Field of this.thFields) {
                 this.Filter[Field['name']] = '';
-                if (Field['name'] === 'authority') {
-                    this.Filter['authority'] = '';
-                }
             }
             this.Filter['mark'] = ''
             for (row of this.rows) {

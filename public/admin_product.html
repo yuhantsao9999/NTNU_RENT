@@ -100,24 +100,25 @@
                 </nav>
             </div>
         </div>
-        <div id="contract">
-            <div class="input-group mb-2">
-                <input type="number" class="form-control" placeholder="契約ID" v-model="Filter['contract_id']">
+        <div id="product">
+            <div class="input-group mb-1">
                 <input type="number" class="form-control" placeholder="商品ID" v-model="Filter['product_id']">
-                <input type="number" class="form-control" placeholder="出租方" v-model="Filter['publish_id']">
-                <input type="number" class="form-control" placeholder="承租方" v-model="Filter['rent_id']">
-                <select class="custom-select" v-model="Filter['c_status']">
+                <input type="number" class="form-control" placeholder="出租方ID" v-model="Filter['user_id']">
+                <input type="text" class="form-control" placeholder="商品分類" v-model="Filter['category']">
+                <input type="text" class="form-control" placeholder="商品品牌" v-model="Filter['brand']">
+            </div>
+            <div class="input-group mb-2">
+                <input type="number" class="form-control" placeholder="商品價格" v-model="Filter['price']">
+                <input type="number" class="form-control" placeholder="面交地點" v-model="Filter['place']">
+                <input type="number" class="form-control" placeholder="出租次數" v-model="Filter['rent_times']">
+                <select class="custom-select" v-model="Filter['p_status']">
                     <option value="" >------</option>
-                    <option value="continue">continue</option>
-                    <option value="finish">finish</option>
-                    <option value="termination">termination</option>
+                    <option value="renting">出租中</option>
+                    <option value="waiting">等待中</option>
                 </select>
                 <select class="custom-select" v-model="Filter['mark']">
                     <option value="" >------</option>
-                    <option value="neither">未選取</option>
-                    <option value="either">準備終止/刪除</option>
-                    <option value="termi">準備終止</option>
-                    <option value="del">準備刪除</option>
+                    <option value="del">準備下架</option>
                 </select>
                 <div class="input-group-append" v-on:click="RefreshFilter($event)">
                     <button class="btn btn-outline-info" type="button">Refresh</button>
@@ -128,19 +129,13 @@
                     <thead class="contract-head">
                         <tr>
                             <th v-for="thField in thFields" v-on:click="SortTable($event, thField['name'])" v-bind:key="thField['name']">{{thField['text']}}</th>
-                            <th>契約操作</th>
+                            <th>商品操作</th>
                         </tr>
                     </thead>
                     <tbody class="contract-unit" v-for="(row, idx) in rows" v-bind:key="row['outline']['contract_id']" v-show="row['display']['unit']">
                         <tr class="contract-outline" v-on:click="ShowDetails($event, row)" v-bind:class="{termiclass:row['mark']['termi'], delclass:row['mark']['del']}">
                             <td v-for="(field, idx) in thFields">{{row['outline'][field['name']]}}</td>
                             <td>
-                                <button type="button" class="btn btn-warning delete-btn" v-bind:disabled="row['outline']['c_status'] !== 'continue'" v-on:click.stop="MarkTermiContract($event, idx)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tools" viewBox="0 0 16 16">
-                                        <path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.356 3.356a1 1 0 0 0 1.414 0l1.586-1.586a1 1 0 0 0 0-1.414l-3.356-3.356a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0zm9.646 10.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708zM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11z"/>
-                                    </svg>
-                                    Terminate
-                                </button>
                                 <button type="button" class="btn btn-danger delete-btn" v-bind:disabled="row['outline']['c_status'] === 'continue'" v-on:click.stop="MarkDelContract($event, idx)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -153,23 +148,7 @@
                         <tr class="contract-details" v-bind:class="{displaydetails : row['display']['details']}">
                             <td v-bind:colspan="NumOfField + 1">
                                 <div>
-                                    <p>租借日期 : {{row['details']['start_date']}} ~ {{row['details']['end_date']}}</p>
-                                    <p>出租方星數 : 
-                                        <span v-if="row['details']['publish_star'] !== null">{{row['details']['publish_star']}}</span>
-                                        <span v-else>無</span>
-                                    </p>
-                                    <p>承租方星數 : 
-                                        <span v-if="row['details']['rent_star'] !== null">{{row['details']['rent_star']}}</span>
-                                        <span v-else>無</span>
-                                    </p>
-                                    <p>出租方評語 : 
-                                        <span v-if="row['details']['publish_comment'] !== null">{{row['details']['publish_comment']}}</span>
-                                        <span v-else>無</span>
-                                    </p>
-                                    <p>承租方評語 : 
-                                        <span v-if="row['details']['rent_comment'] !== null">{{row['details']['rent_comment']}}</span>
-                                        <span v-else>無</span>
-                                    </p>
+                                    waiting
                                 </div>
                             </td>
                         </tr>           
@@ -255,7 +234,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     
-    <script src="js/admin_contract.js"></script>
+    <script src="js/admin_product.js"></script>
 </body>
 
 </html>

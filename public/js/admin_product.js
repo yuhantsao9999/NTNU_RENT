@@ -1,23 +1,33 @@
-let contract = new Vue({
-    el : '#contract',
+let product = new Vue({
+    el : '#product',
     data : {
         rows : [],
         thFields : [
-            {name:'contract_id', text:'契約ID'},
             {name:'product_id', text:'商品ID'}, 
-            {name:'publish_id', text:'出租方ID'},
-            {name:'rent_id', text:'承租方ID'},
-            {name:'c_status', text:'契約狀態'}
+            {name:'user_id', text:'出租方ID'},
+            {name:'category', text:'商品分類'},
+            {name:'brand', text:'商品品牌'},
+            {name:'price', text:'商品價格'},
+            {name:'place', text:'面交地點'},
+            {name:'rent_times', text:'出租次數'},
+            {name:'p_status', text:'商品狀態'}
+        ],
+        detailsField : [
+            {name:'photo', text:'商品照片'},
+            {name:'introduction', text:'商品介紹'},
+            {name:'period', text:'出租天數'},
         ],
         lastSort : '',
-        Filter : {contract_id:'', product_id:'', publish_id:'', rent_id:'', c_status:'', mark:''},
+        Filter : {
+            product_id:'', user_id:'', category:'', brand:'', 
+            price:'', place:'', rent_times:'', p_status:'', mark:''
+        },
         popup : false,
     },
     created : async function () {
         try {
             await this.FetchOutline();
-            this.SortTable(null, 'c_status');
-            lastSort = 'c_status';
+            lastSort = 'product_id';
         }
         catch (err) {
             console.log(err);
@@ -26,12 +36,12 @@ let contract = new Vue({
     methods : {
         FetchOutline : async function () {
             try {
-                const result = await fetch('/admin/contract').then((res) => {return res.json();});
+                const result = await fetch('/admin/product').then((res) => {return res.json();});
                 if (result.status === 'ok') {
                     for (dbRowData of result['data']) {
                         let data = {
                             outline:{}, 
-                            details:{start_date:null, end_date:null, publish_start:null, publish_comment:null, rent_star:null, rent_comment:null},
+                            details:{photo:null, introduction:null, period:null},
                             display:{unit:true, details:false},
                             mark:{termi:false, del:false}
                         };
@@ -47,58 +57,58 @@ let contract = new Vue({
                 throw err;
             }
         },
-        FetchDetails : async function (row) {
-            try {
-                const result = await fetch('/admin/contract/details', {
-                    method : 'POST',
-                    headers : {
-                        'content-type' : 'application/json'
-                    },
-                    body : JSON.stringify({
-                        contract_id : row['outline']['contract_id']
-                    })
-                }).then((res) => {return res.json();});
-                if (result.status === 'ok') {
-                    row['details']['start_date'] = result['data'][0]['start_date'];
-                    row['details']['end_date'] = result['data'][0]['end_date'];
-                    row['details']['publish_star'] = result['data'][0]['publish_star'];
-                    row['details']['rent_star'] = result['data'][0]['rent_star'];
-                    row['details']['publish_comment'] = result['data'][0]['publish_comment'];
-                    row['details']['rent_comment'] = result['data'][0]['rent_comment'];
-                }
-                else {throw 'Fetch error';}
-            }
-            catch (err) {
-                throw err;
-            }
-        },
-        ShowDetails : async function (event, row) {
-            if (row['details']['start_date'] === null) {
-                try {
-                    await this.FetchDetails(row);
-                }
-                catch (err) {
-                    console.log(err);
-                }
-            }
-            if (event.target.tagName === 'TD') {
-                row['display']['details'] = !row['display']['details'];
-            }
-        },
-        MarkTermiContract : function (event, idx) {
-            event.target.blur();
-            if (!this.popup) {
-                this.rows[idx]['mark']['termi'] = !this.rows[idx]['mark']['termi'];
-            }
-            this.StartFilter();
-        },
-        MarkDelContract : function (event, idx) {
-            event.target.blur();
-            if (!this.popup) {
-                this.rows[idx]['mark']['del'] = !this.rows[idx]['mark']['del'];
-            }
-            this.StartFilter();
-        },
+        // FetchDetails : async function (row) {
+        //     try {
+        //         const result = await fetch('/admin/contract/details', {
+        //             method : 'POST',
+        //             headers : {
+        //                 'content-type' : 'application/json'
+        //             },
+        //             body : JSON.stringify({
+        //                 contract_id : row['outline']['contract_id']
+        //             })
+        //         }).then((res) => {return res.json();});
+        //         if (result.status === 'ok') {
+        //             row['details']['start_date'] = result['data'][0]['start_date'];
+        //             row['details']['end_date'] = result['data'][0]['end_date'];
+        //             row['details']['publish_star'] = result['data'][0]['publish_star'];
+        //             row['details']['rent_star'] = result['data'][0]['rent_star'];
+        //             row['details']['publish_comment'] = result['data'][0]['publish_comment'];
+        //             row['details']['rent_comment'] = result['data'][0]['rent_comment'];
+        //         }
+        //         else {throw 'Fetch error';}
+        //     }
+        //     catch (err) {
+        //         throw err;
+        //     }
+        // },
+        // ShowDetails : async function (event, row) {
+        //     if (row['details']['start_date'] === null) {
+        //         try {
+        //             await this.FetchDetails(row);
+        //         }
+        //         catch (err) {
+        //             console.log(err);
+        //         }
+        //     }
+        //     if (event.target.tagName === 'TD') {
+        //         row['display']['details'] = !row['display']['details'];
+        //     }
+        // },
+        // MarkTermiContract : function (event, idx) {
+        //     event.target.blur();
+        //     if (!this.popup) {
+        //         this.rows[idx]['mark']['termi'] = !this.rows[idx]['mark']['termi'];
+        //     }
+        //     this.StartFilter();
+        // },
+        // MarkDelContract : function (event, idx) {
+        //     event.target.blur();
+        //     if (!this.popup) {
+        //         this.rows[idx]['mark']['del'] = !this.rows[idx]['mark']['del'];
+        //     }
+        //     this.StartFilter();
+        // },
         SortTable : function (event, field) {
             if (this.rows.length > 1) {
                 if (this.lastSort === field) {

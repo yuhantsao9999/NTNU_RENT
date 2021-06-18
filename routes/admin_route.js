@@ -72,4 +72,15 @@ router.post('/account/auth', async (req, res) => {
         return res.json({status:'error'});
     }
 });
+router.get('/product', async (req, res) => {
+    try {
+        const qryStr = 'SELECT product_id, user_id, category, brand, price, place, rent_times, p_status FROM Product';
+        const data = await mysql.query(qryStr, []);
+        return res.json({status:'ok', data:data});
+    }
+    catch (err) {
+        console.log(err);
+        return res.json({status:'error', data:null});
+    }
+});
 module.exports = router;
