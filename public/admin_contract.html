@@ -110,6 +110,13 @@
                     <option value="finish">finish</option>
                     <option value="termination">termination</option>
                 </select>
+                <select class="custom-select" v-model="Filter['mark']">
+                    <option value="none" >------</option>
+                    <option value="neither">未選取</option>
+                    <option value="either">準備終止/刪除</option>
+                    <option value="termi">準備終止</option>
+                    <option value="del">準備刪除</option>
+                </select>
                 <div class="input-group-append" v-on:click="RefreshFilter($event)">
                     <button class="btn btn-outline-info" type="button">Refresh</button>
                 </div>
@@ -124,10 +131,7 @@
                     </thead>
                     <tbody class="contract-unit" v-for="(row, idx) in rows" v-bind:key="row['outline']['contract_id']" v-show="row['display']['unit']">
                         <tr class="contract-outline" v-on:click="ShowDetails($event, row)" v-bind:class="{termiclass:row['mark']['termi'], delclass:row['mark']['del']}">
-                            <td>{{row['outline']['contract_id']}}</td>
-                            <td>{{row['outline']['publish_id']}}</td>
-                            <td>{{row['outline']['rent_id']}}</td>
-                            <td>{{row['outline']['c_status']}}</td>
+                            <td v-for="(field, idx) in thFields">{{row['outline'][field['name']]}}</td>
                             <td>
                                 <button type="button" class="btn btn-warning delete-btn" v-bind:disabled="row['outline']['c_status'] !== 'continue'" v-on:click.stop="MarkTermiContract($event, idx)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tools" viewBox="0 0 16 16">
@@ -148,8 +152,22 @@
                             <td v-bind:colspan="NumOfField + 1">
                                 <div>
                                     <p>租借日期 : {{row['details']['start_date']}} ~ {{row['details']['end_date']}}</p>
-                                    <p>出租方評價 : {{row['details']['publish_eval']}}</p>
-                                    <p>承租方評價 : {{row['details']['rent_eval']}}</p>
+                                    <p>出租方星數 : 
+                                        <span v-if="row['details']['publish_star'] !== null">{{row['details']['publish_star']}}</span>
+                                        <span v-else>無</span>
+                                    </p>
+                                    <p>承租方星數 : 
+                                        <span v-if="row['details']['rent_star'] !== null">{{row['details']['rent_star']}}</span>
+                                        <span v-else>無</span>
+                                    </p>
+                                    <p>出租方評語 : 
+                                        <span v-if="row['details']['publish_comment'] !== null">{{row['details']['publish_comment']}}</span>
+                                        <span v-else>無</span>
+                                    </p>
+                                    <p>承租方評語 : 
+                                        <span v-if="row['details']['rent_comment'] !== null">{{row['details']['rent_comment']}}</span>
+                                        <span v-else>無</span>
+                                    </p>
                                 </div>
                             </td>
                         </tr>           
@@ -159,8 +177,8 @@
             <div class="container-fluid popup-window" v-show="popup">
                 <h1 class="text-center mt-4 mb-3">確定修改?</h1>
                 <div class="d-flex">
-                    <button type="button" class="btn btn-danger flex-fill" v-on:click="ReviseDB($event, 'true')">Yes</button>
-                    <button type="button" class="btn btn-success flex-fill" v-on:click="ReviseDB($event, 'false')">No</button>
+                    <button type="button" class="btn btn-danger flex-fill" v-on:click="ReviseDB($event, true)">Yes</button>
+                    <button type="button" class="btn btn-success flex-fill" v-on:click="ReviseDB($event, false)">No</button>
                 </div>
             </div>
             <div class="d-flex flex-row justify-content-center">

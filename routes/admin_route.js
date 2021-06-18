@@ -5,7 +5,6 @@ router.get('/contract', async (req, res) => {
     try {
         const qryStr = 'SELECT contract_id, publish_id, rent_id, c_status FROM Contract';
         const data = await mysql.query(qryStr, []);
-        // console.log(data);
         return res.json({status:'ok', data:data});
     }
     catch (err) {
@@ -16,9 +15,8 @@ router.get('/contract', async (req, res) => {
 router.post('/contract/details', async (req, res) => {
     const contract_id = req.body.contract_id;
     try {
-        const qryStr = 'SELECT start_date, end_date, publish_eval, rent_eval FROM Contract WHERE contract_id = ?';
+        const qryStr = 'SELECT start_date, end_date, publish_star, publish_comment, rent_star, rent_comment FROM Contract AS C LEFT JOIN Eval AS E ON (C.contract_id=E.contract_id) WHERE C.contract_id = ?';
         const data = await mysql.query(qryStr, [contract_id.toString()]);
-        // console.log(data);
         return res.json({status:'ok', data:data});
     }
     catch (err) {

@@ -11,7 +11,6 @@ body, html {
 /* nav */
 .admin-nav a {
     height: 4em;
-    /* font-weight: 700; */
     font-size: 1.5em;
     text-align: center;
     display: block;
@@ -25,17 +24,6 @@ body, html {
     flex-grow: 1;
     background: white;
     overflow-y: scroll;
-}
-
-/* filter */
-.filter {
-    background-color: antiquewhite;
-    border-radius: 10px;
-    border:1px solid crimson;
-}
-
-.filter input {
-
 }
 
 .admin-table {
@@ -90,23 +78,25 @@ body, html {
     padding: 0;
     z-index: 1;
 }
+
 .popup-window .btnrow {
     background:whitesmoke;
     border-radius: 10px;
 }
+
 .termiclass {
     background-color: rgb(250, 247, 102);
 }
+
 tr[class$=termiclass]:hover td{
     background-color: rgb(240, 180, 29) !important;
     z-index:1;
 }
+
 .delclass {
     background-color: rgb(243, 143, 143);
 }
+
 tr[class$=delclass]:hover td{
     background-color: rgb(243, 80, 80) !important;
-}
-#contract, #account{
-
 }
