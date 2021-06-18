@@ -3,7 +3,7 @@ const router = express.Router();
 const mysql = require('../model/db');
 router.get('/contract', async (req, res) => {
     try {
-        const qryStr = 'SELECT contract_id, publish_id, rent_id, c_status FROM Contract';
+        const qryStr = 'SELECT contract_id, product_id, publish_id, rent_id, c_status FROM Contract';
         const data = await mysql.query(qryStr, []);
         return res.json({status:'ok', data:data});
     }
@@ -48,7 +48,28 @@ router.post('/contract/delete', async (req, res) => {
         return res.json({status:'error'});
     }
 });
-router.get('/account', (req, res) => {
-    res.json({status:'contract'});
+router.get('/account', async (req, res) => {
+    try {
+        const qryStr = 'SELECT * FROM Users WHERE authority <> 1';
+        const data = await mysql.query(qryStr, []);
+        return res.json({status:'ok', data:data});
+    }
+    catch (err) {
+        console.log(err);
+        return res.json({status:'error', data:null});
+    }
+});
+router.post('/account/auth', async (req, res) => {
+    const user_id = req.body.user_id;
+    const lastAuth = req.body.lastAuth;
+    try {
+        const qryStr = 'UPDATE Users SET authority=? WHERE user_id=?';
+        await mysql.query(qryStr, [lastAuth.toString(), user_id.toString()]);
+        return res.json({status:'ok'});
+    }
+    catch (err) {
+        console.log(err);
+        return res.json({status:'error'});
+    }
 });
 module.exports = router;

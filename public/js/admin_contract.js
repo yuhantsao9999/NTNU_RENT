@@ -3,19 +3,21 @@ let contract = new Vue({
     data : {
         rows : [],
         thFields : [
-            {name:'contract_id', text:'契約編號'}, 
-            {name:'publish_id', text:'出租方'},
-            {name:'rent_id', text:'承租方'},
+            {name:'contract_id', text:'契約ID'},
+            {name:'product_id', text:'商品ID'}, 
+            {name:'publish_id', text:'出租方ID'},
+            {name:'rent_id', text:'承租方ID'},
             {name:'c_status', text:'契約狀態'}
         ],
         lastSort : '',
-        Filter : {contract_id:'', publish_id:'', rent_id:'', c_status:'none', mark:'none'},
+        Filter : {contract_id:'', product_id:'', publish_id:'', rent_id:'', c_status:'', mark:''},
         popup : false,
     },
     created : async function () {
         try {
             await this.FetchOutline();
             this.SortTable(null, 'c_status');
+            lastSort = 'c_status';
         }
         catch (err) {
             console.log(err);
@@ -26,7 +28,7 @@ let contract = new Vue({
             try {
                 const result = await fetch('/admin/contract').then((res) => {return res.json();});
                 if (result.status === 'ok') {
-                    result['data'].forEach(dbdata => {
+                    for (dbRowData of result['data']) {
                         let data = {
                             outline:{}, 
                             details:{start_date:null, end_date:null, publish_start:null, publish_comment:null, rent_star:null, rent_comment:null},
@@ -34,10 +36,10 @@ let contract = new Vue({
                             mark:{termi:false, del:false}
                         };
                         for (field of this.thFields) {
-                            data['outline'][field.name] = dbdata[field.name];
+                            data['outline'][field.name] = dbRowData[field.name];
                         }
                         this.rows.push(data);
-                    });
+                    }
                 }
                 else {throw 'Fetch error';}
             }
@@ -119,10 +121,10 @@ let contract = new Vue({
             for (Field of this.thFields) {
                 this.Filter[Field['name']] = '';
                 if (Field['name'] === 'c_status') {
-                    this.Filter['c_status'] = 'none';
+                    this.Filter['c_status'] = '';
                 }
             }
-            this.Filter['mark'] = 'none'
+            this.Filter['mark'] = ''
             for (row of this.rows) {
                 row['display']['unit'] = true;
             }
@@ -132,18 +134,19 @@ let contract = new Vue({
                 row['display']['unit'] = true;
                 // filter thFields
                 for (field of this.thFields) {
-                    if (this.Filter[field.name] !== '' && this.Filter[field.name] !== 'none') {
+                    if (this.Filter[field.name] !== undefined && this.Filter[field.name] !== '') {
                         let FilterValue = '';
                         switch(field.name) {
                             case'contract_id':
+                            case'product_id':
                             case'publish_id':
                             case'rent_id':
-                                FilterValue = parseInt(this.Filter[field.name], 10);
+                                FilterValue = this.Filter[field.name].toString();
                                 break;
-                            case'c_status':
+                            default:
                                 FilterValue = this.Filter[field.name];
                         }
-                        if (row['outline'][field.name] !== FilterValue) {
+                        if (!(row['outline'][field['name']].toString().startsWith(FilterValue))) {
                             row['display']['unit'] = false;
                         }
                     }
