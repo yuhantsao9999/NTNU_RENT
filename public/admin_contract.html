@@ -105,13 +105,13 @@
                 <input type="number" class="form-control" placeholder="出租方" v-model="Filter['publish_id']">
                 <input type="number" class="form-control" placeholder="承租方" v-model="Filter['rent_id']">
                 <select class="custom-select" v-model="Filter['c_status']">
-                    <option value="none" >------</option>
+                    <option value="" >------</option>
                     <option value="continue">continue</option>
                     <option value="finish">finish</option>
                     <option value="termination">termination</option>
                 </select>
                 <select class="custom-select" v-model="Filter['mark']">
-                    <option value="none" >------</option>
+                    <option value="" >------</option>
                     <option value="neither">未選取</option>
                     <option value="either">準備終止/刪除</option>
                     <option value="termi">準備終止</option>

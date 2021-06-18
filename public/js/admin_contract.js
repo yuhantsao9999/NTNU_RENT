@@ -9,7 +9,7 @@ let contract = new Vue({
             {name:'c_status', text:'契約狀態'}
         ],
         lastSort : '',
-        Filter : {contract_id:'', publish_id:'', rent_id:'', c_status:'none', mark:'none'},
+        Filter : {contract_id:'', publish_id:'', rent_id:'', c_status:'', mark:''},
         popup : false,
     },
     created : async function () {
@@ -120,10 +120,10 @@ let contract = new Vue({
             for (Field of this.thFields) {
                 this.Filter[Field['name']] = '';
                 if (Field['name'] === 'c_status') {
-                    this.Filter['c_status'] = 'none';
+                    this.Filter['c_status'] = '';
                 }
             }
-            this.Filter['mark'] = 'none'
+            this.Filter['mark'] = ''
             for (row of this.rows) {
                 row['display']['unit'] = true;
             }
@@ -133,7 +133,7 @@ let contract = new Vue({
                 row['display']['unit'] = true;
                 // filter thFields
                 for (field of this.thFields) {
-                    if (this.Filter[field.name] !== undefined && this.Filter[field.name] !== '' && this.Filter[field.name] !== 'none') {
+                    if (this.Filter[field.name] !== undefined && this.Filter[field.name] !== '') {
                         let FilterValue = '';
                         switch(field.name) {
                             case'contract_id':
