@@ -9,7 +9,7 @@ let contract = new Vue({
             {name:'c_status', text:'契約狀態'}
         ],
         lastSort : '',
-        Filter : {contract_id:'', publish_id:'', rent_id:'', c_status:'none'},
+        Filter : {contract_id:'', publish_id:'', rent_id:'', c_status:'none', mark:'none'},
         popup : false,
     },
     created : async function () {
@@ -29,13 +29,13 @@ let contract = new Vue({
                     result['data'].forEach(dbdata => {
                         let data = {
                             outline:{}, 
-                            details:{start_date:null, end_date:null, publish_eval:null, rent_eval:null},
+                            details:{start_date:null, end_date:null, publish_start:null, publish_comment:null, rent_star:null, rent_comment:null},
                             display:{unit:true, details:false},
                             mark:{termi:false, del:false}
                         };
-                        this.thFields.forEach((field) => {
+                        for (field of this.thFields) {
                             data['outline'][field.name] = dbdata[field.name];
-                        })
+                        }
                         this.rows.push(data);
                     });
                 }
@@ -59,8 +59,10 @@ let contract = new Vue({
                 if (result.status === 'ok') {
                     row['details']['start_date'] = result['data'][0]['start_date'];
                     row['details']['end_date'] = result['data'][0]['end_date'];
-                    row['details']['publish_eval'] = result['data'][0]['publish_eval'];
-                    row['details']['rent_eval'] = result['data'][0]['rent_eval'];
+                    row['details']['publish_star'] = result['data'][0]['publish_star'];
+                    row['details']['rent_star'] = result['data'][0]['rent_star'];
+                    row['details']['publish_comment'] = result['data'][0]['publish_comment'];
+                    row['details']['rent_comment'] = result['data'][0]['rent_comment'];
                 }
                 else {throw 'Fetch error';}
             }
@@ -86,12 +88,14 @@ let contract = new Vue({
             if (!this.popup) {
                 this.rows[idx]['mark']['termi'] = !this.rows[idx]['mark']['termi'];
             }
+            this.StartFilter();
         },
         MarkDelContract : function (event, idx) {
             event.target.blur();
             if (!this.popup) {
                 this.rows[idx]['mark']['del'] = !this.rows[idx]['mark']['del'];
             }
+            this.StartFilter();
         },
         SortTable : function (event, field) {
             if (this.rows.length > 1) {
@@ -112,15 +116,21 @@ let contract = new Vue({
             if (event !== null) {
                 event.target.blur();
             }
-            this.Filter['contract_id'] = this.Filter['publish_id'] = this.Filter['rent_id'] = '';
-            this.Filter['c_status'] = 'none';
-            this.rows.forEach((element) => {
-                element['display']['unit'] = true;
-            });
+            for (Field of this.thFields) {
+                this.Filter[Field['name']] = '';
+                if (Field['name'] === 'c_status') {
+                    this.Filter['c_status'] = 'none';
+                }
+            }
+            this.Filter['mark'] = 'none'
+            for (row of this.rows) {
+                row['display']['unit'] = true;
+            }
         },
         StartFilter : function () {
             for (row of this.rows) {
                 row['display']['unit'] = true;
+                // filter thFields
                 for (field of this.thFields) {
                     if (this.Filter[field.name] !== '' && this.Filter[field.name] !== 'none') {
                         let FilterValue = '';
@@ -138,6 +148,19 @@ let contract = new Vue({
                         }
                     }
                 }
+                //filter mark
+                switch (this.Filter['mark']) {
+                    case'neither':
+                        if (row['mark']['termi'] || row['mark']['del']) {row['display']['unit'] = false;}
+                        break;
+                    case'either':
+                        if (!row['mark']['termi'] && !row['mark']['del']) {row['display']['unit'] = false;}
+                        break;
+                    case'termi':
+                    case'del':
+                        if (!row['mark'][this.Filter['mark']]) {row['display']['unit'] = false;}
+                        break;
+                }
             }
         },
         RefreshMark : function (event) {
@@ -145,6 +168,7 @@ let contract = new Vue({
             for (row of this.rows) {
                 row['mark']['termi'] = row['mark']['del'] = false;
             }
+            this.StartFilter();
         },
         DelContract : async function (c_id) {
             try {
@@ -180,7 +204,7 @@ let contract = new Vue({
         },
         ReviseDB : async function (event, option) {
             event.target.blur();
-            if (option === 'true') {
+            if (option) {
                 for (row of this.rows) {
                     const c_id = row['outline']['contract_id'];
                     if (row['mark']['del']) {
@@ -202,6 +226,7 @@ let contract = new Vue({
         PopUp : function (event) {
             event.target.blur();
             this.RefreshFilter(null);
+            this.Filter['mark'] = 'either';
             this.popup = true;
         }
     },

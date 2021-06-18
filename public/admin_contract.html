@@ -110,6 +110,13 @@
                     <option value="finish">finish</option>
                     <option value="termination">termination</option>
                 </select>
+                <select class="custom-select" v-model="Filter['mark']">
+                    <option value="none" >------</option>
+                    <option value="neither">未選取</option>
+                    <option value="either">準備終止/刪除</option>
+                    <option value="termi">準備終止</option>
+                    <option value="del">準備刪除</option>
+                </select>
                 <div class="input-group-append" v-on:click="RefreshFilter($event)">
                     <button class="btn btn-outline-info" type="button">Refresh</button>
                 </div>
@@ -148,8 +155,22 @@
                             <td v-bind:colspan="NumOfField + 1">
                                 <div>
                                     <p>租借日期 : {{row['details']['start_date']}} ~ {{row['details']['end_date']}}</p>
-                                    <p>出租方評價 : {{row['details']['publish_eval']}}</p>
-                                    <p>承租方評價 : {{row['details']['rent_eval']}}</p>
+                                    <p>出租方星數 : 
+                                        <span v-if="row['details']['publish_star'] !== null">{{row['details']['publish_star']}}</span>
+                                        <span v-else>無</span>
+                                    </p>
+                                    <p>承租方星數 : 
+                                        <span v-if="row['details']['rent_star'] !== null">{{row['details']['rent_star']}}</span>
+                                        <span v-else>無</span>
+                                    </p>
+                                    <p>出租方評語 : 
+                                        <span v-if="row['details']['publish_comment'] !== null">{{row['details']['publish_comment']}}</span>
+                                        <span v-else>無</span>
+                                    </p>
+                                    <p>承租方評語 : 
+                                        <span v-if="row['details']['rent_comment'] !== null">{{row['details']['rent_comment']}}</span>
+                                        <span v-else>無</span>
+                                    </p>
                                 </div>
                             </td>
                         </tr>           
@@ -159,8 +180,8 @@
             <div class="container-fluid popup-window" v-show="popup">
                 <h1 class="text-center mt-4 mb-3">確定修改?</h1>
                 <div class="d-flex">
-                    <button type="button" class="btn btn-danger flex-fill" v-on:click="ReviseDB($event, 'true')">Yes</button>
-                    <button type="button" class="btn btn-success flex-fill" v-on:click="ReviseDB($event, 'false')">No</button>
+                    <button type="button" class="btn btn-danger flex-fill" v-on:click="ReviseDB($event, true)">Yes</button>
+                    <button type="button" class="btn btn-success flex-fill" v-on:click="ReviseDB($event, false)">No</button>
                 </div>
             </div>
             <div class="d-flex flex-row justify-content-center">
