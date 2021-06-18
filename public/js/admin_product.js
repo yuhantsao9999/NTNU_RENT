@@ -43,7 +43,7 @@ let product = new Vue({
                             outline:{}, 
                             details:{photo:null, introduction:null, period:null},
                             display:{unit:true, details:false},
-                            mark:{termi:false, del:false}
+                            mark:{offshelf:false, del:false}
                         };
                         for (field of this.thFields) {
                             data['outline'][field.name] = dbRowData[field.name];
@@ -95,20 +95,20 @@ let product = new Vue({
         //         row['display']['details'] = !row['display']['details'];
         //     }
         // },
-        // MarkTermiContract : function (event, idx) {
-        //     event.target.blur();
-        //     if (!this.popup) {
-        //         this.rows[idx]['mark']['termi'] = !this.rows[idx]['mark']['termi'];
-        //     }
-        //     this.StartFilter();
-        // },
-        // MarkDelContract : function (event, idx) {
-        //     event.target.blur();
-        //     if (!this.popup) {
-        //         this.rows[idx]['mark']['del'] = !this.rows[idx]['mark']['del'];
-        //     }
-        //     this.StartFilter();
-        // },
+        MarkOffShelf : function (event, idx) {
+            event.target.blur();
+            if (!this.popup) {
+                this.rows[idx]['mark']['offshelf'] = !this.rows[idx]['mark']['offshelf'];
+            }
+            this.StartFilter();
+        },
+        MarkDelProduct : function (event, idx) {
+            event.target.blur();
+            if (!this.popup) {
+                this.rows[idx]['mark']['del'] = !this.rows[idx]['mark']['del'];
+            }
+            this.StartFilter();
+        },
         SortTable : function (event, field) {
             if (this.rows.length > 1) {
                 if (this.lastSort === field) {
@@ -144,10 +144,10 @@ let product = new Vue({
                     if (this.Filter[field.name] !== undefined && this.Filter[field.name] !== '') {
                         let FilterValue = '';
                         switch(field.name) {
-                            case'contract_id':
                             case'product_id':
-                            case'publish_id':
-                            case'rent_id':
+                            case'user_id':
+                            case'price':
+                            case'rent_times':
                                 FilterValue = this.Filter[field.name].toString();
                                 break;
                             default:
@@ -161,13 +161,13 @@ let product = new Vue({
                 //filter mark
                 switch (this.Filter['mark']) {
                     case'neither':
-                        if (row['mark']['termi'] || row['mark']['del']) {row['display']['unit'] = false;}
+                        if (row['mark']['offshelf'] || row['mark']['del']) {row['display']['unit'] = false;}
                         break;
                     case'either':
-                        if (!row['mark']['termi'] && !row['mark']['del']) {row['display']['unit'] = false;}
+                        if (!row['mark']['offshelf'] && !row['mark']['del']) {row['display']['unit'] = false;}
                         break;
-                    case'termi':
                     case'del':
+                    case'offshelf':
                         if (!row['mark'][this.Filter['mark']]) {row['display']['unit'] = false;}
                         break;
                 }
@@ -176,19 +176,19 @@ let product = new Vue({
         RefreshMark : function (event) {
             event.target.blur();
             for (row of this.rows) {
-                row['mark']['termi'] = row['mark']['del'] = false;
+                row['mark']['offshelf'] = row['mark']['del'] = false;
             }
             this.StartFilter();
         },
-        DelContract : async function (c_id) {
+        DelProduct : async function (p_id) {
             try {
-                await fetch('admin/contract/delete', {
+                await fetch('admin/product/delete', {
                     method : 'POST',
                     headers : {
                         'content-type' : 'application/json'
                     },
                     body : JSON.stringify({
-                        contract_id : c_id
+                        product_id : p_id
                     })
                 }).then(res => {return res.json();});
             }
@@ -196,15 +196,15 @@ let product = new Vue({
                 throw err;
             }
         },
-        TermiContract : async function (c_id) {
+        OffShelfProduct : async function (p_id) {
             try {
-                await fetch('admin/contract/terminate', {
+                await fetch('admin/product/offshelf', {
                     method : 'POST',
                     headers : {
-                            'content-type' : 'application/json'
+                        'content-type' : 'application/json'
                     },
                     body : JSON.stringify({
-                        contract_id : c_id
+                        product_id : p_id
                     })
                 }).then(res => {return res.json();});
             }
@@ -216,18 +216,17 @@ let product = new Vue({
             event.target.blur();
             if (option) {
                 for (row of this.rows) {
-                    const c_id = row['outline']['contract_id'];
+                    const p_id = row['outline']['product_id'];
                     if (row['mark']['del']) {
                         /*delete from db*/
-                        try {await this.DelContract(c_id);}
+                        try {await this.DelProduct(p_id);}
                         catch (err) {console.log(err);}
                     }
-                    else if (row['mark']['termi']) {
-                        // revise to db
-                        try {await this.TermiContract(c_id);}
-                        catch (err) {console.log(err);} 
+                    else if (row['mark']['offshelf']) {
+                        try {await this.OffShelfProduct(p_id);}
+                        catch (err) {console.log(err);}
                     }
-                    else {};
+                    else {}
                 }
                 window.location.reload();
             }

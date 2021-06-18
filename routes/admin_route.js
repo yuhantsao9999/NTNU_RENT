@@ -83,4 +83,28 @@ router.get('/product', async (req, res) => {
         return res.json({status:'error', data:null});
     }
 });
+router.post('/product/offshelf', async (req, res) => {
+    const product_id = req.body.product_id;
+    try {
+        const qryStr = 'UPDATE Product SET p_status = \'offshelf\' WHERE product_id=?';
+        await mysql.query(qryStr, [product_id.toString()]);
+        return res.json({status:'ok'});
+    }
+    catch (err) {
+        console.log(err);
+        return res.json({status:'error'});
+    }
+});
+router.post('/product/delete', async (req, res) => {
+    const product_id = req.body.product_id;
+    try {
+        const qryStr = 'DELETE FROM Product WHERE product_id=?';
+        await mysql.query(qryStr, [product_id.toString()]);
+        return res.json({status:'ok'});
+    }
+    catch (err) {
+        console.log(err);
+        return res.json({status:'error'});
+    }
+});
 module.exports = router;
