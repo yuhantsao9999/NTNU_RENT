@@ -9,6 +9,14 @@ let contract = new Vue({
             {name:'rent_id', text:'承租方ID'},
             {name:'c_status', text:'契約狀態'}
         ],
+        detailsField : [
+            {name:'start_date', text:'開始日期'},
+            {name:'end_date', text:'結束日期'},
+            {name:'publish_star', text:'出租方星數'},
+            {name:'rent_star', text:'承租方星數'},
+            {name:'publish_comment', text:'出租方評語'},
+            {name:'rent_comment', text:'承租方評語'},
+        ],
         lastSort : '',
         Filter : {contract_id:'', product_id:'', publish_id:'', rent_id:'', c_status:'', mark:''},
         popup : false,
@@ -59,12 +67,15 @@ let contract = new Vue({
                     })
                 }).then((res) => {return res.json();});
                 if (result.status === 'ok') {
-                    row['details']['start_date'] = result['data'][0]['start_date'];
-                    row['details']['end_date'] = result['data'][0]['end_date'];
-                    row['details']['publish_star'] = result['data'][0]['publish_star'];
-                    row['details']['rent_star'] = result['data'][0]['rent_star'];
-                    row['details']['publish_comment'] = result['data'][0]['publish_comment'];
-                    row['details']['rent_comment'] = result['data'][0]['rent_comment'];
+                    for (detail of this.detailsField) {
+                        row['details'][detail['name']] = result['data'][0][detail['name']];
+                    }
+                    // row['details']['start_date'] = result['data'][0]['start_date'];
+                    // row['details']['end_date'] = result['data'][0]['end_date'];
+                    // row['details']['publish_star'] = result['data'][0]['publish_star'];
+                    // row['details']['rent_star'] = result['data'][0]['rent_star'];
+                    // row['details']['publish_comment'] = result['data'][0]['publish_comment'];
+                    // row['details']['rent_comment'] = result['data'][0]['rent_comment'];
                 }
                 else {throw 'Fetch error';}
             }
@@ -225,6 +236,9 @@ let contract = new Vue({
         },
         PopUp : function (event) {
             event.target.blur();
+            for (row of this.rows) {
+                row['display']['details'] = false;
+            }
             this.RefreshFilter(null);
             this.Filter['mark'] = 'either';
             this.popup = true;

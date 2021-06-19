@@ -72,9 +72,10 @@ body, html {
     top:200px;
     left: 420px;
     width: 350px;
-    background:#e9e2e2;
-    border:3px solid black;
-    border-radius: 10px;
+    background:rgba(255, 255, 255, 0.918);
+    border:3px solid rgba(65, 248, 239, 0.651);
+    border-top: 26px solid rgba(65, 248, 239, 0.651);
+    border-radius: 3px;
     padding: 0;
     z-index: 1;
 }
@@ -99,4 +100,8 @@ tr[class$=termiclass]:hover td{
 
 tr[class$=delclass]:hover td{
     background-color: rgb(243, 80, 80) !important;
+}
+
+#product legend {
+    font-size: 18px;
 }

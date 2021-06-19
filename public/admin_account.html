@@ -107,12 +107,12 @@
                 <input type="email" class="form-control" placeholder="使用者信箱" v-model="Filter['email']">
                 <input type="number" class="form-control" placeholder="使用者電話" v-model="Filter['phone']">
                 <select class="custom-select" v-model="Filter['authority']">
-                    <option value="" >------</option>
+                    <option value="" >---使用者權限---</option>
                     <option value="0">一般權限</option>
                     <option value="-1">無權限</option>
                 </select>
                 <select class="custom-select" v-model="Filter['mark']">
-                    <option value="">------</option>
+                    <option value="">---帳號管理---</option>
                     <option value="neither">未選取</option>
                     <option value="either">準備修改權限/刪除</option>
                     <option value="auth">準備修改權限</option>
@@ -126,7 +126,12 @@
                 <table class="table admin-table">
                     <thead class="contract-head">
                         <tr>
-                            <th v-for="thField in thFields" v-on:click="SortTable($event, thField['name'])" v-bind:key="thField['name']">{{thField['text']}}</th>
+                            <th v-for="thField in thFields" v-on:click="SortTable($event, thField['name'])" v-bind:key="thField['name']">
+                                {{thField['text']}}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-bar-expand" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M3.646 10.146a.5.5 0 0 1 .708 0L8 13.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-4.292a.5.5 0 0 0 .708 0L8 2.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708zM1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8z"/>
+                                </svg>
+                            </th>
                             <th>帳號管理</th>
                         </tr>
                     </thead>

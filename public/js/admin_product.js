@@ -5,9 +5,9 @@ let product = new Vue({
         thFields : [
             {name:'product_id', text:'商品ID'}, 
             {name:'user_id', text:'出租方ID'},
-            {name:'category', text:'商品分類'},
-            {name:'brand', text:'商品品牌'},
-            {name:'price', text:'商品價格'},
+            {name:'category', text:'分類'},
+            {name:'brand', text:'品牌'},
+            {name:'price', text:'價格'},
             {name:'place', text:'面交地點'},
             {name:'rent_times', text:'出租次數'},
             {name:'p_status', text:'商品狀態'}
@@ -20,11 +20,10 @@ let product = new Vue({
         lastSort : '',
         Filter : {
             product_id:'', user_id:'', category:'', brand:'', 
-            price:'', place:'', rent_times:'', p_status:'', mark:''
+            price:{min:0, max:3000, value:[0, 3000]}, place:'',
+            rent_times:{min:0, max:50, value:[0, 50]}, p_status:'', mark:''
         },
         popup : false,
-        value2:[0,10000],
-        min:0,max:10000
     },
     created : async function () {
         try {
@@ -138,12 +137,27 @@ let product = new Vue({
                 event.target.blur();
             }
             for (Field of this.thFields) {
-                this.Filter[Field['name']] = '';
+                switch (Field['name']) {
+                    case 'price':
+                        this.Filter[Field['name']]['value'][0] = this.Filter[Field['name']]['min'];
+                        this.Filter[Field['name']]['value'][1] = this.Filter[Field['name']]['max'];
+                        this.$refs.pslider.setValue([this.Filter[Field['name']]['min'], this.Filter[Field['name']]['max']]);
+                        break;
+                    case 'rent_times':
+                        this.Filter[Field['name']]['value'][0] = this.Filter[Field['name']]['min'];
+                        this.Filter[Field['name']]['value'][1] = this.Filter[Field['name']]['max'];
+                        this.$refs.rslider.setValue([this.Filter[Field['name']]['min'], this.Filter[Field['name']]['max']]);
+                        break;
+                    default:
+                        this.Filter[Field['name']] = '';
+                        break;
+                }
             }
             this.Filter['mark'] = ''
             for (row of this.rows) {
                 row['display']['unit'] = true;
             }
+            console.log(this.Filter['price'], this.Filter['rent_times']);
         },
         StartFilter : function () {
             for (row of this.rows) {
@@ -152,19 +166,29 @@ let product = new Vue({
                 for (field of this.thFields) {
                     if (this.Filter[field.name] !== undefined && this.Filter[field.name] !== '') {
                         let FilterValue = '';
+                        let FilterMin = 0, FilterMax = 0;
                         switch(field.name) {
                             case'product_id':
                             case'user_id':
-                            case'price':
-                            case'rent_times':
                                 FilterValue = this.Filter[field.name].toString();
+                                break;
+                            case'rent_times':
+                            case'price':
+                                FilterMin = this.Filter[field.name]['value'][0];
+                                FilterMax = this.Filter[field.name]['value'][1];
                                 break;
                             default:
                                 FilterValue = this.Filter[field.name];
                         }
-                        if (!(row['outline'][field['name']].toString().startsWith(FilterValue))) {
+                        if (field['name'] === 'price' || field['name'] === 'rent_times') {
+                            if (row['outline'][field['name']] < FilterMin || row['outline'][field['name']] > FilterMax) {
+                                row['display']['unit'] = false;
+                            }
+                        }
+                        else if (!(row['outline'][field['name']].toString().startsWith(FilterValue))) {
                             row['display']['unit'] = false;
                         }
+                        else {}
                     }
                 }
                 //filter mark
@@ -243,6 +267,9 @@ let product = new Vue({
         },
         PopUp : function (event) {
             event.target.blur();
+            for (row of this.rows) {
+                row['display']['details'] = false;
+            }
             this.RefreshFilter(null);
             this.Filter['mark'] = 'either';
             this.popup = true;
@@ -251,6 +278,7 @@ let product = new Vue({
     watch : {
         Filter : {
             handler (newValue, oldValue) {
+                console.log(this.Filter['price']);
                 this.StartFilter();
             },
             deep:true

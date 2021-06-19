@@ -81,7 +81,7 @@
         <!-- End Navigation -->
     </header>
     <!-- End Main Top -->
-
+    
     <div class="container-fluid mt-3 mb-3">
         <div>
             <button class="btn btn-outline-dark btn-sm mb-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-menu" aria-controls="offcanvas-menu">
@@ -104,23 +104,39 @@
             </div>
         </div>
         <div id="product">
-            <div class="input-group mb-1">
+            <div class="input-group">
                 <input type="number" class="form-control" placeholder="商品ID" v-model="Filter['product_id']">
                 <input type="number" class="form-control" placeholder="出租方ID" v-model="Filter['user_id']">
                 <input type="text" class="form-control" placeholder="商品分類" v-model="Filter['category']">
                 <input type="text" class="form-control" placeholder="商品品牌" v-model="Filter['brand']">
             </div>
-            <div class="input-group mb-2">
-                <input type="number" class="form-control" placeholder="商品價格" v-model="Filter['price']">
+            <div class="d-flex flex-row mb-2">
+                <div class="container">
+                    <form>
+                        <fieldset>
+                            <legend class="text-muted">價格&nbsp;&nbsp;<span v-model="Filter['price']['value']">${{Filter['price']['value'][0]}} ~ ${{Filter['price']['value'][1]}}</span></legend>
+                            <vue-slider ref="pslider" v-model="Filter['price']['value']" :min="Filter['price']['min']" :max="Filter['price']['max']"></vue-slider>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="container pl-5">
+                    <form>
+                        <fieldset>
+                            <legend class="text-muted">租借次數&nbsp;&nbsp;<span>{{Filter['rent_times']['value'][0]}}~{{Filter['rent_times']['value'][1]}}</span></legend>
+                            <vue-slider ref="rslider" v-model="Filter['rent_times']['value']" :min="Filter['rent_times']['min']" :max="Filter['rent_times']['max']"></vue-slider>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="面交地點" v-model="Filter['place']">
-                <input type="number" class="form-control" placeholder="出租次數" v-model="Filter['rent_times']">
                 <select class="custom-select" v-model="Filter['p_status']">
-                    <option value="" >------</option>
+                    <option value="" >---商品狀態---</option>
                     <option value="renting">出租中</option>
                     <option value="waiting">等待中</option>
                 </select>
                 <select class="custom-select" v-model="Filter['mark']">
-                    <option value="" >------</option>
+                    <option value="" >---商品操作---</option>
                     <option value="neither" >未選取</option>
                     <option value="either" >準備下架/刪除</option>
                     <option value="offshelf">準備下架</option>
@@ -130,14 +146,16 @@
                     <button class="btn btn-outline-info" type="button">Refresh</button>
                 </div>
             </div>
-            <div class="container">
-                <vue-slider v-model="value2" :min="min" :max="max"></vue-slider>
-            </div>
             <div class="table-responsive">
                 <table class="table admin-table">
                     <thead class="contract-head">
                         <tr>
-                            <th v-for="thField in thFields" v-on:click="SortTable($event, thField['name'])" v-bind:key="thField['name']">{{thField['text']}}</th>
+                            <th v-for="thField in thFields" v-on:click="SortTable($event, thField['name'])" v-bind:key="thField['name']">
+                                {{thField['text']}}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-bar-expand" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M3.646 10.146a.5.5 0 0 1 .708 0L8 13.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-4.292a.5.5 0 0 0 .708 0L8 2.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708zM1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8z"/>
+                                </svg>
+                            </th>
                             <th>商品操作</th>
                         </tr>
                     </thead>
