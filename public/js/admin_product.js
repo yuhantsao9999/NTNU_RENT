@@ -23,6 +23,8 @@ let product = new Vue({
             price:'', place:'', rent_times:'', p_status:'', mark:''
         },
         popup : false,
+        value2:[0,10000],
+        min:0,max:10000
     },
     created : async function () {
         try {
@@ -32,6 +34,9 @@ let product = new Vue({
         catch (err) {
             console.log(err);
         }
+    },
+    components: {
+        VueSlider: window['vue-slider-component']
     },
     methods : {
         FetchOutline : async function () {
