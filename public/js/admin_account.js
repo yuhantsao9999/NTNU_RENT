@@ -90,7 +90,7 @@ let account = new Vue({
                             default:
                                 FilterValue = this.Filter[field.name];
                         }
-                        if (!(row['outline'][field['name']].toString().startsWith(FilterValue))) {
+                        if (!(row['outline'][field['name']].toString().toUpperCase().startsWith(FilterValue.toUpperCase()))) {
                             row['display']['unit'] = false;
                         }
                     }

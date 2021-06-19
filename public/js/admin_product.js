@@ -5,21 +5,21 @@ let product = new Vue({
         thFields : [
             {name:'product_id', text:'商品ID'}, 
             {name:'user_id', text:'出租方ID'},
-            {name:'category', text:'分類'},
-            {name:'brand', text:'品牌'},
-            {name:'price', text:'價格'},
+            {name:'category', text:'商品分類'},
+            {name:'price', text:'商品價格'},
             {name:'place', text:'面交地點'},
             {name:'rent_times', text:'出租次數'},
             {name:'p_status', text:'商品狀態'}
         ],
         detailsField : [
             {name:'photo', text:'商品照片'},
+            {name:'brand', text:'品牌名稱'},
             {name:'intro', text:'商品介紹'},
             {name:'days', text:'出租天數'},
         ],
         lastSort : '',
         Filter : {
-            product_id:'', user_id:'', category:'', brand:'', 
+            product_id:'', user_id:'', category:'', 
             price:{min:0, max:3000, value:[0, 3000]}, place:'',
             rent_times:{min:0, max:50, value:[0, 50]}, p_status:'', mark:''
         },
@@ -45,12 +45,15 @@ let product = new Vue({
                     for (dbRowData of result['data']) {
                         let data = {
                             outline:{}, 
-                            details:{photo:null, intro:null, days:null},
+                            details:{},
                             display:{unit:true, details:false},
                             mark:{offshelf:false, del:false}
                         };
                         for (field of this.thFields) {
                             data['outline'][field.name] = dbRowData[field.name];
+                        }
+                        for (field of this.detailsField) {
+                            data['details'][field.name] = null;
                         }
                         this.rows.push(data);
                     }
@@ -185,7 +188,7 @@ let product = new Vue({
                                 row['display']['unit'] = false;
                             }
                         }
-                        else if (!(row['outline'][field['name']].toString().startsWith(FilterValue))) {
+                        else if (!(row['outline'][field['name']].toString().toUpperCase().startsWith(FilterValue.toUpperCase()))) {
                             row['display']['unit'] = false;
                         }
                         else {}

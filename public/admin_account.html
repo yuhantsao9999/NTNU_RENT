@@ -124,7 +124,7 @@
             </div>
             <div class="table-responsive">
                 <table class="table admin-table">
-                    <thead class="contract-head">
+                    <thead class="table-head">
                         <tr>
                             <th v-for="thField in thFields" v-on:click="SortTable($event, thField['name'])" v-bind:key="thField['name']">
                                 {{thField['text']}}
@@ -135,8 +135,8 @@
                             <th>帳號管理</th>
                         </tr>
                     </thead>
-                    <tbody class="contract-unit" v-for="(row, idx) in rows" v-bind:key="row['outline']['user_id']" v-show="row['display']['unit']">
-                        <tr class="contract-outline" v-bind:class="{termiclass:row['mark']['authority'].toString() !== row['outline']['authority'].toString(), delclass:row['mark']['del']}">
+                    <tbody class="table-unit" v-for="(row, idx) in rows" v-bind:key="row['outline']['user_id']" v-show="row['display']['unit']">
+                        <tr class="table-outline" v-bind:class="{warningclass:row['mark']['authority'].toString() !== row['outline']['authority'].toString(), dangerclass:row['mark']['del']}">
                             <td>{{row['outline']['user_id']}}</td>
                             <td>{{row['outline']['name']}}</td>
                             <td>{{row['outline']['email']}}</td>

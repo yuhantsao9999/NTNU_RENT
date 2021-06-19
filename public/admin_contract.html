@@ -125,7 +125,7 @@
             </div>
             <div class="table-responsive">
                 <table class="table admin-table">
-                    <thead class="contract-head">
+                    <thead class="table-head">
                         <tr>
                             <th v-for="thField in thFields" v-on:click="SortTable($event, thField['name'])" v-bind:key="thField['name']">
                                 {{thField['text']}}
@@ -136,8 +136,8 @@
                             <th>契約操作</th>
                         </tr>
                     </thead>
-                    <tbody class="contract-unit" v-for="(row, idx) in rows" v-bind:key="row['outline']['contract_id']" v-show="row['display']['unit']">
-                        <tr class="contract-outline" v-on:click="ShowDetails($event, row)" v-bind:class="{termiclass:row['mark']['termi'], delclass:row['mark']['del']}">
+                    <tbody class="table-unit" v-for="(row, idx) in rows" v-bind:key="row['outline']['contract_id']" v-show="row['display']['unit']">
+                        <tr class="table-outline" v-on:click="ShowDetails($event, row)" v-bind:class="{warningclass:row['mark']['termi'], dangerclass:row['mark']['del']}">
                             <td v-for="(field, idx) in thFields">{{row['outline'][field['name']]}}</td>
                             <td>
                                 <button type="button" class="btn btn-warning delete-btn" v-bind:disabled="row['outline']['c_status'] !== 'continue'" v-on:click.stop="MarkTermiContract($event, idx)">
@@ -155,7 +155,7 @@
                                 </button>
                             </td>
                         </tr>
-                        <tr class="contract-details" v-bind:class="{displaydetails : row['display']['details']}">
+                        <tr class="table-details" v-bind:class="{displaydetails : row['display']['details']}">
                             <td v-bind:colspan="NumOfField + 1">
                                 <div>
                                     <p>租借日期 : {{row['details']['start_date']}} ~ {{row['details']['end_date']}}</p>

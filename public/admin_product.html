@@ -108,7 +108,6 @@
                 <input type="number" class="form-control" placeholder="商品ID" v-model="Filter['product_id']">
                 <input type="number" class="form-control" placeholder="出租方ID" v-model="Filter['user_id']">
                 <input type="text" class="form-control" placeholder="商品分類" v-model="Filter['category']">
-                <input type="text" class="form-control" placeholder="商品品牌" v-model="Filter['brand']">
             </div>
             <div class="d-flex flex-row mb-2">
                 <div class="container">
@@ -148,7 +147,7 @@
             </div>
             <div class="table-responsive">
                 <table class="table admin-table">
-                    <thead class="contract-head">
+                    <thead class="table-head">
                         <tr>
                             <th v-for="thField in thFields" v-on:click="SortTable($event, thField['name'])" v-bind:key="thField['name']">
                                 {{thField['text']}}
@@ -159,8 +158,8 @@
                             <th>商品操作</th>
                         </tr>
                     </thead>
-                    <tbody class="contract-unit" v-for="(row, idx) in rows" v-bind:key="row['outline']['contract_id']" v-show="row['display']['unit']">
-                        <tr class="contract-outline" v-on:click="ShowDetails($event, row)" v-bind:class="{termiclass:row['mark']['offshelf'], delclass:row['mark']['del']}">
+                    <tbody class="table-unit" v-for="(row, idx) in rows" v-bind:key="row['outline']['product_id']" v-show="row['display']['unit']">
+                        <tr class="table-outline" v-on:click="ShowDetails($event, row)" v-bind:class="{warningclass:row['mark']['offshelf'], dangerclass:row['mark']['del']}">
                             <td v-for="(field, idx) in thFields">{{row['outline'][field['name']]}}</td>
                             <td>
                                 <button type="button" class="btn btn-warning delete-btn" v-bind:disabled="row['outline']['p_status'] === 'renting' || row['outline']['p_status'] === 'offshelf'" v-on:click.stop="MarkOffShelf($event, idx)">
@@ -178,11 +177,12 @@
                                 </button>
                             </td>
                         </tr>
-                        <tr class="contract-details" v-bind:class="{displaydetails : row['display']['details']}">
+                        <tr class="table-details" v-bind:class="{displaydetails : row['display']['details']}">
                             <td v-bind:colspan="NumOfField + 1">
                                 <div>
                                     <p>商品照片 : </p>
                                     <p>{{row['details']['photo']}}</p>
+                                    <p>商品品牌 : {{row['details']['brand']}}</p>
                                     <p>商品介紹 : {{row['details']['intro']}}</p>
                                     <p>租借天數 : {{row['details']['days']}}</p>
                                 </div>

@@ -39,12 +39,15 @@ let contract = new Vue({
                     for (dbRowData of result['data']) {
                         let data = {
                             outline:{}, 
-                            details:{start_date:null, end_date:null, publish_start:null, publish_comment:null, rent_star:null, rent_comment:null},
+                            details:{},
                             display:{unit:true, details:false},
                             mark:{termi:false, del:false}
                         };
                         for (field of this.thFields) {
                             data['outline'][field.name] = dbRowData[field.name];
+                        }
+                        for (field of this.detailsField) {
+                            data['details'][field.name] = null;
                         }
                         this.rows.push(data);
                     }
@@ -70,12 +73,6 @@ let contract = new Vue({
                     for (detail of this.detailsField) {
                         row['details'][detail['name']] = result['data'][0][detail['name']];
                     }
-                    // row['details']['start_date'] = result['data'][0]['start_date'];
-                    // row['details']['end_date'] = result['data'][0]['end_date'];
-                    // row['details']['publish_star'] = result['data'][0]['publish_star'];
-                    // row['details']['rent_star'] = result['data'][0]['rent_star'];
-                    // row['details']['publish_comment'] = result['data'][0]['publish_comment'];
-                    // row['details']['rent_comment'] = result['data'][0]['rent_comment'];
                 }
                 else {throw 'Fetch error';}
             }
@@ -154,7 +151,7 @@ let contract = new Vue({
                             default:
                                 FilterValue = this.Filter[field.name];
                         }
-                        if (!(row['outline'][field['name']].toString().startsWith(FilterValue))) {
+                        if (!(row['outline'][field['name']].toString().toUpperCase().startsWith(FilterValue.toUpperCase()))) {
                             row['display']['unit'] = false;
                         }
                     }

@@ -86,7 +86,7 @@ router.post('/account/delete', async (req, res) => {
 });
 router.get('/product', async (req, res) => {
     try {
-        const qryStr = 'SELECT product_id, user_id, category, brand, price, place, rent_times, p_status FROM Product';
+        const qryStr = 'SELECT product_id, user_id, category, price, place, rent_times, p_status FROM Product';
         const data = await mysql.query(qryStr, []);
         return res.json({status:'ok', data:data});
     }
@@ -98,7 +98,7 @@ router.get('/product', async (req, res) => {
 router.post('/product/details', async (req, res) => {
     try {
         const product_id = req.body.product_id;
-        const qryStr = 'SELECT photo, intro, days FROM Product WHERE product_id=?'
+        const qryStr = 'SELECT photo, brand, intro, days FROM Product WHERE product_id=?'
         const data = await mysql.query(qryStr, [product_id.toString()]);
         return res.json({status:'ok', data:data});
     }

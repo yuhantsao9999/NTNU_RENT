@@ -51,11 +51,11 @@ body, html {
     font-size: 1.2rem;
 }
 
-.contract-details td{
+.table-details td{
     text-align: left;
     padding: 0;
 }
-.contract-details td div {
+.table-details td div {
     overflow: hidden;
     padding: 0 10px;
     max-height: 0;
@@ -85,20 +85,20 @@ body, html {
     border-radius: 10px;
 }
 
-.termiclass {
+.warningclass {
     background-color: rgb(250, 247, 102);
 }
 
-tr[class$=termiclass]:hover td{
+tr[class$=warningclass]:hover td{
     background-color: rgb(240, 180, 29) !important;
     z-index:1;
 }
 
-.delclass {
+.dangerclass {
     background-color: rgb(243, 143, 143);
 }
 
-tr[class$=delclass]:hover td{
+tr[class$=dangerclass]:hover td{
     background-color: rgb(243, 80, 80) !important;
 }
 
