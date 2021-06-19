@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Basic -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Metas -->
+    <title>租借平台</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="./css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./css/custom.css">
+
+    <link rel="stylesheet" href="./css/admin.css">
+</head>
+
+<body>
+    <!-- Start Main Top -->
+    <header class="main-header">
+        <!-- Start Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
+            <div class="container">
+                <!-- Start Header Navigation -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html"><img src="images/logo.png" class="logo" alt=""></a>
+                </div>
+                <!-- End Header Navigation -->
+
+                <!-- Start Atribute Navigation -->
+
+                <div class="attr-nav">
+                    <ul>
+                        <input class="search_input" placeholder="Search">
+                    </ul>
+                </div>
+                <!-- End Atribute Navigation -->
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                        <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="dropdown">
+                            <a href="" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="shop.html">師大市集</a></li>
+                                <li><a href="rent.html">師大租借</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+                        <li class="nav-item"><a id="signed" class="nav-link" href="login.html">Sign In</a></li>
+                        <div id='hello' style="display: none;">
+                            <p id="last_name"></p>
+                            <p id="first_name"></p>
+                        </div>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+        </nav>
+        <!-- End Navigation -->
+    </header>
+    <!-- End Main Top -->
+
+    <div class="container-fluid mt-3 mb-3">
+        <div>
+            <button class="btn btn-outline-dark btn-sm mb-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-menu" aria-controls="offcanvas-menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                </svg>
+            </button>
+        </div>
+        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvas-menu" aria-labelledby="offcanvas-menu-Label">
+            <div class="offcanvas-header ">
+                <h1 class="offcanvas-title text-center display-4" id="offcanvas-menu-Label">Menu</h1>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body pl-0 pr-0">
+                <nav class="container-fluid admin-nav pl-0 pr-0">
+                    <a href="admin_account.html">Account Management</a>
+                    <a href="admin_product.html">Product Management</a>
+                    <a href="admin_contract.html">Contract Management</a>
+                </nav>
+            </div>
+        </div>
+        <div id="contract">
+            <div class="input-group mb-2">
+                <input type="number" class="form-control" placeholder="契約ID" v-model="Filter['contract_id']">
+                <input type="number" class="form-control" placeholder="商品ID" v-model="Filter['product_id']">
+                <input type="number" class="form-control" placeholder="出租方" v-model="Filter['publish_id']">
+                <input type="number" class="form-control" placeholder="承租方" v-model="Filter['rent_id']">
+                <select class="custom-select" v-model="Filter['c_status']">
+                    <option value="" >---契約狀態---</option>
+                    <option value="continue">continue</option>
+                    <option value="finish">finish</option>
+                    <option value="termination">termination</option>
+                </select>
+                <select class="custom-select" v-model="Filter['mark']">
+                    <option value="" >---契約操作---</option>
+                    <option value="neither">未選取</option>
+                    <option value="either">準備終止/刪除</option>
+                    <option value="termi">準備終止</option>
+                    <option value="del">準備刪除</option>
+                </select>
+                <div class="input-group-append" v-on:click="RefreshFilter($event)">
+                    <button class="btn btn-outline-info" type="button">Refresh</button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table admin-table">
+                    <thead class="table-head">
+                        <tr>
+                            <th v-for="thField in thFields" v-on:click="SortTable($event, thField['name'])" v-bind:key="thField['name']">
+                                {{thField['text']}}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-bar-expand" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M3.646 10.146a.5.5 0 0 1 .708 0L8 13.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-4.292a.5.5 0 0 0 .708 0L8 2.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708zM1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8z"/>
+                                </svg>
+                            </th>
+                            <th>契約操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-unit" v-for="(row, idx) in rows" v-bind:key="row['outline']['contract_id']" v-show="row['display']['unit']">
+                        <tr class="table-outline" v-on:click="ShowDetails($event, row)" v-bind:class="{warningclass:row['mark']['termi'], dangerclass:row['mark']['del']}">
+                            <td v-for="(field, idx) in thFields">{{row['outline'][field['name']]}}</td>
+                            <td>
+                                <button type="button" class="btn btn-warning delete-btn" v-bind:disabled="row['outline']['c_status'] !== 'continue'" v-on:click.stop="MarkTermiContract($event, idx)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tools" viewBox="0 0 16 16">
+                                        <path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.356 3.356a1 1 0 0 0 1.414 0l1.586-1.586a1 1 0 0 0 0-1.414l-3.356-3.356a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0zm9.646 10.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708zM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11z"/>
+                                    </svg>
+                                    Terminate
+                                </button>
+                                <button type="button" class="btn btn-danger delete-btn" v-bind:disabled="row['outline']['c_status'] === 'continue'" v-on:click.stop="MarkDelContract($event, idx)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                    </svg>
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="table-details" v-bind:class="{displaydetails : row['display']['details']}">
+                            <td v-bind:colspan="NumOfField + 1">
+                                <div>
+                                    <p>租借日期 : {{row['details']['start_date']}} ~ {{row['details']['end_date']}}</p>
+                                    <p>出租方星數 : 
+                                        <span v-if="row['details']['publish_star'] !== null">{{row['details']['publish_star']}}</span>
+                                        <span v-else>無</span>
+                                    </p>
+                                    <p>承租方星數 : 
+                                        <span v-if="row['details']['rent_star'] !== null">{{row['details']['rent_star']}}</span>
+                                        <span v-else>無</span>
+                                    </p>
+                                    <p>出租方評語 : 
+                                        <span v-if="row['details']['publish_comment'] !== null">{{row['details']['publish_comment']}}</span>
+                                        <span v-else>無</span>
+                                    </p>
+                                    <p>承租方評語 : 
+                                        <span v-if="row['details']['rent_comment'] !== null">{{row['details']['rent_comment']}}</span>
+                                        <span v-else>無</span>
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>           
+                    </tbody>
+                </table>
+            </div>
+            <div class="container-fluid popup-window" v-show="popup">
+                <h1 class="text-center mt-4 mb-3">確定修改?</h1>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-danger flex-fill" v-on:click="ReviseDB($event, true)">Yes</button>
+                    <button type="button" class="btn btn-success flex-fill" v-on:click="ReviseDB($event, false)">No</button>
+                </div>
+            </div>
+            <div class="d-flex flex-row justify-content-center">
+                <button class="btn btn-success btn-lg mr-5" v-on:click="PopUp($event)">Revise</button>
+                <button class="btn btn-secondary btn-lg" v-on:click="RefreshMark($event)">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Start Footer  -->
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="footer-widget">
+                                <h4>關於師大市集平台</h4>
+                                <p>資料庫理論的作業</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="footer-widget">
+                                <h4>團隊成員</h4>
+                                <p>第十四組</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="footer-link-contact">
+                                <h4>Contact Us</h4>
+                                <ul>
+                                    <li>
+                                        <p><i class="fas fa-envelope"></i>Email: <a
+                                                href="mailto:contactinfo@gmail.com">yuhantsao9999@gmail.com</a></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </footer>
+    <!-- End Footer  -->
+
+    <!-- Start copyright  -->
+    <div class="footer-copyright">
+        <p class="footer-company">All Rights Reserved. &copy; Copyright 2021 by <a href="#">team 14</a></p>
+    </div>
+    <!-- End copyright  -->
+
+    <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
+
+    <!-- ALL JS FILES -->
+    <script src="js/tamplate/jquery-3.2.1.min.js"></script>
+    <script src="js/tamplate/popper.min.js"></script>
+    <script src="js/tamplate/bootstrap.min.js"></script>
+    <!-- ALL PLUGINS -->
+    <script src="js/tamplate/jquery.superslides.min.js"></script>
+    <script src="js/tamplate/bootstrap-select.js"></script>
+    <script src="js/tamplate/inewsticker.js"></script>
+    <script src="js/tamplate/bootsnav.js"></script>
+    <script src="js/tamplate/images-loded.min.js"></script>
+    <script src="js/tamplate/isotope.min.js"></script>
+    <script src="js/tamplate/owl.carousel.min.js"></script>
+    <script src="js/tamplate/baguetteBox.min.js"></script>
+    <script src="js/tamplate/jquery-ui.js"></script>
+    <script src="js/tamplate/jquery.nicescroll.min.js"></script>
+    <script src="js/tamplate/form-validator.min.js"></script>
+    <script src="js/tamplate/contact-form-script.js"></script>
+    <script src="js/tamplate/custom.js"></script>
+    <script type="text/javascript" src="js/checkLocalStorage.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    
+    <script src="js/admin_contract.js"></script>
+</body>
+
+</html>
