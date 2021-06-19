@@ -20,8 +20,8 @@ let product = new Vue({
         lastSort : '',
         Filter : {
             product_id:'', user_id:'', category:'', 
-            price:{min:0, max:3000, value:[0, 3000]}, place:'',
-            rent_times:{min:0, max:50, value:[0, 50]}, p_status:'', mark:''
+            price:{min:0, max:Number.MAX_VALUE, value:[0,1]}, place:'',
+            rent_times:{min:0, max:Number.MAX_VALUE, value:[0,1]}, p_status:'', mark:''
         },
         popup : false,
     },
@@ -41,7 +41,9 @@ let product = new Vue({
         FetchOutline : async function () {
             try {
                 const result = await fetch('/admin/product').then((res) => {return res.json();});
-                if (result.status === 'ok') {
+                if (result.status === 'ok' && result.data != null) {
+                    this.Filter['price']['value'][0] = this.Filter['price']['value'][1] = result['data'][0]['price'];
+                    this.Filter['rent_times']['value'][0] = this.Filter['rent_times']['value'][1] = result['data'][0]['rent_times'];
                     for (dbRowData of result['data']) {
                         let data = {
                             outline:{}, 
@@ -50,19 +52,32 @@ let product = new Vue({
                             mark:{offshelf:false, del:false}
                         };
                         for (field of this.thFields) {
-                            data['outline'][field.name] = dbRowData[field.name];
+                            data['outline'][field['name']] = dbRowData[field['name']];
                         }
                         for (field of this.detailsField) {
-                            data['details'][field.name] = null;
+                            data['details'][field['name']] = null;
                         }
+                        this.InitialSliderRange(dbRowData['price'], dbRowData['rent_times']);
                         this.rows.push(data);
                     }
                 }
                 else {throw 'Fetch error';}
+                this.Filter['price']['min'] = this.Filter['price']['value'][0];
+                this.Filter['price']['max'] = this.Filter['price']['value'][1];
+                this.Filter['rent_times']['min'] = this.Filter['rent_times']['value'][0];
+                this.Filter['rent_times']['max'] = this.Filter['rent_times']['value'][1];
+                this.$refs.pslider.setValue([this.Filter['price']['min'], this.Filter['price']['max']]);
+                this.$refs.rslider.setValue([this.Filter['rent_times']['min'], this.Filter['rent_times']['max']]);
             }
             catch (err) {
                 throw err;
             }
+        },
+        InitialSliderRange : function (price, rent_times) {
+            this.Filter['price']['value'][0] = Math.min(this.Filter['price']['value'][0], price);
+            this.Filter['price']['value'][1] = Math.max(this.Filter['price']['value'][1], price);
+            this.Filter['rent_times']['value'][0] = Math.min(this.Filter['rent_times']['value'][0], rent_times);
+            this.Filter['rent_times']['value'][1] = Math.max(this.Filter['rent_times']['value'][1], rent_times);
         },
         FetchDetails : async function (row) {
             try {
@@ -75,7 +90,7 @@ let product = new Vue({
                         product_id : row['outline']['product_id']
                     })
                 }).then((res) => {return res.json();});
-                if (result.status === 'ok') {
+                if (result.status === 'ok' && result.data != null) {
                     for (detail of this.detailsField) {
                         row['details'][detail['name']] = result['data'][0][detail['name']];
                     }
@@ -167,21 +182,21 @@ let product = new Vue({
                 row['display']['unit'] = true;
                 // filter thFields
                 for (field of this.thFields) {
-                    if (this.Filter[field.name] !== undefined && this.Filter[field.name] !== '') {
+                    if (this.Filter[field['name']] !== undefined && this.Filter[field['name']] !== '') {
                         let FilterValue = '';
                         let FilterMin = 0, FilterMax = 0;
-                        switch(field.name) {
+                        switch(field['name']) {
                             case'product_id':
                             case'user_id':
-                                FilterValue = this.Filter[field.name].toString();
+                                FilterValue = this.Filter[field['name']].toString();
                                 break;
                             case'rent_times':
                             case'price':
-                                FilterMin = this.Filter[field.name]['value'][0];
-                                FilterMax = this.Filter[field.name]['value'][1];
+                                FilterMin = this.Filter[field['name']]['value'][0];
+                                FilterMax = this.Filter[field['name']]['value'][1];
                                 break;
                             default:
-                                FilterValue = this.Filter[field.name];
+                                FilterValue = this.Filter[field['name']];
                         }
                         if (field['name'] === 'price' || field['name'] === 'rent_times') {
                             if (row['outline'][field['name']] < FilterMin || row['outline'][field['name']] > FilterMax) {
@@ -281,7 +296,6 @@ let product = new Vue({
     watch : {
         Filter : {
             handler (newValue, oldValue) {
-                console.log(this.Filter['price']);
                 this.StartFilter();
             },
             deep:true

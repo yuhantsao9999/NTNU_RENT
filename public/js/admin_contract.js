@@ -35,7 +35,7 @@ let contract = new Vue({
         FetchOutline : async function () {
             try {
                 const result = await fetch('/admin/contract').then((res) => {return res.json();});
-                if (result.status === 'ok') {
+                if (result.status === 'ok' && result.data != null) {
                     for (dbRowData of result['data']) {
                         let data = {
                             outline:{}, 
@@ -44,10 +44,10 @@ let contract = new Vue({
                             mark:{termi:false, del:false}
                         };
                         for (field of this.thFields) {
-                            data['outline'][field.name] = dbRowData[field.name];
+                            data['outline'][field['name']] = dbRowData[field['name']];
                         }
                         for (field of this.detailsField) {
-                            data['details'][field.name] = null;
+                            data['details'][field['name']] = null;
                         }
                         this.rows.push(data);
                     }
@@ -69,7 +69,7 @@ let contract = new Vue({
                         contract_id : row['outline']['contract_id']
                     })
                 }).then((res) => {return res.json();});
-                if (result.status === 'ok') {
+                if (result.status === 'ok' && result.data != null) {
                     for (detail of this.detailsField) {
                         row['details'][detail['name']] = result['data'][0][detail['name']];
                     }
@@ -139,17 +139,17 @@ let contract = new Vue({
                 row['display']['unit'] = true;
                 // filter thFields
                 for (field of this.thFields) {
-                    if (this.Filter[field.name] !== undefined && this.Filter[field.name] !== '') {
+                    if (this.Filter[field['name']] !== undefined && this.Filter[field['name']] !== '') {
                         let FilterValue = '';
-                        switch(field.name) {
+                        switch(field['name']) {
                             case'contract_id':
                             case'product_id':
                             case'publish_id':
                             case'rent_id':
-                                FilterValue = this.Filter[field.name].toString();
+                                FilterValue = this.Filter[field['name']].toString();
                                 break;
                             default:
-                                FilterValue = this.Filter[field.name];
+                                FilterValue = this.Filter[field['name']];
                         }
                         if (!(row['outline'][field['name']].toString().toUpperCase().startsWith(FilterValue.toUpperCase()))) {
                             row['display']['unit'] = false;

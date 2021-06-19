@@ -27,7 +27,7 @@ let account = new Vue({
         FetchOutline : async function () {
             try {
                 const result = await fetch('/admin/account').then((res) => {return res.json();});
-                if (result.status === 'ok') {
+                if (result.status === 'ok' && result.data != null) {
                     for (dbRowData of result['data']) {
                         let data = {
                             outline:{},
@@ -36,7 +36,7 @@ let account = new Vue({
                             mark:{authority:null, del:false}
                         };
                         for (field of this.thFields) {
-                            data['outline'][field.name] = dbRowData[field.name];
+                            data['outline'][field['name']] = dbRowData[field['name']];
                         }
                         data['mark']['authority'] = dbRowData['authority'].toString();
                         this.rows.push(data);
@@ -80,15 +80,15 @@ let account = new Vue({
                 row['display']['unit'] = true;
                 // filter thFields
                 for (field of this.thFields) {
-                    if (this.Filter[field.name] !== undefined && this.Filter[field.name] !== '') {
+                    if (this.Filter[field['name']] !== undefined && this.Filter[field['name']] !== '') {
                         let FilterValue = '';
-                        switch(field.name) {
+                        switch(field['name']) {
                             case'user_id':
                             case'phone':
-                                FilterValue = this.Filter[field.name].toString();
+                                FilterValue = this.Filter[field['name']].toString();
                                 break;
                             default:
-                                FilterValue = this.Filter[field.name];
+                                FilterValue = this.Filter[field['name']];
                         }
                         if (!(row['outline'][field['name']].toString().toUpperCase().startsWith(FilterValue.toUpperCase()))) {
                             row['display']['unit'] = false;
