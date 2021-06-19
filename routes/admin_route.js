@@ -72,6 +72,18 @@ router.post('/account/auth', async (req, res) => {
         return res.json({status:'error'});
     }
 });
+router.post('/account/delete', async (req, res) => {
+    try {
+        const user_id = req.body.user_id;
+        const qryStr = 'DELETE FROM Users WHERE user_id=?';
+        await mysql.query(qryStr, [user_id.toString()]);
+        return res.json({status:'ok'});
+    }
+    catch (err) {
+        console.log(err);
+        return res.json({status:'error'});
+    }
+});
 router.get('/product', async (req, res) => {
     try {
         const qryStr = 'SELECT product_id, user_id, category, brand, price, place, rent_times, p_status FROM Product';

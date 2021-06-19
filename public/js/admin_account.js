@@ -33,7 +33,7 @@ let account = new Vue({
                             outline:{},
                             details:[],
                             display:{unit:true, details:false},
-                            mark:{authority:null}
+                            mark:{authority:null, del:false}
                         };
                         for (field of this.thFields) {
                             data['outline'][field.name] = dbRowData[field.name];
@@ -96,18 +96,44 @@ let account = new Vue({
                     }
                 }
                 //filter mark
-                if (this.Filter['mark'] === 'ready') {
-                    // no modified
-                    if (row['mark']['authority'].toString() === row['outline']['authority'].toString()) {
-                        row['display']['unit'] = false;
-                    }
+                switch (this.Filter['mark']) {
+                    case 'neither':
+                        if (row['mark']['del'] || row['mark']['authority'].toString() !== row['outline']['authority'].toString()) {
+                            row['display']['unit'] = false;
+                        }
+                        break;
+                    case 'either':
+                        if (!row['mark']['del'] && row['mark']['authority'].toString() === row['outline']['authority'].toString()) {
+                            row['display']['unit'] = false;
+                        }
+                        break;
+                    case 'auth':
+                        // no modified
+                        if (row['mark']['authority'].toString() === row['outline']['authority'].toString()) {
+                            row['display']['unit'] = false;
+                        }
+                        break;
+                    case 'del':
+                        if (!row['mark']['del']) {
+                            row['display']['unit'] = false;
+                        }
+                        break;
                 }
             }
+        },
+        MarkDelAccount : function (event, idx) {
+            console.log(idx);
+            event.target.blur();
+            if (!this.popup) {
+                this.rows[idx]['mark']['del'] = !this.rows[idx]['mark']['del'];
+            }
+            this.StartFilter();
         },
         RefreshMark : function (event) {
             event.target.blur();
             for (row of this.rows) {
                 row['mark']['authority'] = row['outline']['authority'];
+                row['mark']['del'] = false;
             }
             this.StartFilter();
         },
@@ -123,22 +149,42 @@ let account = new Vue({
                         lastAuth : lastAuth
                     })
                 }).then(res => {return res.json();});
-                console.log(result);
             }
             catch (err) {
                 throw err;
+            }
+        },
+        DelAccount : async function async (u_id) {
+            try {
+                await fetch('/admin/account/delete', {
+                    method : 'POST',
+                    headers : {
+                        'content-type' : 'application/json'
+                    },
+                    body : JSON.stringify({
+                        user_id : u_id
+                    })
+                }).then(res => {return res.json();});
+            }
+            catch (err) {
+                throw err;   
             }
         },
         ReviseDB : async function (event, option) {
             event.target.blur();
             if (option) {
                 for (row of this.rows) {
-                    if (row['outline']['authority'].toString() !== row['mark']['authority'].toString()) {
-                        const u_id = row['outline']['user_id'];
+                    const u_id = row['outline']['user_id'];
+                    if (row['mark']['del']) {
+                        try {await this.DelAccount(u_id);}
+                        catch (err) {console.log(err);}
+                    }
+                    else if (row['outline']['authority'].toString() !== row['mark']['authority'].toString()) {
                         const lastAuth = row['mark']['authority'].toString();
                         try {await this.ModifyAuth(u_id, lastAuth);}
                         catch (err) {console.log(err);}
                     }
+                    else {}
                 }
                 window.location.reload();
             }
@@ -147,7 +193,7 @@ let account = new Vue({
         PopUp : function (event) {
             event.target.blur();
             this.RefreshFilter(null);
-            this.Filter['mark'] = 'ready';
+            this.Filter['mark'] = 'either';
             this.popup = true;
         }
     },
@@ -165,4 +211,3 @@ let account = new Vue({
         }
     }
 });
-console.log(account);
