@@ -13,8 +13,8 @@ router.get('/contract', async (req, res) => {
     }
 });
 router.post('/contract/details', async (req, res) => {
-    const contract_id = req.body.contract_id;
     try {
+        const contract_id = req.body.contract_id;
         const qryStr = 'SELECT start_date, end_date, publish_star, publish_comment, rent_star, rent_comment FROM Contract AS C LEFT JOIN Eval AS E ON (C.contract_id=E.contract_id) WHERE C.contract_id = ?';
         const data = await mysql.query(qryStr, [contract_id.toString()]);
         return res.json({status:'ok', data:data});
@@ -25,8 +25,8 @@ router.post('/contract/details', async (req, res) => {
     }
 });
 router.post('/contract/terminate', async (req, res) => {
-    const contract_id = req.body.contract_id;
     try {
+        const contract_id = req.body.contract_id;
         const qryStr = 'UPDATE Contract SET c_status=\'termination\' WHERE contract_id=?';
         await mysql.query(qryStr, [contract_id.toString()]);
         return res.json({status:'ok'});
@@ -37,8 +37,8 @@ router.post('/contract/terminate', async (req, res) => {
     }
 });
 router.post('/contract/delete', async (req, res) => {
-    const contract_id = req.body.contract_id;
     try {
+        const contract_id = req.body.contract_id;
         const qryStr = 'DELETE FROM Contract WHERE contract_id=?';
         await mysql.query(qryStr, [contract_id.toString()]);
         return res.json({status:'ok'});
@@ -60,9 +60,9 @@ router.get('/account', async (req, res) => {
     }
 });
 router.post('/account/auth', async (req, res) => {
-    const user_id = req.body.user_id;
-    const lastAuth = req.body.lastAuth;
     try {
+        const user_id = req.body.user_id;
+        const lastAuth = req.body.lastAuth;
         const qryStr = 'UPDATE Users SET authority=? WHERE user_id=?';
         await mysql.query(qryStr, [lastAuth.toString(), user_id.toString()]);
         return res.json({status:'ok'});
@@ -83,9 +83,21 @@ router.get('/product', async (req, res) => {
         return res.json({status:'error', data:null});
     }
 });
-router.post('/product/offshelf', async (req, res) => {
-    const product_id = req.body.product_id;
+router.post('/product/details', async (req, res) => {
     try {
+        const product_id = req.body.product_id;
+        const qryStr = 'SELECT photo, intro, days FROM Product WHERE product_id=?'
+        const data = await mysql.query(qryStr, [product_id.toString()]);
+        return res.json({status:'ok', data:data});
+    }
+    catch (err) {
+        console.log(err);
+        return res.json({status:'error', data:null});
+    }
+})
+router.post('/product/offshelf', async (req, res) => {
+    try {
+        const product_id = req.body.product_id;
         const qryStr = 'UPDATE Product SET p_status = \'offshelf\' WHERE product_id=?';
         await mysql.query(qryStr, [product_id.toString()]);
         return res.json({status:'ok'});
@@ -96,8 +108,8 @@ router.post('/product/offshelf', async (req, res) => {
     }
 });
 router.post('/product/delete', async (req, res) => {
-    const product_id = req.body.product_id;
     try {
+        const product_id = req.body.product_id;
         const qryStr = 'DELETE FROM Product WHERE product_id=?';
         await mysql.query(qryStr, [product_id.toString()]);
         return res.json({status:'ok'});

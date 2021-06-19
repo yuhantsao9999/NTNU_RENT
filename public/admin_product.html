@@ -94,9 +94,9 @@
             </div>
             <div class="offcanvas-body">
                 <nav class="container-fluid admin-nav">
-                    <a href="admin_contract.html">Contract Management</a>
                     <a href="admin_account.html">Account Management</a>
                     <a href="admin_product.html">Product Management</a>
+                    <a href="admin_contract.html">Contract Management</a>
                 </nav>
             </div>
         </div>
@@ -157,7 +157,10 @@
                         <tr class="contract-details" v-bind:class="{displaydetails : row['display']['details']}">
                             <td v-bind:colspan="NumOfField + 1">
                                 <div>
-                                    waiting
+                                    <p>商品照片 : </p>
+                                    <p>{{row['details']['photo']}}</p>
+                                    <p>商品介紹 : {{row['details']['intro']}}</p>
+                                    <p>租借天數 : {{row['details']['days']}}</p>
                                 </div>
                             </td>
                         </tr>           

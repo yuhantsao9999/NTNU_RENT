@@ -14,8 +14,8 @@ let product = new Vue({
         ],
         detailsField : [
             {name:'photo', text:'商品照片'},
-            {name:'introduction', text:'商品介紹'},
-            {name:'period', text:'出租天數'},
+            {name:'intro', text:'商品介紹'},
+            {name:'days', text:'出租天數'},
         ],
         lastSort : '',
         Filter : {
@@ -41,7 +41,7 @@ let product = new Vue({
                     for (dbRowData of result['data']) {
                         let data = {
                             outline:{}, 
-                            details:{photo:null, introduction:null, period:null},
+                            details:{photo:null, intro:null, days:null},
                             display:{unit:true, details:false},
                             mark:{offshelf:false, del:false}
                         };
@@ -57,44 +57,48 @@ let product = new Vue({
                 throw err;
             }
         },
-        // FetchDetails : async function (row) {
-        //     try {
-        //         const result = await fetch('/admin/contract/details', {
-        //             method : 'POST',
-        //             headers : {
-        //                 'content-type' : 'application/json'
-        //             },
-        //             body : JSON.stringify({
-        //                 contract_id : row['outline']['contract_id']
-        //             })
-        //         }).then((res) => {return res.json();});
-        //         if (result.status === 'ok') {
-        //             row['details']['start_date'] = result['data'][0]['start_date'];
-        //             row['details']['end_date'] = result['data'][0]['end_date'];
-        //             row['details']['publish_star'] = result['data'][0]['publish_star'];
-        //             row['details']['rent_star'] = result['data'][0]['rent_star'];
-        //             row['details']['publish_comment'] = result['data'][0]['publish_comment'];
-        //             row['details']['rent_comment'] = result['data'][0]['rent_comment'];
-        //         }
-        //         else {throw 'Fetch error';}
-        //     }
-        //     catch (err) {
-        //         throw err;
-        //     }
-        // },
-        // ShowDetails : async function (event, row) {
-        //     if (row['details']['start_date'] === null) {
-        //         try {
-        //             await this.FetchDetails(row);
-        //         }
-        //         catch (err) {
-        //             console.log(err);
-        //         }
-        //     }
-        //     if (event.target.tagName === 'TD') {
-        //         row['display']['details'] = !row['display']['details'];
-        //     }
-        // },
+        FetchDetails : async function (row) {
+            try {
+                const result = await fetch('/admin/product/details', {
+                    method : 'POST',
+                    headers : {
+                        'content-type' : 'application/json'
+                    },
+                    body : JSON.stringify({
+                        product_id : row['outline']['product_id']
+                    })
+                }).then((res) => {return res.json();});
+                if (result.status === 'ok') {
+                    for (detail of this.detailsField) {
+                        row['details'][detail['name']] = result['data'][0][detail['name']];
+                    }
+                }
+                else {throw 'Fetch error';}
+            }
+            catch (err) {
+                throw err;
+            }
+        },
+        ShowDetails : async function (event, row) {
+            let flag = false;
+            for (detail of this.detailsField) {
+                if (row['details'][detail['name']] !== null) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag) {
+                try {
+                    await this.FetchDetails(row);
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            }
+            if (event.target.tagName === 'TD') {
+                row['display']['details'] = !row['display']['details'];
+            }
+        },
         MarkOffShelf : function (event, idx) {
             event.target.blur();
             if (!this.popup) {
