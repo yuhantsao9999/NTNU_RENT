@@ -28,7 +28,7 @@ let product = new Vue({
     created : async function () {
         try {
             await this.FetchOutline();
-            lastSort = 'product_id';
+            this.lastSort = 'product_id';
         }
         catch (err) {
             console.log(err);

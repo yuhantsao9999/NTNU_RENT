@@ -25,7 +25,7 @@ let contract = new Vue({
         try {
             await this.FetchOutline();
             this.SortTable(null, 'c_status');
-            lastSort = 'c_status';
+            this.lastSort = 'c_status';
         }
         catch (err) {
             console.log(err);

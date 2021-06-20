@@ -17,7 +17,7 @@ let account = new Vue({
     created : async function () {
         try {
             await this.FetchOutline();
-            lastSort = 'user_id';
+            this.lastSort = 'user_id';
         }
         catch (err) {
             console.log(err);
