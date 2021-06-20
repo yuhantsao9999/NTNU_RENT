@@ -1,0 +1,107 @@
+/* layout */
+body, html {
+    height: 100vh;
+}
+
+.admin-main {
+    display: flex;
+    height: 100vh;
+}
+
+/* nav */
+.admin-nav a {
+    height: 4em;
+    font-size: 1.5em;
+    text-align: center;
+    display: block;
+    padding:1em 0em 1em 0em;
+    color: rgb(24, 18, 10);
+}
+.admin-nav a:hover{
+    background-color:rgb(250, 193, 88);
+}
+.admin-body {
+    flex-grow: 1;
+    background: white;
+    overflow-y: scroll;
+}
+
+.admin-table {
+    width: 100%;
+}
+
+.admin-table tbody tr:nth-child(1):hover td{
+    background-color:#e9e2e2;
+}
+
+.admin-table th, .admin-table td{
+    padding: 1rem 0rem 1rem 0rem;
+    text-align: center;
+}
+
+.admin-table th {
+    background-color: #2893c7;
+    color: antiquewhite;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border: 2px solid antiquewhite;
+}
+
+.admin-table td {
+    font-size: 1.2rem;
+}
+
+.table-details td{
+    text-align: left;
+    padding: 0;
+}
+.table-details td div {
+    overflow: hidden;
+    padding: 0 10px;
+    max-height: 0;
+    transition: max-height 0.3s, padding 0.6s;
+}
+.displaydetails td div {
+    max-height: 500px;
+    padding: 10px 10px;
+    transition: max-height 0.8s, padding 0.4s;
+}
+
+.popup-window {
+    position: fixed;
+    top:200px;
+    left: 420px;
+    width: 350px;
+    background:rgba(255, 255, 255, 0.918);
+    border:3px solid rgba(65, 248, 239, 0.651);
+    border-top: 26px solid rgba(65, 248, 239, 0.651);
+    border-radius: 3px;
+    padding: 0;
+    z-index: 1;
+}
+
+.popup-window .btnrow {
+    background:whitesmoke;
+    border-radius: 10px;
+}
+
+.warningclass {
+    background-color: rgb(250, 247, 102);
+}
+
+tr[class$=warningclass]:hover td{
+    background-color: rgb(240, 180, 29) !important;
+    z-index:1;
+}
+
+.dangerclass {
+    background-color: rgb(243, 143, 143);
+}
+
+tr[class$=dangerclass]:hover td{
+    background-color: rgb(243, 80, 80) !important;
+}
+
+#product legend {
+    font-size: 18px;
+}
