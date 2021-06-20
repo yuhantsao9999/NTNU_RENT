@@ -64,7 +64,7 @@
                             <a href="" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
                             <ul class="dropdown-menu">
                                 <li><a href="shop.html">師大市集</a></li>
-                                <li><a href="rent.html">師大租借</a></li>
+                                <li><a href="/shop">師大租借</a></li>
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
@@ -121,7 +121,7 @@
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
                                     <div class="row">
-                                        <% for(var i=0; i<photo.length; i++) {%>
+                                        <% for(var i=0; i<photo.length && i<6; i++) {%>
                                             <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
                                                 <div class="products-single fix">
                                                     <div class="box-img-hover">

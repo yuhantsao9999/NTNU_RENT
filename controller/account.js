@@ -2,7 +2,7 @@ const mysql = require('../model/db')
 
 const signIn = async (account) => {
   const { email, password } = account
-  const sql = 'SELECT * FROM member WHERE email = ? and password = ?;'
+  const sql = 'SELECT * FROM Users WHERE email = ? and password = ?;'
   const result = await mysql.query(sql, [email, password])
     .catch((err) => {
       console.log(err)

@@ -23,7 +23,6 @@ const shop = async () => {
   }
 
 const range_shop = async(min, max) => {
-    console.log("controller", min, max);
     const sql = 'SELECT * FROM Product WHERE price >= ? and price <= ?'
     const results = await mysql.query(sql, [min, max])
       .catch((err) => {

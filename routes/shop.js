@@ -13,7 +13,6 @@ router.get('/shop', async (req, res) => {
 router.get('/shop_price_range', async (req, res) => {
     const min = req.query.min;
     const max = req.query.max;
-    console.log("route: ", min, max);
     const result = await range_shop(min, max);
     if (result.error) {
         res.status(404).send('Product get error.')
