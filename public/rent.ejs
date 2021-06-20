@@ -120,7 +120,36 @@
                         <div class="product-categorie-box">
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
-                                    <div class="row" id="product_box">
+                                    <div class="row">
+                                        <% for(var i=0; i<photo.length; i++) {%>
+                                            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                                <div class="products-single fix">
+                                                    <div class="box-img-hover">
+                                                        <div class="type-lb">
+                                                            <p class="new">New</p>
+                                                        </div>
+                                                        <img src="https://ntnurent.s3.amazonaws.com/<%= photo[i] %>" class="img-fluid" alt="Image">
+                                                        <div class="mask-icon">
+                                                            <ul>
+                                                                <li><a href="#" data-toggle="tooltip" data-placement="right"
+                                                                        title="View"><i class="fas fa-eye"></i></a></li>
+                                                                <li><a href="#" data-toggle="tooltip" data-placement="right"
+                                                                        title="Compare"><i class="fas fa-sync-alt"></i></a>
+                                                                </li>
+                                                                <li><a href="#" data-toggle="tooltip" data-placement="right"
+                                                                        title="Add to Wishlist"><i
+                                                                            class="far fa-heart"></i></a></li>
+                                                            </ul>
+                                                            <a class="cart" href="#">Add to Cart</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="why-text">
+                                                        <h4><%= category[i] %></h4>
+                                                        <h5><%= price[i] %></h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <% } %>  
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +211,7 @@
                                 <p>
                                     <input type="text" id="amount" readonly
                                         style="border:0; color:#fbb714; font-weight:bold;">
-                                    <button class="btn hvr-hover" type="submit">調整</button>
+                                    <button onclick="getProduct()" class="btn hvr-hover" type="submit">調整</button>
                                 </p>
                             </div>
                         </div>
@@ -255,6 +284,7 @@
     <script src="js/tamplate/contact-form-script.js"></script>
     <script src="js/tamplate/custom.js"></script>
     <script type="text/javascript" src="js/checkLocalStorage.js"></script>
+    <script type="text/javascript" src="js/alert.js"></script>
     <script type="text/javascript" src="js/rent.js"></script>
 
 </body>

@@ -9,15 +9,18 @@ app.use(bodyParser.urlencoded({ limit: '50000mb', extended: true }));
 app.use(express.static(path.join(__dirname, '/public'), { index: 'index.html' }));
 app.use(express.static(__dirname, { dotfiles: 'allow' }));
 
-//const image = require('./routes/image');
-//app.use('/', image);
+const image = require('./routes/image');
+app.use('/', image);
 
 const account = require('./routes/account');
 const admin = require('./routes/admin_route');
 app.use('/', account);
 app.use('/admin', admin);
-//const upload = require('./routes/upload');
-//app.use('/', upload);
+const upload = require('./routes/upload');
+app.use('/', upload);
+
+const shop = require('./routes/shop');
+app.use('/', shop);
 
 app.get('/', (req, res) => {
     res.send('Very ok');
