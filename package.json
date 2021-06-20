@@ -30,6 +30,7 @@
     "multer": "^1.4.2",
     "multer-s3": "^2.9.0",
     "mysql2": "^2.2.5",
-    "start-server-and-test": "^1.11.6"
+    "start-server-and-test": "^1.11.6",
+    "vue-slider-component": "^3.2.13"
   }
 }
