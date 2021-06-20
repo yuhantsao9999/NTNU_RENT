@@ -11,7 +11,6 @@ router.post('/rent_upload', [
     imageCheck,
     rentCheck,
     async (req, res) => {
-        console.log('enter /rent_upload');
         const result = await rentList(req.files, req.body.data);
         if (result.error) {
             res.status(404).send('Error on mysql.');

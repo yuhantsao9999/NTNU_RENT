@@ -1,16 +1,14 @@
 const rentUpload = () => {
     const data = [
         localStorage.getItem('email'),
-        document.getElementById('main_category').value,
+        document.getElementById('category').value,
         document.getElementById('brand').value,
         document.getElementById('price').value,
         document.getElementById('long').value,
         document.getElementById('intro').value,
         document.getElementById('place').value,
     ];
-    console.log(data);
     const input = document.querySelector('input[type="file"]');
-    console.log('input', input);
     const formData = new FormData();
 
     for (const file of input.files) {

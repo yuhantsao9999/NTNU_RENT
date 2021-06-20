@@ -2,7 +2,6 @@ const getProduct = () => {
     const range = document.getElementById("amount").value.split("-").map(x => x.replace("$", ""));
     const min = range[0];
     const max = range[1];
-    console.log("getProduct(): ", range, min, max);
 
     window.location.href = `./shop_price_range?min=${min}&max=${max}`;
 
