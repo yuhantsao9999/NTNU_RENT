@@ -122,6 +122,12 @@ let contract = new Vue({
                 }
             }
         },
+        RewindRowMark : function (event, idx) {
+            event.target.blur();
+            this.rows[idx]['mark']['termi'] = false;
+            this.rows[idx]['mark']['del'] = false;
+            this.StartFilter();
+        },
         RefreshFilter : function (event) {
             if (event !== null) {
                 event.target.blur();
@@ -165,6 +171,8 @@ let contract = new Vue({
                         if (!row['mark']['termi'] && !row['mark']['del']) {row['display']['unit'] = false;}
                         break;
                     case'termi':
+                        if (row['mark']['del'] || !row['mark'][this.Filter['mark']]) {row['display']['unit'] = false;}
+                            break;
                     case'del':
                         if (!row['mark'][this.Filter['mark']]) {row['display']['unit'] = false;}
                         break;

@@ -63,6 +63,12 @@ let account = new Vue({
                 }
             }
         },
+        RewindRowMark : function (event, idx) {
+            event.target.blur();
+            this.rows[idx]['mark']['authority'] = this.rows[idx]['outline']['authority'];
+            this.rows[idx]['mark']['del'] = false;
+            this.StartFilter();
+        },
         RefreshFilter : function (event) {
             if (event !== null) {
                 event.target.blur();
@@ -108,8 +114,8 @@ let account = new Vue({
                         }
                         break;
                     case 'auth':
-                        // no modified
-                        if (row['mark']['authority'].toString() === row['outline']['authority'].toString()) {
+                        // no modified and not ready to delete
+                        if (row['mark']['del'] || (row['mark']['authority'].toString() === row['outline']['authority'].toString())) {
                             row['display']['unit'] = false;
                         }
                         break;
@@ -122,7 +128,6 @@ let account = new Vue({
             }
         },
         MarkDelAccount : function (event, idx) {
-            console.log(idx);
             event.target.blur();
             if (!this.popup) {
                 this.rows[idx]['mark']['del'] = !this.rows[idx]['mark']['del'];

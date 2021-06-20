@@ -150,6 +150,12 @@ let product = new Vue({
                 }
             }
         },
+        RewindRowMark : function (event, idx) {
+            event.target.blur();
+            this.rows[idx]['mark']['offshelf'] = false;
+            this.rows[idx]['mark']['del'] = false;
+            this.StartFilter();
+        },
         RefreshFilter : function (event) {
             if (event !== null) {
                 event.target.blur();
@@ -175,7 +181,6 @@ let product = new Vue({
             for (row of this.rows) {
                 row['display']['unit'] = true;
             }
-            console.log(this.Filter['price'], this.Filter['rent_times']);
         },
         StartFilter : function () {
             for (row of this.rows) {
@@ -217,8 +222,10 @@ let product = new Vue({
                     case'either':
                         if (!row['mark']['offshelf'] && !row['mark']['del']) {row['display']['unit'] = false;}
                         break;
-                    case'del':
                     case'offshelf':
+                        if (row['mark']['del'] || !row['mark'][this.Filter['mark']]) {row['display']['unit'] = false;}
+                        break;
+                    case'del':
                         if (!row['mark'][this.Filter['mark']]) {row['display']['unit'] = false;}
                         break;
                 }
