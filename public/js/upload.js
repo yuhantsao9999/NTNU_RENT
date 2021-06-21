@@ -1,7 +1,8 @@
 const rentUpload = () => {
     const data = [
         localStorage.getItem('email'),
-        document.getElementById('category').value,
+        document.getElementById('name').value,
+        document.getElementById('main_category').value,
         document.getElementById('brand').value,
         document.getElementById('price').value,
         document.getElementById('long').value,

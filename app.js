@@ -22,6 +22,9 @@ app.use('/', upload);
 const shop = require('./routes/shop');
 app.use('/', shop);
 
+const product = require('./routes/product');
+app.use('/', product);
+
 app.get('/', (req, res) => {
     res.send('Very ok');
 });

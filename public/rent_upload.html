@@ -64,7 +64,7 @@
                             <a href="" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
                             <ul class="dropdown-menu">
                                 <li><a href="shop.html">師大市集</a></li>
-                                <li><a href="/shop">師大租借</a></li>
+                                <li><a href="rent.html">師大租借</a></li>
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
@@ -92,26 +92,13 @@
                             <h3>出租商品</h3>
                         </div>
                         <div class="mb-3">
-                            <label for="category">商品名稱 *</label>
+                            <label for="username">商品名稱 *</label>
                             <div class="input-group">
-                                <input id="category" type="text" class="form-control" placeholder="" required>
+                                <input id="name" type="text" class="form-control" id="username" placeholder="" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="brand">品牌 *</label>
-                            <select class=" wide w-100" id="brand">
-                                <option value="Choose..." data-display="Select">選擇...</option>
-                                <option value="HITACHI">HITACHI</option>
-                                <option value="APPLE">APPLE</option>
-                                <option value="GIANT">GIANT</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="intro">商品敘述 *</label>
-                            <input type="text" id="intro" name="intro">
-                        </div>
                         <div class="col-md-4 mb-3">
                             <label for="price">最多出租天數 *</label>
                             <input type="number" id="long" name="long">
@@ -123,6 +110,29 @@
                         <div class="col-md-4 mb-3">
                             <label for="place">面交地點 *</label>
                             <input type="text" id="place" name="place">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="main_category">主分類 *</label>
+                            <select class="wide w-100" id="main_category">
+                                <option value="Choose..." data-display="Select">選擇...</option>
+                                <option value="3C產品">3C產品</option>
+                                <option value="交通">交通</option>
+                                <option value="交通">課程相關</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="brand">品牌 *</label>
+                            <select class=" wide w-100" id="brand">
+                                <option value="Choose..." data-display="Select">選擇...</option>
+                                <option value="HITACHI">HITACHI</option>
+                                <option value="APPLE">APPLE</option>
+                                <option value="GIANT">GIANT</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 mb-1">
+                            <label for="intro">商品敘述 *</label>
+                            <input type="text" id="intro" name="intro">
                         </div>
                     </div>
                     <hr class="mb-1">
