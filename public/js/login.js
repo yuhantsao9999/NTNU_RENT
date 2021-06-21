@@ -1,107 +1,112 @@
-$('.form')
-    .find('input, textarea')
-    .on('keyup blur focus', function (e) {
-        let $this = $(this);
-        let label = $this.prev('label');
-        if (e.type === 'keyup') {
-            if ($this.val() === '') {
-                label.removeClass('active highlight');
-            } else {
-                label.addClass('active highlight');
+let loginSignup = new Vue({
+    el : '#login-signup',
+    data : {
+        signUp : {email:'', password:'', name:'', phone:'', errmsg:''},
+        login : {email:'', password:'', errmsg:''}
+    },
+    methods : {
+        SignUp : async function ($event) {
+            try {
+                const data = {
+                    name:this.signUp.name,
+                    email:this.signUp.email,
+                    password:this.signUp.password,
+                    phone:this.signUp.phone
+                };
+                const response = await fetch('./signUp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                }).then((res) => {return res.json();});
+                if (!response.ok) {
+                    this.signUp.errmsg = response.error;
+                    throw this.signUp.errmsg;
+                }
+                else {
+                    localStorage.setItem('name', this.signUp.name);
+                    localStorage.setItem('email', this.signUp.email);
+                    window.location = 'index.html';
+                }
             }
-        } else if (e.type === 'blur') {
-            if ($this.val() === '') {
-                label.removeClass('active highlight');
-            } else {
-                label.removeClass('highlight');
+            catch (err) {
+                console.log(err);
             }
-        } else if (e.type === 'focus') {
-            if ($this.val() === '') {
-                label.removeClass('highlight');
-            } else if ($this.val() !== '') {
-                label.addClass('highlight');
+        },
+        Login : async function ($event) {
+            try {
+                const data = {
+                    email: this.login.email,
+                    password: this.login.password
+                };
+                const response = await fetch('./signIn', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                }).then((res) => {return res.json();})
+                if (!response.ok) {
+                    this.login.errmsg = response.error;
+                    throw this.login.errmsg;
+                }
+                else {
+                    localStorage.setItem('name', this.signUp.name);
+                    localStorage.setItem('email', this.signUp.email);
+                    switch (response.authority) {
+                        case -1:
+                            this.login.errmsg = 'Your account had been banned';
+                            break;
+                        case 1:
+                            window.location = 'admin_account.html';
+                            break;
+                        default:
+                            window.location = 'index.html';
+                            break;
+                    }
+                }
+            }
+            catch (err) {
+                console.log(err);
             }
         }
-    });
+    }
+});
 
 $('.tab a').on('click', function (e) {
     e.preventDefault();
-
     $(this).parent().addClass('active');
     $(this).parent().siblings().removeClass('active');
-
     let target = $(this).attr('href');
-
     $('.tab-content > div').not(target).hide();
-
     $(target).fadeIn(600);
+})
+
+$('.form')
+.find('input, textarea')
+.on('keyup blur focus', function (e) {
+    let $this = $(this);
+    let label = $this.prev('label');
+    if (e.type === 'keyup') {
+        if ($this.val() === '') {
+            label.removeClass('active highlight');
+        } else {
+            label.addClass('active highlight');
+        }
+    }
+    else if (e.type === 'blur') {
+        if ($this.val() === '') {
+            label.removeClass('active highlight');
+        } else {
+            label.removeClass('highlight');
+        }
+    } 
+    else if (e.type === 'focus') {
+        if ($this.val() === '') {
+            label.removeClass('highlight');
+        } else if ($this.val() !== '') {
+            label.addClass('highlight');
+        }
+    }
 });
-
-const signUp = () => {
-    const data = {
-        last_name: document.getElementById('last_name').value,
-        first_name: document.getElementById('first_name').value,
-        email: document.getElementById('email_signUp').value,
-        password: document.getElementById('password').value,
-    };
-
-    fetch('./signUp', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-        .then(async (response) => {
-            if (!response.ok) {
-                const error = await response.text();
-                console.log(error);
-                document.getElementById('error_signUp').innerHTML = error;
-            } else {
-                return response.json();
-            }
-        })
-        .then((data) => {
-            // all storage need to be cookies
-            localStorage.setItem('last_name', data.last_name);
-            localStorage.setItem('first_name', data.first_name);
-            localStorage.setItem('email', data.email);
-            window.location = 'index.html';
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-};
-
-const signIn = () => {
-    const data = {
-        email: document.getElementById('email_signIn').value,
-        password: document.getElementById('password2_signIn').value,
-    };
-
-    fetch('./signIn', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-        .then(async (response) => {
-            if (!response.ok) {
-                const error = await response.text();
-                document.getElementById('login_title').remove();
-                document.getElementById('error_signIn').innerHTML = error;
-            }
-            return response.json();
-        })
-        .then((data) => {
-            // all storage need to be cookies
-            localStorage.setItem('last_name', data.last_name);
-            localStorage.setItem('first_name', data.first_name);
-            localStorage.setItem('email', data.email);
-            window.location = 'index.html';
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-};
