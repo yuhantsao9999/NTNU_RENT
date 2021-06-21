@@ -50,7 +50,7 @@ router.post('/contract/delete', async (req, res) => {
 });
 router.get('/account', async (req, res) => {
     try {
-        const qryStr = 'SELECT * FROM Users WHERE authority <> 1';
+        const qryStr = 'SELECT * FROM Users';
         const data = await mysql.query(qryStr, []);
         return res.json({status:'ok', data:data});
     }
