@@ -27,7 +27,7 @@ const rentUpload = () => {
                 const error = await response.text();
                 document.getElementById('error').innerHTML = 'Error : ' + error;
             }
-            return response.json();
+            return response;
         })
         .then((data) => {
             window.alert('Upload successfully.');
