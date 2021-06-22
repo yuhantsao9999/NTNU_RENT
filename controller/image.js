@@ -2,7 +2,7 @@ const mysql = require('../model/db');
 
 const getUserWaitRent = async (email) => {
     const sql =
-        'select p_name,photo,brand,price,days from  product natural join users where email=? and product_id not in (select product_id from contract);';
+        'select p_name,photo,brand,price,days from Product natural join Users where email=? and product_id not in (select product_id from Contract);';
     const results = await mysql.query(sql, email).catch((err) => {
         console.log(err);
     });
@@ -24,7 +24,7 @@ const getUserWaitRent = async (email) => {
 
 const getUserRent = async (email) => {
     const sql =
-        "Select C.contract_id, product.photo, product.p_name, product.brand, product.price, C.start_date, C.end_date, product.days, R.name From contract as C join users as P on C.publish_id = P.user_id join users as R on C.rent_id = R.user_id join product on C.product_id = product.product_id Where C.c_status = 'continue' and P.email = ?";
+        "SELECT C.contract_id, Product.photo, Product.p_name, Product.brand, Product.price, C.start_date, C.end_date, Product.days, R.name From Contract as C join Users as P on C.publish_id = P.user_id join Users as R on C.rent_id = R.user_id join Product on C.Product = Product.product_id Where C.c_status = 'continue' AND P.email = ?";
     const results = await mysql.query(sql, email).catch((err) => {
         console.log(err);
     });
@@ -49,7 +49,7 @@ const getUserRent = async (email) => {
 
 const getFinishRent = async (email) => {
     const sql =
-        'Select C.contract_id, product.photo, product.p_name, product.brand, product.price, C.start_date, C.end_date, product.days, R.name From contract as C join users as P on C.publish_id = P.user_id join users as R on C.rent_id = R.user_id join product on C.product_id = product.product_id Where C.c_status = "finish" and P.email = ? and C.contract_id not in (select contract_id from eval)';
+        'Select C.contract_id, Product.photo, Product.p_name, Product.brand, Product.price, C.start_date, C.end_date, Product.days, R.name From Contract as C join Users as P on C.publish_id = P.user_id join Users as R on C.rent_id = R.user_id join Product on C.product_id = Product.product_id Where C.c_status = "finish" and P.email = ? and C.contract_id not in (select contract_id from Eval)';
     const results = await mysql.query(sql, email).catch((err) => {
         console.log(err);
     });
@@ -94,7 +94,7 @@ const getAllRent = async () => {
 
 const getUserRentBack = async (email) => {
     const sql =
-        "select contract_id,p_name,photo,brand,price,end_date,days from contract natural join product where rent_id=(select user_id from users where email=?) and c_status='continue' and contract_id not in (select contract_id from eval)";
+        "select contract_id,p_name,photo,brand,price,end_date,days from Contract natural join Product where rent_id=(select user_id from Users where email=?) and c_status='continue' and contract_id not in (select contract_id from Eval)";
     const results = await mysql.query(sql, email).catch((err) => {
         console.log(err);
     });
@@ -117,7 +117,7 @@ const getUserRentBack = async (email) => {
 };
 const getFinishRentBack = async (email) => {
     const sql =
-        "select contract_id,p_name,photo,brand,price,end_date,days from contract natural join product where rent_id=(select user_id from users where email=?) and c_status='finish' and contract_id not in (select contract_id from eval);";
+        "SELECT contract_id,p_name,photo,brand,price,end_date,days from Contract natural join Product where rent_id=(select user_id from Users where email=?) and c_status='finish' and contract_id not in (select contract_id from Eval);";
     const results = await mysql.query(sql, email).catch((err) => {
         console.log(err);
     });
