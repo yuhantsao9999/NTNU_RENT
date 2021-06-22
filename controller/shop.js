@@ -11,25 +11,25 @@ const shop = async (min, max, brand, order) => {
     query.push(min);
     query.push(max);
 
-    var sql = "select Product.product_id as id, photo, p_name, price, avg(rent_star) as score "
-      + "from product left outer join contract on product.product_id = contract.product_id left outer join eval on contract.contract_id = eval.contract_id "
-      + "where price >= ? and price <= ? and Product.product_id not in  (select distinct C.product_id from contract as C where C.c_status = 'continue') "
+    var sql = "SELECT Product.product_id AS id, photo, p_name, price, avg(rent_star) AS score "
+      + "FROM Product LEFT OUTER JOIN Contract ON Product.product_id = Contract.product_id LEFT OUTER JOIN Eval ON Contract.contract_id = Eval.contract_id "
+      + "WHERE price >= ? AND price <= ? AND Product.product_id NOT IN (SELECT DISTINCT C.product_id FROM Contract as C WHERE C.c_status = 'continue') "
     
     if (typeof(brand) != "undefined" && brand.length != 0) {
-      sql = sql + 'and brand = ? ';
+      sql = sql + 'AND brand = ? ';
       query.push(brand);
     }
 
-    sql = sql + "group by Product.product_id ";
+    sql = sql + "GROUP BY Product.product_id ";
 
     if (order == "asc") {
-      sql = sql + 'order by price asc ';
+      sql = sql + 'ORDER BY price ASC ';
     } else if (order == "desc") {
-      sql = sql + 'order by price desc ';
+      sql = sql + 'ORDER BY price DESC ';
     } else if (order == "hot") {
-      sql = sql + 'order by score desc ';
+      sql = sql + 'ORDER BY score DESC ';
     } else if (order == 'new') {
-      sql = sql + 'order by uploaded_date desc';
+      sql = sql + 'ORDER BY uploaded_date DESC';
     }
 
     sql = sql + ';';
@@ -51,7 +51,6 @@ const shop = async (min, max, brand, order) => {
         data.name.push(result.p_name);
         data.price.push(result.price);
       }
-      console.log("Controller: ", data, sql, query, brand);
       return { error: false, data }
     }
     return { error: true }
