@@ -4,6 +4,29 @@ window.addEventListener('load', () => {
         window.location = 'index.html';
     }
     const email = localStorage.getItem('email');
+    //fetch 待租出的東西
+    fetch(`./wait_rent_image?email=${email}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(async (response) => {
+            console.log('response', response);
+            if (!response.ok) {
+                throw await response.text();
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            for (let item of data) {
+                addTr('wait_rent_tbody', item);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     //  fetch 租出的東西
     fetch(`./rent_image?email=${email}`, {
         method: 'GET',
@@ -65,27 +88,40 @@ const addTr = (body, { contract_id, name, paths, brand, price, end_date }) => {
     td.appendChild(img);
     tr.appendChild(td);
 
-    for (let i of [name, brand, price, end_date.split('T')[0]]) {
-        if (i === undefined) continue;
-        td = document.createElement('td');
-        td.appendChild(document.createTextNode(i));
-        tr.appendChild(td);
+    if (body === 'rent_tbody' || body === 'i_rent_tbody') {
+        for (let i of [name, brand, price, end_date.split('T')[0]]) {
+            if (i === undefined) continue;
+            td = document.createElement('td');
+            td.appendChild(document.createTextNode(i));
+            tr.appendChild(td);
+        }
+    } else {
+        for (let i of [name, brand, price]) {
+            if (i === undefined) continue;
+            td = document.createElement('td');
+            td.appendChild(document.createTextNode(i));
+            tr.appendChild(td);
+        }
     }
 
     // return
     td = document.createElement('td');
     td.setAttribute('style', 'width: 15px;');
-    button = document.createElement('button');
+
     if (body === 'rent_tbody') {
+        button = document.createElement('button');
         button.setAttribute('class', 'btn btn-dark');
         button.innerHTML = '已歸還';
         button.setAttribute('onclick', 'comment(this,' + contract_id + ')');
-    } else {
+        td.appendChild(button);
+    } else if (body === 'i_rent_tbody') {
+        button = document.createElement('button');
         button.setAttribute('class', 'btn btn-info');
         button.setAttribute('onclick', "location.href='./comment'");
         button.innerHTML = '我要評價';
+        td.appendChild(button);
     }
-    td.appendChild(button);
+
     tr.appendChild(td);
     tbody.appendChild(tr);
 };
