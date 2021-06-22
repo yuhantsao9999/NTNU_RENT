@@ -13,7 +13,7 @@ const rentList = async (files, data) => {
     set.splice(0, 1);
     set.unshift(user_id[0].user_id);
 
-    const sql = 'INSERT INTO Product(user_id, name, category, brand, price, days, intro, place, photo) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    const sql = 'INSERT INTO Product(user_id, p_name, category, brand, price, days, intro, place, photo) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
     const result = await mysql.query(sql, set).catch((err) => {
         console.log(err);
         return false;
