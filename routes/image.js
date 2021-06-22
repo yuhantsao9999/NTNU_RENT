@@ -2,21 +2,12 @@ const express = require('express');
 const router = express.Router();
 const {
     getUserRent,
-    getAllRent,
     getUserRentBack,
     getUserWaitRent,
     updateContractStatus,
     getFinishRent,
     getFinishRentBack,
 } = require('../controller/image');
-
-router.get('/rent_image_all', async (req, res) => {
-    const result = await getAllRent();
-    if (result.error) {
-        res.status(404).send('Image get error.');
-    }
-    res.send(result.data);
-});
 
 //  待出租的東西
 router.get('/wait_rent_image', async (req, res) => {
