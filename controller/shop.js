@@ -28,6 +28,8 @@ const shop = async (min, max, brand, order) => {
       sql = sql + 'order by price desc ';
     } else if (order == "hot") {
       sql = sql + 'order by score desc ';
+    } else if (order == 'new') {
+      sql = sql + 'order by uploaded_date desc';
     }
 
     sql = sql + ';';
@@ -36,12 +38,11 @@ const shop = async (min, max, brand, order) => {
       .catch((err) => {
         console.log(err)
     });
-    console.log("Controller: ", results, sql, query, brand);
     const data = {
-      product_id: [],
-      photo: [],
-      name: [],
-      price: [],
+      'product_id': [],
+      'photo': [],
+      'name': [],
+      'price': [],
     }
     if (results.length > 0) {
       for (let result of results) {
@@ -50,6 +51,7 @@ const shop = async (min, max, brand, order) => {
         data.name.push(result.name);
         data.price.push(result.price);
       }
+      console.log("Controller: ", data, sql, query, brand);
       return { error: false, data }
     }
     return { error: true }

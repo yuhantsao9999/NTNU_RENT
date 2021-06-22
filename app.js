@@ -8,7 +8,6 @@ app.use(bodyParser.urlencoded({ limit: '50000mb', extended: true }));
 
 app.use(express.static(path.join(__dirname, '/public'), { index: 'index' }));
 app.use(express.static(__dirname, { dotfiles: 'allow' }));
-app.use(express.static('public', { extensions: ['html'] }));
 
 const image = require('./routes/image');
 app.use('/', image);
