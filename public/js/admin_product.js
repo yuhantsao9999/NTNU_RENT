@@ -17,6 +17,7 @@ let product = new Vue({
             {name:'brand', text:'品牌名稱'},
             {name:'intro', text:'商品介紹'},
             {name:'days', text:'出租天數'},
+            {name:'uploaded_date', text:'上架時間'},
         ],
         lastSort : '',
         Filter : {

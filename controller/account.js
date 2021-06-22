@@ -6,7 +6,7 @@ const signIn = async (account) => {
   		const sql = 'SELECT * FROM Users WHERE email = ? and password = ?';
   		const result = await mysql.query(sql, [email, password]);
 		if (result.length > 0) {
-			return result[0]['authority'];
+			return {name:result[0]['name'], authority:result[0]['authority']};
 		}
 		else {
 			throw 'Invalid email/password';
