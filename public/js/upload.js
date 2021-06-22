@@ -27,6 +27,7 @@ const rentUpload = () => {
                 const error = await response.text();
                 document.getElementById('error').innerHTML = 'Error : ' + error;
             }
+
             return response;
         })
         .then((data) => {
