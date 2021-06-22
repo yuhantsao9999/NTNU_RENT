@@ -98,7 +98,7 @@ router.get('/product', async (req, res) => {
 router.post('/product/details', async (req, res) => {
     try {
         const product_id = req.body.product_id;
-        const qryStr = 'SELECT photo, brand, intro, days FROM Product WHERE product_id=?'
+        const qryStr = 'SELECT photo, brand, intro, days, uploaded_date FROM Product WHERE product_id=?'
         const data = await mysql.query(qryStr, [product_id.toString()]);
         return res.json({status:'ok', data:data});
     }
