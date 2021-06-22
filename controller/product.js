@@ -9,6 +9,7 @@ const product = async(product_id) => {
     const data = {}
     if (results.length > 0){
         for (let result of results){
+            data.p_name = result.p_name;
             data.photo = result.photo.split(',')[0];
             data.name = result.name;
             data.category = result.category;
