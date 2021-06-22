@@ -24,7 +24,7 @@ const getUserWaitRent = async (email) => {
 
 const getUserRent = async (email) => {
     const sql =
-        "SELECT C.contract_id, Product.photo, Product.p_name, Product.brand, Product.price, C.start_date, C.end_date, Product.days, R.name FROM Contract AS C JOIN Users AS P ON C.publish_id = P.user_id JOIN Users AS R ON C.rent_id = R.user_id JOIN Product ON C.Product = Product.product_id WHERE C.c_status = 'continue' AND P.email = ?";
+        "SELECT C.contract_id, Product.photo, Product.p_name, Product.brand, Product.price, C.start_date, C.end_date, Product.days, R.name FROM Contract AS C JOIN Users AS P ON C.publish_id = P.user_id JOIN Users AS R ON C.rent_id = R.user_id JOIN Product ON C.product_id = Product.product_id WHERE C.c_status = 'continue' AND P.email = ?";
     const results = await mysql.query(sql, email).catch((err) => {
         console.log(err);
     });
