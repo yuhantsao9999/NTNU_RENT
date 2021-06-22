@@ -75,7 +75,7 @@ window.addEventListener('load', () => {
         });
 });
 
-const addTr = (body, { contract_id, name, paths, brand, price, end_date }) => {
+const addTr = (body, { contract_id, name, paths, whoRent, brand, price, end_date }) => {
     const tbody = document.getElementById(body);
     const tr = document.createElement('tr');
 
@@ -88,7 +88,14 @@ const addTr = (body, { contract_id, name, paths, brand, price, end_date }) => {
     td.appendChild(img);
     tr.appendChild(td);
 
-    if (body === 'rent_tbody' || body === 'i_rent_tbody') {
+    if (body === 'rent_tbody') {
+        for (let i of [name, brand, price, whoRent, end_date.split('T')[0]]) {
+            if (i === undefined) continue;
+            td = document.createElement('td');
+            td.appendChild(document.createTextNode(i));
+            tr.appendChild(td);
+        }
+    } else if (body === 'i_rent_tbody') {
         for (let i of [name, brand, price, end_date.split('T')[0]]) {
             if (i === undefined) continue;
             td = document.createElement('td');
@@ -115,11 +122,13 @@ const addTr = (body, { contract_id, name, paths, brand, price, end_date }) => {
         button.setAttribute('onclick', 'comment(this,' + contract_id + ')');
         td.appendChild(button);
     } else if (body === 'i_rent_tbody') {
+        // if (end_date > today) {
         button = document.createElement('button');
         button.setAttribute('class', 'btn btn-info');
         button.setAttribute('onclick', "location.href='./comment.html'");
         button.innerHTML = '我要評價';
         td.appendChild(button);
+        // }
     }
 
     tr.appendChild(td);
