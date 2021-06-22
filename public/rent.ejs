@@ -64,7 +64,7 @@
                             <a href="" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
                             <ul class="dropdown-menu">
                                 <li><a href="shop.html">師大市集</a></li>
-                                <li><a href="rent.html">師大租借</a></li>
+                                <li><a href="/shop">師大租借</a></li>
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
@@ -108,9 +108,9 @@
                                     <span>排序 </span>
                                     <select id="basic" class="selectpicker show-tick form-control"
                                         data-placeholder="$ USD">
-                                        <option data-display="Select">熱門推薦</option>
-                                        <option value="1">價錢：由高到地</option>
-                                        <option value="2">價錢：由低到高</option>
+                                        <option data-display="Select" value="hot">熱門推薦</option>
+                                        <option value="desc">價錢：由高到地</option>
+                                        <option value="asc">價錢：由低到高</option>
                                     </select>
                                 </div>
                             </div>
@@ -119,7 +119,36 @@
                         <div class="product-categorie-box">
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
-                                    <div class="row" id="product_box">
+                                    <div class="row">
+                                        <% for(var i=0; i<photo.length && i<6; i++) {%>
+                                            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                                <div class="products-single fix">
+                                                    <div class="box-img-hover">
+                                                        <div class="type-lb">
+                                                            <p class="new">New</p>
+                                                        </div>
+                                                        <img src="https://ntnurent.s3.amazonaws.com/<%= photo[i] %>" class="img-fluid" alt="Image">
+                                                        <div class="mask-icon">
+                                                            <ul>
+                                                                <li><a href="/product?product_id=<%= product_id[i] %>" data-toggle="tooltip" data-placement="right"
+                                                                        title="View"><i class="fas fa-eye"></i></a></li>
+                                                                <li><a href="#" data-toggle="tooltip" data-placement="right"
+                                                                        title="Compare"><i class="fas fa-sync-alt"></i></a>
+                                                                </li>
+                                                                <li><a href="#" data-toggle="tooltip" data-placement="right"
+                                                                        title="Add to Wishlist"><i
+                                                                            class="far fa-heart"></i></a></li>
+                                                            </ul>
+                                                            <a class="cart" href="#">Add to Cart</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="why-text">
+                                                        <h4><%= name[i] %></h4>
+                                                        <h5><%= price[i] %></h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <% } %>  
                                     </div>
                                 </div>
                             </div>
@@ -134,42 +163,12 @@
                             </div>
                             <div class="list-group list-group-collapse list-group-sm list-group-tree"
                                 id="list-group-men" data-children=".sub-men">
-                                <div class="list-group-collapse sub-men">
-                                    <a class="list-group-item list-group-item-action" href="#sub-men1"
-                                        data-toggle="collapse" aria-expanded="true" aria-controls="sub-men1">3C產品<small
-                                            class="text-muted">(100)</small>
-                                    </a>
-                                    <div class="collapse show" id="sub-men1" data-parent="#list-group-men">
-                                        <div class="list-group">
-                                            <a href="#" class="list-group-item list-group-item-action active">電腦周邊
-                                                <small class="text-muted">(50)</small></a>
-                                            <a href="#" class="list-group-item list-group-item-action">手機周邊 <small
-                                                    class="text-muted">(10)</small></a>
-                                            <a href="#" class="list-group-item list-group-item-action">線材類 <small
-                                                    class="text-muted">(10)</small></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="list-group-collapse sub-men">
-                                    <a class="list-group-item list-group-item-action" href="#sub-men2"
-                                        data-toggle="collapse" aria-expanded="false" aria-controls="sub-men2">交通
-                                        <small class="text-muted">(50)</small>
-                                    </a>
-                                    <div class="collapse" id="sub-men2" data-parent="#list-group-men">
-                                        <div class="list-group">
-                                            <a href="#" class="list-group-item list-group-item-action">機車
-                                                <small class="text-muted">(10)</small></a>
-                                            <a href="#" class="list-group-item list-group-item-action">腳踏車
-                                                <small class="text-muted">(20)</small></a>
-                                            <a href="#" class="list-group-item list-group-item-action">車車
-                                                <small class="text-muted">(20)</small></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="#" class="list-group-item list-group-item-action"> 課業相關 <small
-                                        class="text-muted">(150) </small></a>
-                                <a href="#" class="list-group-item list-group-item-action"> 其他 <small
-                                        class="text-muted">(22)</small></a>
+                                <a href = "javascript:;" onclick="getProductByBrand('HITACHI')" class="list-group-item list-group-item-action"> HITACHI <small
+                                    class="text-muted">(10) </small></a>
+                                <a href = "javascript:;" onclick="getProductByBrand('APPLE')" class="list-group-item list-group-item-action"> APPLE <small
+                                    class="text-muted">(10) </small></a>
+                                <a href = "javascript:;" onclick="getProductByBrand('GIANT')" class="list-group-item list-group-item-action"> GIANT<small
+                                        class="text-muted">(10) </small></a>
                             </div>
                         </div>
                         <div class="filter-price-left">
@@ -181,7 +180,7 @@
                                 <p>
                                     <input type="text" id="amount" readonly
                                         style="border:0; color:#fbb714; font-weight:bold;">
-                                    <button class="btn hvr-hover" type="submit">調整</button>
+                                    <button onclick="getProductByRange()" class="btn hvr-hover" type="submit">調整</button>
                                 </p>
                             </div>
                         </div>
@@ -254,6 +253,7 @@
     <script src="js/tamplate/contact-form-script.js"></script>
     <script src="js/tamplate/custom.js"></script>
     <script type="text/javascript" src="js/checkLocalStorage.js"></script>
+    <script type="text/javascript" src="js/alert.js"></script>
     <script type="text/javascript" src="js/rent.js"></script>
 
 </body>
