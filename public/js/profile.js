@@ -117,7 +117,7 @@ const addTr = (body, { contract_id, name, paths, brand, price, end_date }) => {
     } else if (body === 'i_rent_tbody') {
         button = document.createElement('button');
         button.setAttribute('class', 'btn btn-info');
-        button.setAttribute('onclick', "location.href='./comment'");
+        button.setAttribute('onclick', "location.href='./comment.html'");
         button.innerHTML = '我要評價';
         td.appendChild(button);
     }
