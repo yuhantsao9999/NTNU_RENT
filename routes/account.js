@@ -5,8 +5,8 @@ const { signIn, signUp } = require('../controller/account')
 router.post('/signIn', async (req, res) => {
 	try {
 		const data = req.body;
-		const authority = await signIn(data);
-		return res.json({ok:true, authority:authority});
+		const {name, authority} = await signIn(data);
+		return res.json({ok:true, name:name, authority:authority});
 	}
 	catch (err) {
 		console.log(err);

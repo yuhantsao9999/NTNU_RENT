@@ -2,7 +2,7 @@ let loginSignup = new Vue({
     el : '#login-signup',
     data : {
         signUp : {email:'', password:'', name:'', phone:'', errmsg:''},
-        login : {email:'', password:'', errmsg:''}
+        login : {name:'', email:'', password:'', errmsg:''}
     },
     methods : {
         SignUp : async function ($event) {
@@ -52,6 +52,7 @@ let loginSignup = new Vue({
                     throw this.login.errmsg;
                 }
                 else {
+                    localStorage.setItem('name', response.name);
                     localStorage.setItem('email', this.login.email);
                     switch (response.authority) {
                         case -1:
