@@ -11,7 +11,7 @@ const shop = async (min, max, brand, order) => {
     query.push(min);
     query.push(max);
 
-    var sql = "select Product.product_id as id, photo, name, price, avg(rent_star) as score "
+    var sql = "select Product.product_id as id, photo, p_name, price, avg(rent_star) as score "
       + "from product left outer join contract on product.product_id = contract.product_id left outer join eval on contract.contract_id = eval.contract_id "
       + "where price >= ? and price <= ? and Product.product_id not in  (select distinct C.product_id from contract as C where C.c_status = 'continue') "
     
