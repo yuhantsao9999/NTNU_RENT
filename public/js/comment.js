@@ -31,7 +31,6 @@ window.addEventListener('load', () => {
             return response.json();
         })
         .then((data) => {
-            console.log('data', data);
             var count = data.length;
             for (var i = 0; i < count; i++) {
                 //替換課程
@@ -122,7 +121,7 @@ window.addEventListener('load', () => {
 
                 var classImg = document.createElement('img');
                 var classImg_a = document.createElement('a');
-                classImg.src = 'https://ntnurent.s3.amazonaws.com/' + data[i].pahts;
+                classImg.src = 'https://ntnurent.s3.amazonaws.com/' + data[i].paths;
                 classImg_a.href = '#';
 
                 var classDiv = document.createElement('div');
@@ -133,7 +132,7 @@ window.addEventListener('load', () => {
                 imgDiv_a.href = '#';
 
                 var imgDiv_img = document.createElement('img');
-                imgDiv_img.src = 'https://ntnurent.s3.amazonaws.com/' + data[i].pahts;
+                imgDiv_img.src = 'https://ntnurent.s3.amazonaws.com/' + data[i].paths;
 
                 imgDiv_a.appendChild(imgDiv_img);
 
@@ -181,6 +180,7 @@ const comment = (contract_id) => {
         })
         .then((data) => {
             window.alert('評論成功！');
+            window.location = '/comment.html';
         })
         .catch((err) => {
             console.log('err', err);
