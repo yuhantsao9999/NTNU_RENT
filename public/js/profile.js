@@ -4,6 +4,7 @@ window.addEventListener('load', () => {
         window.location = 'index.html';
     }
     const email = localStorage.getItem('email');
+    //  fetch 租出的東西
     fetch(`./rent_image?email=${email}`, {
         method: 'GET',
         headers: {
@@ -11,6 +12,7 @@ window.addEventListener('load', () => {
         },
     })
         .then(async (response) => {
+            console.log('response', response);
             if (!response.ok) {
                 throw await response.text();
             }
@@ -25,14 +27,15 @@ window.addEventListener('load', () => {
         .catch((err) => {
             console.log(err);
         });
-
-    fetch(`./sell_image?email=${email}`, {
+    //租回來的東西
+    fetch(`./rent_back_image?email=${email}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
     })
         .then(async (response) => {
+            console.log('response', response);
             if (!response.ok) {
                 throw await response.text();
             }
@@ -41,7 +44,7 @@ window.addEventListener('load', () => {
         .then((data) => {
             console.log(data);
             for (let item of data) {
-                addTr('sell_tbody', item);
+                addTr('i_rent_tbody', item);
             }
         })
         .catch((err) => {
@@ -49,7 +52,7 @@ window.addEventListener('load', () => {
         });
 });
 
-const addTr = (body, { name, paths, amount, price, long }) => {
+const addTr = (body, { contract_id, name, paths, brand, price, end_date }) => {
     const tbody = document.getElementById(body);
     const tr = document.createElement('tr');
 
@@ -62,30 +65,53 @@ const addTr = (body, { name, paths, amount, price, long }) => {
     td.appendChild(img);
     tr.appendChild(td);
 
-    for (let i of [name, amount, price, long]) {
+    for (let i of [name, brand, price, end_date.split('T')[0]]) {
         if (i === undefined) continue;
         td = document.createElement('td');
         td.appendChild(document.createTextNode(i));
         tr.appendChild(td);
     }
 
-    // edited
-    td = document.createElement('td');
-    td.setAttribute('style', 'width: 15px;');
-    let button = document.createElement('button');
-    button.setAttribute('class', 'btn btn-info');
-    button.innerHTML = '編輯';
-    td.appendChild(button);
-    tr.appendChild(td);
-
-    // remove
+    // return
     td = document.createElement('td');
     td.setAttribute('style', 'width: 15px;');
     button = document.createElement('button');
-    button.setAttribute('class', 'btn btn-dark');
-    button.innerHTML = '移除';
+    if (body === 'rent_tbody') {
+        button.setAttribute('class', 'btn btn-dark');
+        button.innerHTML = '已歸還';
+        button.setAttribute('onclick', 'comment(this,' + contract_id + ')');
+    } else {
+        button.setAttribute('class', 'btn btn-info');
+        button.setAttribute('onclick', "location.href='./comment'");
+        button.innerHTML = '我要評價';
+    }
     td.appendChild(button);
     tr.appendChild(td);
-
     tbody.appendChild(tr);
 };
+
+function comment(el, contract_id) {
+    fetch(`/finish_status?contract_id=${contract_id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(async (response) => {
+            if (!response.ok) {
+                const error = await response.text();
+                document.getElementById('error').innerHTML = 'Error : ' + error;
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log('update status successful');
+        })
+        .catch((err) => {
+            console.log('err', err);
+        });
+    let element = el;
+    element.setAttribute('class', 'btn btn-info');
+    element.setAttribute('onclick', "location.href='./comment?title=user'");
+    element.innerHTML = '我要評價';
+}
