@@ -1,5 +1,26 @@
 const mysql = require('../model/db');
 
+const getUserWaitRent = async (email) => {
+    const sql =
+        'select p_name,photo,brand,price,days from  product natural join users where email=? and product_id not in (select product_id from contract);';
+    const results = await mysql.query(sql, email).catch((err) => {
+        console.log(err);
+    });
+    const data = [];
+    if (results.length > 0) {
+        for (let result of results) {
+            data.push({
+                paths: result.photo,
+                name: result.p_name,
+                brand: result.brand,
+                price: result.price,
+                long: result.days,
+            });
+        }
+        return { error: false, data };
+    }
+    return { error: true };
+};
 const getUserRent = async (email) => {
     const sql =
         'SELECT contract_id,photo,p_name, brand,price, start_date, end_date,days FROM (SELECT * FROM  users NATURAL JOIN product WHERE user_id IN ( SELECT publish_id FROM contract WHERE email=? And c_status="continue" ))AS S NATURAL JOIN contract AS T JOIN Users AS U ON T.publish_id = U.user_id;';
@@ -129,4 +150,12 @@ const updateContractStatus = async (contract_id) => {
     return { error: true };
 };
 
-module.exports = { getUserRent, getAllRent, getUserRentBack, updateContractStatus, getFinishRent, getFinishRentBack };
+module.exports = {
+    getUserWaitRent,
+    getUserRent,
+    getAllRent,
+    getUserRentBack,
+    updateContractStatus,
+    getFinishRent,
+    getFinishRentBack,
+};
