@@ -20,6 +20,7 @@ const rentProduct = () => {
     })
     .then((data) => {
         window.alert('Rent successfully.');
+        window.location = '/shop';
     })
     .catch((err) => {
         console.log('err', err);
