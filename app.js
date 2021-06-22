@@ -10,15 +10,16 @@ app.use(express.static(path.join(__dirname, '/public'), { index: 'index' }));
 app.use(express.static(__dirname, { dotfiles: 'allow' }));
 app.use(express.static('public', { extensions: ['html'] }));
 
-//const image = require('./routes/image');
-//app.use('/', image);
+const image = require('./routes/image');
+app.use('/', image);
 
 const account = require('./routes/account');
 const admin = require('./routes/admin_route');
 app.use('/', account);
 app.use('/admin', admin);
-//const upload = require('./routes/upload');
-//app.use('/', upload);
+
+const upload = require('./routes/upload');
+app.use('/', upload);
 
 app.get('/', (req, res) => {
     res.send('Very ok');
