@@ -93,9 +93,9 @@
             </div>
             <div class="offcanvas-body pl-0 pr-0">
                 <nav class="container-fluid admin-nav pl-0 pr-0">
-                    <a href="admin_account.html">Account Management</a>
-                    <a href="admin_product.html">Product Management</a>
-                    <a href="admin_contract.html">Contract Management</a>
+                    <a href="admin_account">Account Management</a>
+                    <a href="admin_product">Product Management</a>
+                    <a href="admin_contract">Contract Management</a>
                 </nav>
             </div>
         </div>
@@ -107,8 +107,9 @@
                 <input type="number" class="form-control" placeholder="使用者電話" v-model="Filter['phone']">
                 <select class="custom-select" v-model="Filter['authority']">
                     <option value="" >---使用者權限---</option>
+                    <option value="1">最高權限</option>
                     <option value="0">一般權限</option>
-                    <option value="-1">無權限</option>
+                    <option value="-1">無權限</option>       
                 </select>
                 <select class="custom-select" v-model="Filter['mark']">
                     <option value="">---帳號管理---</option>
@@ -136,15 +137,15 @@
                     </thead>
                     <tbody class="table-unit" v-for="(row, idx) in rows" v-bind:key="row['outline']['user_id']" v-show="row['display']['unit']">
                         <tr class="table-outline" v-bind:class="{warningclass:row['mark']['authority'].toString() !== row['outline']['authority'].toString(), dangerclass:row['mark']['del']}">
-                            <td>{{row['outline']['user_id']}}</td>
-                            <td>{{row['outline']['name']}}</td>
-                            <td>{{row['outline']['email']}}</td>
-                            <td>{{row['outline']['password']}}</td>
-                            <td>{{row['outline']['phone']}}</td>
-                            <td v-if="row['outline']['authority'] === 1">最高權限</td>
-                            <td v-else-if="row['outline']['authority'] === 0">一般權限</td>
-                            <td v-else>無權限</td>
-                            <td>
+                            <td class="col-md-1" v-for="field in thFields">
+                                <span v-if="field['name'] === 'authority'">
+                                    <span class="col-md-1" v-if="row['outline']['authority'] === 1">最高權限</span>
+                                    <span class="col-md-1" v-else-if="row['outline']['authority'] === 0">一般權限</span>
+                                    <span class="col-md-1" v-else>無權限</span>
+                                </span>
+                                <span v-else>{{row['outline'][field['name']]}}</span>
+                            </td>
+                            <td class="col-md-3">
                                 <div class="input-group">
                                     <select class="custom-select" v-bind:disabled="row['mark']['del'] || row['outline']['authority'] === 1" v-model="row['mark']['authority']" @click.stop="" @change.stop="StartFilter">
                                         <option value="0">一般權限</option>
