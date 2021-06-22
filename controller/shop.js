@@ -51,7 +51,6 @@ const shop = async (min, max, brand, order) => {
         data.name.push(result.p_name);
         data.price.push(result.price);
       }
-      console.log("Controller: ", data, sql, query, brand);
       return { error: false, data }
     }
     return { error: true }

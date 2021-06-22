@@ -17,10 +17,8 @@ const getProductByBrand = (brand) => {
     if (location.search.split("&").length > 2){
         last_min = location.search.split("&")[0].split('=')[1];
         last_max = location.search.split("&")[1].split('=')[1];
-        console.log("Brand: ", brand);
         window.location.href = `./shop?min=${last_min}&max=${last_max}&order=${order}&brand=${brand}`;
     } else{
-        console.log("Brand: ", brand);
         window.location.href = `./shop?brand=${brand}`;
     }
 

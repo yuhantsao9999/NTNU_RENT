@@ -19,7 +19,6 @@ router.get('/shop', async (req, res) => {
     const max = req.query.max;
     const brand = req.query.brand;
     const order = req.query.order;
-    console.log('Route: ', min, max, brand, order);
     const result = await shop(min, max, brand, order);
       if (result.error) {
         res.status(404).send('Product get error.')
