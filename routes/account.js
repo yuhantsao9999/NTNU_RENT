@@ -3,21 +3,27 @@ const router = express.Router()
 const { signIn, signUp } = require('../controller/account')
 
 router.post('/signIn', async (req, res) => {
-  const data = req.body
-  const result = await signIn(data)
-  if (result.error) {
-    res.status(404).send('Error email or password.')
-  }
-  res.send(result.data)
-})
+	try {
+		const data = req.body;
+		const authority = await signIn(data);
+		return res.json({ok:true, authority:authority});
+	}
+	catch (err) {
+		console.log(err);
+		return res.status(404).json({ok:false, error:'Error email or password.'});
+	}
+});
 
 router.post('/signUp', async (req, res) => {
-  const data = req.body
-  const result = await signUp(data)
-  if (result.error) {
-    res.status(404).send('Email has been registered, please use another email.')
-  }
-  res.send(result.data)
+	try {
+		const data = req.body;
+		await signUp(data);
+		return res.json({ok:true});
+	}
+	catch (err) {
+		console.log(err);
+		res.status(404).json({ok:false, error:'Email/Phone has been registered'});
+	}
 })
 
 module.exports = router
