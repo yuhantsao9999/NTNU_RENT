@@ -132,7 +132,6 @@ const updateContractStatus = async (contract_id) => {
 module.exports = {
     getUserWaitRent,
     getUserRent,
-    getAllRent,
     getUserRentBack,
     updateContractStatus,
     getFinishRent,

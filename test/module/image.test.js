@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { getAllSell, getAllRent, getUserRent, getUserSell } = require('../../module/image')
+const { getAllSell, getUserRent, getUserSell } = require('../../module/image')
 const { teardown, setUp } = require('../../utils/testSetting')
 const { randomStr } = require('../../utils/random')
 
