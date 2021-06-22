@@ -123,11 +123,11 @@ const addTr = (body, { contract_id, name, paths, whoRent, brand, price, end_date
         td.appendChild(button);
     } else if (body === 'i_rent_tbody') {
         // if (end_date > today) {
-        // button = document.createElement('button');
-        // button.setAttribute('class', 'btn btn-info');
-        // button.setAttribute('onclick', "location.href='./comment.html'");
-        // button.innerHTML = '我要評價';
-        // td.appendChild(button);
+        button = document.createElement('button');
+        button.setAttribute('class', 'btn btn-info');
+        button.setAttribute('onclick', "location.href='./comment.html'");
+        button.innerHTML = '我要評價';
+        td.appendChild(button);
         // }
     }
 
