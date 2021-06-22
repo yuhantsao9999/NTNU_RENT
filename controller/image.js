@@ -2,7 +2,7 @@ const mysql = require('../model/db');
 
 const getUserWaitRent = async (email) => {
     const sql =
-        "SELECT p_name,photo,brand,price,days FROM Product NATURAL JOIN Users WHERE email=? AND product_id NOT IN (SELECT product_id FROM Contract WHERE c_status != 'continue') ";
+        "SELECT p_name,photo,brand,price,days FROM Product NATURAL JOIN Users WHERE email=? AND product_id NOT IN (SELECT product_id FROM Contract WHERE c_status <>'continue') ";
     const results = await mysql.query(sql, email).catch((err) => {
         console.log(err);
     });
@@ -61,8 +61,7 @@ const getFinishRent = async (email) => {
                 contract_id: result.contract_id,
                 paths: result.photo,
                 name: result.name,
-                // whoRent: result.name,
-                // brand: result.brand,s
+                // brand: result.brand,
                 // price: result.price,
                 // end_date: result.end_date,
                 // long: result.days,

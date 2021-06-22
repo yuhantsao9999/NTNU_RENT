@@ -13,7 +13,7 @@ const shop = async (min, max, brand, order) => {
     var sql =
         'SELECT Product.product_id AS id, photo, p_name, price, avg(rent_star) AS score ' +
         'FROM Product LEFT OUTER JOIN Contract ON Product.product_id = Contract.product_id LEFT OUTER JOIN Eval ON Contract.contract_id = Eval.contract_id ' +
-        "WHERE price >= ? AND price <= ? AND Product.product_id NOT IN (SELECT DISTINCT C.product_id FROM Contract as C WHERE C.c_status = 'continue' OR Product.p_status != 'waiting') ";
+        "WHERE price >= ? AND price <= ? AND Product.product_id NOT IN (SELECT DISTINCT C.product_id FROM Contract as C WHERE C.c_status = 'continue' OR Product.p_status <> 'waiting') ";
 
     if (typeof brand != 'undefined' && brand.length != 0) {
         sql = sql + 'AND brand = ? ';
