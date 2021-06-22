@@ -48,7 +48,7 @@ const shop = async (min, max, brand, order) => {
       for (let result of results) {
         data.product_id.push(result.id);
         data.photo.push(result.photo.split(',')[0]);
-        data.name.push(result.name);
+        data.name.push(result.p_name);
         data.price.push(result.price);
       }
       console.log("Controller: ", data, sql, query, brand);
