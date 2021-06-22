@@ -76,6 +76,7 @@ window.addEventListener('load', () => {
                 var titleInput = document.createElement('input');
                 titleInput.type = 'hidden';
                 titleInput.id = 'product_name';
+
                 titleInput.value = data[i].name;
                 var titleContent = document.createTextNode(data[i].name);
                 var classDiv_a = document.createElement('a');
