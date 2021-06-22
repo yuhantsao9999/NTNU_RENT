@@ -52,8 +52,7 @@ let loginSignup = new Vue({
                     throw this.login.errmsg;
                 }
                 else {
-                    localStorage.setItem('name', this.signUp.name);
-                    localStorage.setItem('email', this.signUp.email);
+                    localStorage.setItem('email', this.login.email);
                     switch (response.authority) {
                         case -1:
                             this.login.errmsg = 'Your account had been banned';
