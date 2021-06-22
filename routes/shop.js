@@ -11,7 +11,6 @@ router.get('/shop', async (req, res) => {
     if (result.error) {
       res.status(404).send('Product get error.')
     }
-    console.log("routes", result.data);
     res.render('../public/rent.ejs', result.data);
   })
 

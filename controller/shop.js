@@ -5,7 +5,6 @@ const shop = async (min, max, brand, order) => {
     var query = [];
 
     if (typeof(min) == "undefined"){
-      console.log("MIN undefined");
       min = 0;
       max = 4000;
     }
@@ -17,7 +16,6 @@ const shop = async (min, max, brand, order) => {
       + "where price >= ? and price <= ? and Product.product_id not in  (select distinct C.product_id from contract as C where C.c_status = 'continue') "
     
     if (typeof(brand) != "undefined" && brand.length != 0) {
-      console.log("BRAND defined");
       sql = sql + 'and brand = ? ';
       query.push(brand);
     }

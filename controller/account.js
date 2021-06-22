@@ -1,4 +1,4 @@
-const mysql = require('../model/db')
+const mysql = require('../model/db');
 
 const signIn = async (account) => {
 	try {

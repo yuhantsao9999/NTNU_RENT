@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Basic -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Metas -->
+    <title>租借平台</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/comment.css">
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <!-- Start Main Top -->
+    <header class="main-header">
+        <!-- Start Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
+            <div class="container">
+                <!-- Start Header Navigation -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html"><img src="images/logo.png" class="logo" alt=""></a>
+                </div>
+                <!-- End Header Navigation -->
+
+                <!-- Start Atribute Navigation -->
+
+                <div class="attr-nav">
+                    <ul>
+                        <input class="search_input" placeholder="Search">
+                    </ul>
+                </div>
+                <!-- End Atribute Navigation -->
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                        <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="dropdown">
+                            <a href="" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="shop.html">師大市集</a></li>
+                                <li><a href="rent.html">師大租借</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+                        <li class="nav-item"><a id="signed" class="nav-link" href="login.html">Sign In</a></li>
+                        <div id='hello' style="display: none;">
+                            <p id="last_name"></p>
+                            <p id="first_name"></p>
+                        </div>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+        </nav>
+        <!-- End Navigation -->
+    </header>
+    <!-- End Main Top -->
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>帳戶資料</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="rent_upload.html">我有東西要出租</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Wishlist  -->
+    <div class="wishlist-box-main">
+        <div class="container">
+            <h1>評論</h1>
+                <div class="detail">
+                    <div class="col-4" id="table">
+                        <a href="./comment">
+                            <div class="profile_class">
+                                評論-租借到的東西
+                            </div>
+                        </a>
+                        <a href="./comment?title=user">
+                            <div class="user_info">
+                                評論-與我租東西的租借者
+                            </div>
+                        </a>
+                    </div>
+    
+                    <div class="col-6" id="profile_add_info">
+                        <h3 id="title"></h3>
+                        <!-- <div class="profile_info"> -->
+    
+                            <!-- <a href="#">
+                                <img src="./images/img-pro-03.jpg" alt="">
+                            </a>
+                            <div class="profile_class_info">
+                                <form action="/profile/done/comment" method='POST'>
+                                    <a href="#">
+                                            狗兒
+                                            <input type="hidden" name="class_name" value="Golang 入門教學課程">
+                                        </a>
+                                    <div class="star">
+                                        <input type="radio" name="rdStar" value="1" onclick="star_num(1)" />
+                                        <input type="radio" name="rdStar" value="2" onclick="star_num(2)" />
+                                        <input type="radio" name="rdStar" value="3" onclick="star_num(3)" />
+                                        <input type="radio" name="rdStar" value="4" onclick="star_num(4)" />
+                                        <input type="radio" name="rdStar" value="5" onclick="star_num(5)" />
+                                    </div>
+                                    <textarea type='text' name="comment"></textarea>
+                                    <input type='hidden' id="star_number" name="star_number" value="5">
+                                    <input  class='btn btn-info'type='submit' value='送出評論' id="sumbit">
+                                </form>
+    
+                            </div> -->
+    
+                    </div>
+                </div>
+        </div>
+            
+
+            </div>
+        </div>
+    </div>
+    <!-- End Wishlist -->
+
+    <!-- Start Footer  -->
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="footer-widget">
+                                <h4>關於師大市集平台</h4>
+                                <p>資料庫理論的作業</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="footer-widget">
+                                <h4>團隊成員</h4>
+                                <p>第十四組</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="footer-link-contact">
+                                <h4>Contact Us</h4>
+                                <ul>
+                                    <li>
+                                        <p><i class="fas fa-envelope"></i>Email: <a
+                                                href="mailto:contactinfo@gmail.com">team14@gmail.com</a></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </footer>
+    <!-- End Footer  -->
+
+    <!-- Start copyright  -->
+    <div class="footer-copyright">
+        <p class="footer-company">All Rights Reserved. &copy; Copyright 2020 by <a href="#">BChen</a></p>
+    </div>
+    <!-- End copyright  -->
+
+    <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
+
+    <!-- ALL JS FILES -->
+    <script src="js/tamplate/jquery-3.2.1.min.js"></script>
+    <script src="js/tamplate/popper.min.js"></script>
+    <script src="js/tamplate/bootstrap.min.js"></script>
+    <!-- ALL PLUGINS -->
+    <script src="js/tamplate/jquery.superslides.min.js"></script>
+    <script src="js/tamplate/bootstrap-select.js"></script>
+    <script src="js/tamplate/inewsticker.js"></script>
+    <script src="js/tamplate/bootsnav.js"></script>
+    <script src="js/tamplate/images-loded.min.js"></script>
+    <script src="js/tamplate/isotope.min.js"></script>
+    <script src="js/tamplate/owl.carousel.min.js"></script>
+    <script src="js/tamplate/baguetteBox.min.js"></script>
+    <script src="js/tamplate/jquery-ui.js"></script>
+    <script src="js/tamplate/jquery.nicescroll.min.js"></script>
+    <script src="js/tamplate/form-validator.min.js"></script>
+    <script src="js/tamplate/contact-form-script.js"></script>
+    <script src="js/tamplate/custom.js"></script>
+    <script type="text/javascript" src="js/checkLocalStorage.js"></script>
+    <script type="text/javascript" src="js/alert.js"></script>
+    <!-- <script type="text/javascript" src="js/profile.js"></script> -->
+    <script type="text/javascript" src="js/comment.js"></script>
+
+</body>
+
+</html>
