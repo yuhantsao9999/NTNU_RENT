@@ -17,7 +17,7 @@ let account = new Vue({
     created : async function () {
         try {
             await this.FetchOutline();
-            lastSort = 'user_id';
+            this.lastSort = 'user_id';
         }
         catch (err) {
             console.log(err);
@@ -62,6 +62,12 @@ let account = new Vue({
                     this.lastSort = field;
                 }
             }
+        },
+        RewindRowMark : function (event, idx) {
+            event.target.blur();
+            this.rows[idx]['mark']['authority'] = this.rows[idx]['outline']['authority'];
+            this.rows[idx]['mark']['del'] = false;
+            this.StartFilter();
         },
         RefreshFilter : function (event) {
             if (event !== null) {
@@ -108,8 +114,8 @@ let account = new Vue({
                         }
                         break;
                     case 'auth':
-                        // no modified
-                        if (row['mark']['authority'].toString() === row['outline']['authority'].toString()) {
+                        // no modified and not ready to delete
+                        if (row['mark']['del'] || (row['mark']['authority'].toString() === row['outline']['authority'].toString())) {
                             row['display']['unit'] = false;
                         }
                         break;
@@ -122,7 +128,6 @@ let account = new Vue({
             }
         },
         MarkDelAccount : function (event, idx) {
-            console.log(idx);
             event.target.blur();
             if (!this.popup) {
                 this.rows[idx]['mark']['del'] = !this.rows[idx]['mark']['del'];

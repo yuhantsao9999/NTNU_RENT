@@ -5,11 +5,12 @@ let product = new Vue({
         thFields : [
             {name:'product_id', text:'商品ID'}, 
             {name:'user_id', text:'出租方ID'},
-            {name:'category', text:'商品分類'},
-            {name:'price', text:'商品價格'},
-            {name:'place', text:'面交地點'},
+            {name:'p_name', text:'名稱'},
+            {name:'category', text:'分類'},
+            {name:'price', text:'價格'},
+            {name:'place', text:'地點'},
             {name:'rent_times', text:'出租次數'},
-            {name:'p_status', text:'商品狀態'}
+            {name:'p_status', text:'狀態'}
         ],
         detailsField : [
             {name:'photo', text:'商品照片'},
@@ -19,7 +20,7 @@ let product = new Vue({
         ],
         lastSort : '',
         Filter : {
-            product_id:'', user_id:'', category:'', 
+            product_id:'', user_id:'', p_name:'', category:'',
             price:{min:0, max:Number.MAX_VALUE, value:[0,1]}, place:'',
             rent_times:{min:0, max:Number.MAX_VALUE, value:[0,1]}, p_status:'', mark:''
         },
@@ -28,7 +29,7 @@ let product = new Vue({
     created : async function () {
         try {
             await this.FetchOutline();
-            lastSort = 'product_id';
+            this.lastSort = 'product_id';
         }
         catch (err) {
             console.log(err);
@@ -150,6 +151,12 @@ let product = new Vue({
                 }
             }
         },
+        RewindRowMark : function (event, idx) {
+            event.target.blur();
+            this.rows[idx]['mark']['offshelf'] = false;
+            this.rows[idx]['mark']['del'] = false;
+            this.StartFilter();
+        },
         RefreshFilter : function (event) {
             if (event !== null) {
                 event.target.blur();
@@ -175,7 +182,6 @@ let product = new Vue({
             for (row of this.rows) {
                 row['display']['unit'] = true;
             }
-            console.log(this.Filter['price'], this.Filter['rent_times']);
         },
         StartFilter : function () {
             for (row of this.rows) {
@@ -217,8 +223,10 @@ let product = new Vue({
                     case'either':
                         if (!row['mark']['offshelf'] && !row['mark']['del']) {row['display']['unit'] = false;}
                         break;
-                    case'del':
                     case'offshelf':
+                        if (row['mark']['del'] || !row['mark'][this.Filter['mark']]) {row['display']['unit'] = false;}
+                        break;
+                    case'del':
                         if (!row['mark'][this.Filter['mark']]) {row['display']['unit'] = false;}
                         break;
                 }

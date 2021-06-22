@@ -50,7 +50,7 @@ router.post('/contract/delete', async (req, res) => {
 });
 router.get('/account', async (req, res) => {
     try {
-        const qryStr = 'SELECT * FROM Users WHERE authority <> 1';
+        const qryStr = 'SELECT * FROM Users';
         const data = await mysql.query(qryStr, []);
         return res.json({status:'ok', data:data});
     }
@@ -86,7 +86,7 @@ router.post('/account/delete', async (req, res) => {
 });
 router.get('/product', async (req, res) => {
     try {
-        const qryStr = 'SELECT product_id, user_id, category, price, place, rent_times, p_status FROM Product';
+        const qryStr = 'SELECT product_id, user_id, p_name, category, price, place, rent_times, p_status FROM Product';
         const data = await mysql.query(qryStr, []);
         return res.json({status:'ok', data:data});
     }
