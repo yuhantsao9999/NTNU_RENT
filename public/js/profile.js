@@ -148,6 +148,6 @@ function comment(el, contract_id) {
         });
     let element = el;
     element.setAttribute('class', 'btn btn-info');
-    element.setAttribute('onclick', "location.href='./comment?title=user'");
+    element.setAttribute('onclick', "location.href='./comment.html?title=user'");
     element.innerHTML = '我要評價';
 }
