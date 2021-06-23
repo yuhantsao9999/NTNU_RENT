@@ -2,10 +2,13 @@ const mysql = require('../model/db');
 
 const getUserWaitRent = async (email) => {
     const sql =
-        "SELECT p_name,photo,brand,price,days FROM Product NATURAL JOIN Users WHERE email=? AND product_id NOT IN (SELECT product_id FROM Contract WHERE c_status <>'continue') ";
+        // "SELECT p_name,photo,brand,price,days FROM Product NATURAL JOIN Users WHERE email=? AND product_id NOT IN (SELECT product_id FROM Contract WHERE c_status <>'continue') ";
+        // "SELECT p_name,photo,brand,price,days FROM Product NATURAL JOIN Users WHERE email=? AND p_status <> 'offself' product_id NOT IN (SELECT product_id FROM Contract WHERE c_status = 'continue')";
+        "SELECT p_name,photo,brand,price,days FROM Product NATURAL JOIN Users WHERE email=? AND p_status = 'waiting'";
     const results = await mysql.query(sql, email).catch((err) => {
         console.log(err);
     });
+    console.log('getUserWaitRent', results);
     const data = [];
     if (results.length > 0) {
         for (let result of results) {
@@ -28,6 +31,7 @@ const getUserRent = async (email) => {
     const results = await mysql.query(sql, email).catch((err) => {
         console.log(err);
     });
+    console.log('getUserRent results', results);
     const data = [];
     if (results.length > 0) {
         for (let result of results) {
@@ -80,6 +84,7 @@ const getUserRentBack = async (email) => {
     const results = await mysql.query(sql, email).catch((err) => {
         console.log(err);
     });
+    console.log('getUserRentBack results', results);
     const data = [];
     if (results.length > 0) {
         for (let result of results) {
@@ -100,7 +105,7 @@ const getUserRentBack = async (email) => {
 const getFinishRentBack = async (email) => {
     const sql =
         "SELECT p_name,photo,brand,price,days FROM Product NATURAL JOIN Users WHERE email=? AND product_id NOT IN (SELECT product_id FROM Contract WHERE c_status != 'continue') ";
-    // "SELECT P.p_name, P.photo, C.contract_id FROM Contract AS C LEFT JOIN Eval AS E ON (C.contract_id = E.contract_id) JOIN Users AS U ON C.rent_id = U.user_id JOIN Product AS P on C.product_id = P.product_id WHERE C.c_status = 'finish' AND E.rent_comment = NULL AND U.email = ?";
+    // "SELECT P.p_name, P.photo, C.contract_id FROM Contract AS C LEFT JOIN Eval AS E ON (C.contract_id = E.contract_id) JOIN Users AS U ON C.rent_id = U.user_id JOIN Product AS P on C.product_id = P.product_id WHERE C.c_status = 'finish' AND E.rent_comment is NULL AND U.email = ?";
     const results = await mysql.query(sql, email).catch((err) => {
         console.log(err);
     });
