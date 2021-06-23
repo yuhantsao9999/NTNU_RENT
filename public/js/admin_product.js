@@ -95,6 +95,10 @@ let product = new Vue({
                 if (result.status === 'ok' && result.data != null) {
                     for (detail of this.detailsField) {
                         row['details'][detail['name']] = result['data'][0][detail['name']];
+                        if (detail['name'] === 'photo') {
+                            row['details'][detail['name']] = "https://ntnurent.s3.amazonaws.com/" + row['details'][detail['name']];
+                            console.log(row['details'][detail['name']]);
+                        }
                     }
                 }
                 else {throw 'Fetch error';}

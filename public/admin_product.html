@@ -202,8 +202,7 @@
                             <td v-bind:colspan="NumOfField + 1">
                                 <div>
                                     <p>商品照片 : </p>
-                                    <img src="https://ntnurent.s3.amazonaws.com/row['details']['photo'].split(',')[0]">
-                                    <p>{{row['details']['photo']}}</p>
+                                    <img :src="row['details']['photo']" width="100" height="100">
                                     <p>商品品牌 : {{row['details']['brand']}}</p>
                                     <p>商品介紹 : {{row['details']['intro']}}</p>
                                     <p>租借天數 : {{row['details']['days']}}</p>
