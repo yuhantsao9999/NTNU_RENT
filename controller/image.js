@@ -67,11 +67,8 @@ const getFinishRent = async (email) => {
             data.push({
                 contract_id: result.contract_id,
                 paths: result.photo,
-                name: result.name,
-                brand: result.brand,
-                price: result.price,
-                end_date: result.end_date,
-                long: result.days,
+                title: result.name,
+                subtitle: result.p_name,
             });
         }
         return { error: false, data };
@@ -118,7 +115,8 @@ const getFinishRentBack = async (email) => {
             data.push({
                 contract_id: result.contract_id,
                 paths: result.photo,
-                name: result.p_name,
+                title: result.p_name,
+                subtitle: result.name,
             });
         }
         return { error: false, data };
