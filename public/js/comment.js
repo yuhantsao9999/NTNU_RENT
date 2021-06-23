@@ -73,16 +73,16 @@ window.addEventListener('load', () => {
                 starDiv.appendChild(start4_Input);
                 starDiv.appendChild(start5_Input);
 
-                // var titleInput = document.createElement('input');
-                // titleInput.type = 'hidden';
-                // titleInput.id = 'product_name';
+                var titleInput = document.createElement('input');
+                titleInput.type = 'hidden';
+                titleInput.id = 'product_name';
 
-                // titleInput.value = data[i].name;
+                titleInput.value = data[i].name;
                 var titleContent = document.createTextNode(data[i].title);
                 var classDiv_a = document.createElement('a');
                 classDiv_a.href = '#';
                 classDiv_a.appendChild(titleContent);
-                // classDiv_a.appendChild(titleInput);
+                classDiv_a.appendChild(titleInput);
 
                 var title_comment_form = document.createElement('div');
 
@@ -95,10 +95,11 @@ window.addEventListener('load', () => {
                 var subtitleClassDiv = document.createElement('div');
                 // subtitleClassDiv_a.href = '#';
                 subtitleClassDiv.appendChild(subtitleContent);
-                // starInput.type = 'hidden';
-                // starInput.id = 'star_number';
-                // starInput.name = 'star_number';
-                // starInput.value = '5';
+                let starInput = document.createElement('input');
+                starInput.type = 'hidden';
+                starInput.id = 'star_number';
+                starInput.name = 'star_number';
+                starInput.value = '5';
 
                 var submitInput = document.createElement('input');
                 submitInput.type = 'button';
@@ -113,6 +114,7 @@ window.addEventListener('load', () => {
                 var star_number = data[i].star;
                 if (star_number == null || star_number == undefined || star_number == '') {
                     title_comment_form.appendChild(starDiv);
+                    title_comment_form.appendChild(starInput);
                     title_comment_form.appendChild(comment_textarea);
                     title_comment_form.appendChild(submitInput);
                 } else {
