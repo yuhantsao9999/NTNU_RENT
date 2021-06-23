@@ -25,7 +25,7 @@ const comment_rent = async (data) => {
     const sql = `INSERT Eval (contract_id, rent_star, rent_comment) 
     VALUES (${contract_id}, ${star_number}, '${comment_textarea}') 
     ON DUPLICATE KEY UPDATE rent_star = ${star_number}, rent_comment = '${comment_textarea}'`;
-    console.log('sql', sql);
+    // console.log('sql', sql);
     const result = await mysql.query(sql).catch((err) => {
         console.log(err);
         return false;
