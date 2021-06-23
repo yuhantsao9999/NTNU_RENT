@@ -5,11 +5,30 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>租借平台</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="./css/login.css" />
+        <style>
+            #admin-area {
+                width: 300px;
+                background-color: rgb(255, 245, 234);
+                margin-top: 10px;
+                border: rgb(243, 87, 119) 2px solid;
+                border-radius: 5px;
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+                color: rgb(134, 124, 124)
+            }
+        </style>
     </head>
 
     <body>
         <div id="login-signup">
+            <div class="d-flex justify-content-center">
+                <p id="admin-area" class="pl-3 text-left">
+                    管理者後台 email : root@gmail.com<br>
+                    管理者後台 密碼 : root<br>
+                    請小心使用~
+                </p>
+            </div>
             <div class="form">
                 <ul class="tab-group">
                     <li class="tab active"><a href="#signup">Sign Up</a></li>
