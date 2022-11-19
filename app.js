@@ -25,9 +25,12 @@ app.use('/', shop);
 const product = require('./routes/product');
 app.use('/', product);
 
-
-app.get('/', (req, res) => {
-    res.send('Very ok');
+app.get('/lunchBox', (req, res) => {
+    res.sendFile(path.join(__dirname, '/lunchbox/build/index.html'));
 });
+
+// app.get('/', (req, res) => {
+//     res.send('Very ok');
+// });
 
 app.listen(3000, () => console.log('伺服器已經啟動在http://localhost:3000/'));
